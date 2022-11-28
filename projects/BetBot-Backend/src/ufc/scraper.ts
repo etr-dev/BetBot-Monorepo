@@ -6,7 +6,7 @@ import { Outcomes } from 'src/ufc/models/enums/outcome.enum';
 import { UfcFighterInfo } from 'src/ufc/models/interfaces/fighterInfor.interface';
 import { UfcMatchDetails } from 'src/ufc/models/interfaces/matchDetails.interface';
 import { UfcMatchInfo } from 'src/ufc/models/interfaces/matchInfo.interface';
-import { logError, logServer } from './log';
+import { logServer } from 'src/utils/log';
 
 const puppeteer = require('puppeteer');
 let browser, page;

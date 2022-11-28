@@ -2,9 +2,9 @@ import { CacheKey, CacheTTL, CACHE_MANAGER, Inject, Injectable, InternalServerEr
 import { Cache } from 'cache-manager';
 import { SUCCESS_MESSAGE } from 'src/utils/constants';
 import { logError } from 'src/utils/log';
-import { getAllEventLinks, scrapeUfcPage } from 'src/utils/scraper';
 import { UfcEvent } from './models/entities/event.entity';
 import { GetUfcEventResponse, GetUfcEventsResponse, GetUfcLinksResponse } from './models/responses/eventResponse.response';
+import { getAllEventLinks, scrapeUfcPage } from './scraper';
 
 @Injectable()
 export class UfcService {

@@ -6,15 +6,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2022",
+    "target": "es2019",
     "sourceMap": true,
-    "outDir": "./dist/src",
+    "outDir": "dist",
     "baseUrl": ".",
-    "paths": {
-      "@app": [
-        "src/app/*"
-      ],
-    },
+    "paths": {},
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -22,5 +18,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "exclude": ["./dist/**/*"]
 }

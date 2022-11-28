@@ -9,7 +9,8 @@ import { healthCheck } from './apis/healthCheck.api';
 import { logError, logServer, logWarning } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
 import { sleep } from '@utils/functions';
-config();
+
+config({ path: require('find-config')('.env') });
 
 // Command Code
 const { REST } = require('@discordjs/rest');

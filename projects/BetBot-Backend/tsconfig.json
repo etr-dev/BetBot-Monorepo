@@ -14,7 +14,8 @@
       "@app/*": ["src/app/*"],
       "@app": ["src/app"],
       "@schemas": ["src/schemas"],
-      "@schemas/*": ["src/schemas/*"]
+      "@schemas/*": ["src/schemas/*"],
+      "@root": ["../../"]
     },
     "incremental": true,
     "skipLibCheck": true,
@@ -22,6 +23,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
+    "noFallthroughCasesInSwitch": false
   }
 }

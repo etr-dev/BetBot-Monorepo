@@ -1,17 +1,20 @@
 import axios from 'axios';
 import { config } from 'dotenv';
-import { UfcApiResponse, UfcEventResponse } from './responses/ufcEvent.response';
+import {
+  UfcApiResponse,
+  UfcEventResponse,
+} from './responses/ufcEvent.response';
 
-config();
+config({ path: require('find-config')('.env') });
 const headers = {
-  'X-API-KEY': process.env.UFC_API_KEY,
+  'X-API-KEY': process.env.BACKEND_API_KEY,
   'Content-Type': 'application/json',
 };
 
 const url =
   process.env.IS_LOCAL === 'true'
-    ? process.env.UFC_API_URL_LOCAL
-    : process.env.UFC_API_URL_PROD;
+    ? process.env.BETBOT_BACKEND_URL_LOCAL
+    : process.env.BETBOT_BACKEND_URL_PROD;
 
 export async function ufcApiHealth() {
   var config = {
@@ -46,7 +49,9 @@ export async function getUpcomingFights(): Promise<UfcEventResponse> {
     });
 }
 
-export async function getEventByUrl(eventUrl: string): Promise<UfcEventResponse> {
+export async function getEventByUrl(
+  eventUrl: string,
+): Promise<UfcEventResponse> {
   console.log(eventUrl);
   var config = {
     method: 'get',

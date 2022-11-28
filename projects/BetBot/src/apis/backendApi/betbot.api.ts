@@ -9,17 +9,15 @@ import { PlaceBetRequest } from './requests/placeBet.request';
 import { GetUsersResponse } from './responses';
 import { CreateMatchResponse } from './responses/createMatch.response';
 import { CreateUserResponse } from './responses/createUser.response';
-import {
-  GetAllIncompleteMatchLinksResponse,
-} from './responses/getAllIncompleteMatchLinks.response';
+import { GetAllIncompleteMatchLinksResponse } from './responses/getAllIncompleteMatchLinks.response';
 import { GetMatchResponse } from './responses/getMatch.response';
 import { GetWalletResponse } from './responses/getWallet.response';
 import { PlaceBetResponse } from './responses/placeBet.response';
 
-config();
+config({ path: '../../.env' });
 
 const headers = {
-  'X-API-KEY': process.env.BETBOT_BACKEND_KEY,
+  'X-API-KEY': process.env.BACKEND_API_KEY,
   'Content-Type': 'application/json',
 };
 
@@ -86,7 +84,9 @@ export async function getWallet(walletId: string): Promise<GetWalletResponse> {
     });
 }
 
-export async function getMatch(partialMatch: Partial<IMatch>): Promise<GetMatchResponse> {
+export async function getMatch(
+  partialMatch: Partial<IMatch>,
+): Promise<GetMatchResponse> {
   var data = JSON.stringify(partialMatch);
 
   var config = {

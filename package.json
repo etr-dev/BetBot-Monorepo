@@ -7,14 +7,18 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "projects/*",
-    "packages/*"
+    "projects/common",
+    "projects/*"
   ],
   "scripts": {
-    "start:api": "cd projects/UFC-API & yarn start:dev",
     "start:backend": "cd projects/BetBot-Backend & yarn start:dev",
     "start:bot": "cd projects/BetBot & yarn start:dev",
-    "start:all": "concurrently \"yarn start:api\" \"yarn start:backend\" \"yarn start:bot\""
+    "start:all": "concurrently \"yarn start:backend\" \"yarn start:bot\"",
+
+    "build:backend": "cd projects/BetBot-Backend & yarn build",
+    "build:bot": "cd projects/BetBot & yarn build",
+    "build:common": "cd projects/common & yarn build",
+    "build:all": "concurrently \"yarn build:backend\" \"yarn build:bot\""
   },
   "dependencies": {
     "concurrently": "^7.6.0"
