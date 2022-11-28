@@ -1,0 +1,22 @@
+{
+  "name": "BetBot-Monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/erobin27/BetBot-Monorepo.git",
+  "author": "erobin27",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "projects/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "start:api": "cd projects/UFC-API & yarn start:dev",
+    "start:backend": "cd projects/BetBot-Backend & yarn start:dev",
+    "start:bot": "cd projects/BetBot & yarn start:dev",
+    "start:all": "concurrently \"yarn start:api\" \"yarn start:backend\" \"yarn start:bot\""
+  },
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
