@@ -38,3 +38,4 @@ lerna-debug.log*
 .vercel
 **/dist
 **/node_modules
+**.env
