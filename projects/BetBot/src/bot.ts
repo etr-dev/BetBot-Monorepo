@@ -4,7 +4,7 @@ import {
   GatewayIntentBits,
 } from 'discord.js';
 import { config } from 'dotenv';
-import { checkMatches, startBetSaga, startHistorySaga } from '@actions';
+import { checkMatches, startBetSaga, startHistorySaga, startWalletSaga } from '@actions';
 import { healthCheck } from './apis/healthCheck.api';
 import { logError, logServer, logWarning } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
@@ -38,6 +38,10 @@ const rest = new REST({ version: '10' }).setToken(discordToken);
       name: 'history',
       description: 'View your previous bets active and inactive.',
     },
+    {
+      name: 'wallet',
+      description: 'view your money.'
+    }
   ];
   try {
     console.log('Started refreshing application (/) commands.');
@@ -63,6 +67,9 @@ client.on('interactionCreate', async (interaction) => {
       break;
     case 'history':
       await startHistorySaga(commandInteraction);
+      break;
+    case 'wallet':
+      await startWalletSaga(commandInteraction);
       break;
   }
 });
