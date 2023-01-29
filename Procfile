@@ -1,1 +1,1 @@
-web: yarn run build:all && yarn run start:all:prod
+web: yarn run heroku-prod

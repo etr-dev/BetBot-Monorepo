@@ -11,6 +11,8 @@
     "projects/*"
   ],
   "scripts": {
+    "heroku-prod": "yarn build:all && yarn start:all",
+
     "start:backend": "cd projects/BetBot-Backend & yarn start:dev",
     "start:bot": "cd projects/BetBot & yarn start:dev",
     "start:all": "concurrently \"yarn start:backend\" \"yarn start:bot\"",
