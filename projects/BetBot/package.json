@@ -12,6 +12,7 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "start": "ts-node -r tsconfig-paths/register src/bot",
+    "start:prod": "ts-node -r tsconfig-paths/register dist/src/bot",
     "start:dev": "nodemon"
   },
   "dependencies": {
