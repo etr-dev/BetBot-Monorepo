@@ -4,7 +4,6 @@ import { HeaderApiKeyStrategy } from 'src/auth/auth-header-api-key.strategy';
 import { AppService } from './app.service';
 
 @Controller()
-  @UseGuards(AuthGuard('api-key'))
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

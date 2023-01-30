@@ -8,6 +8,6 @@ export class AppService {
   }
 
   health(): string {
-    return this.connection ? 'App is running and database is connected!' : 'App is running but database is not connected.'
+    return this.connection ? `App is running and database is connected! PORT: ${process.env.PORT}` : `App is running but database is not connected. PORT: ${process.env.PORT}`
   }
 }
