@@ -21,9 +21,9 @@
     "start:bot:prod": "cd projects/BetBot & yarn start:prod",
     "start:all:prod": "concurrently \"yarn start:backend:prod\" \"yarn start:bot:prod\"",
 
-    "build:backend": "cd projects/BetBot-Backend & yarn run build",
-    "build:bot": "cd projects/BetBot & yarn run build",
-    "build:common": "cd projects/common & yarn run build",
+    "build:backend": "cd projects/BetBot-Backend & yarn run build & cd ../..",
+    "build:bot": "cd projects/BetBot & yarn run build & cd ../..",
+    "build:common": "cd projects/common & yarn run build & cd ../..",
     "build:all": "yarn build:backend & yarn build:bot"
   },
   "dependencies": {
