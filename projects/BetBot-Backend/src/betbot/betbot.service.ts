@@ -6,7 +6,7 @@ import {
   MatchDocument,
   UserDocument,
   WalletDocument,
-} from '@schemas';
+} from 'src/schemas/';
 import mongoose, { Connection, Model } from 'mongoose';
 import { BetNotActiveException } from 'src/exceptions/betNotActive.exception';
 import { MatchAlreadyExistsException } from 'src/exceptions/matchAlreadyExists.exception';

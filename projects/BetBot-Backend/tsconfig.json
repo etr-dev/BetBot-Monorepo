@@ -11,11 +11,11 @@
     "outDir": "./dist/src",
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@app": ["src/app"],
-      "@schemas": ["src/schemas"],
-      "@schemas/*": ["src/schemas/*"],
-      "@root": ["../../"]
+      // "@app/*": ["src/app/*"],
+      // "@app": ["src/app"],
+      // "@schemas": ["src/schemas"],
+      // "@schemas/*": ["src/schemas/*"],
+      // "@root": ["../../"]
     },
     "incremental": true,
     "skipLibCheck": true,

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { betFeature, matchFeature, userFeature, walletFeature } from '@schemas';
+import { betFeature, matchFeature, userFeature, walletFeature } from 'src/schemas/';
 import { BetbotController } from './betbot.controller';
 import { BetbotService } from './betbot.service';
 
