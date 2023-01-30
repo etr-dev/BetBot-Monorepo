@@ -1,12 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import {
-  BetDocument,
-  Match,
-  MatchDocument,
-  UserDocument,
-  WalletDocument,
-} from 'src/schemas/';
 import mongoose, { Connection, Model } from 'mongoose';
 import { BetNotActiveException } from 'src/exceptions/betNotActive.exception';
 import { MatchAlreadyExistsException } from 'src/exceptions/matchAlreadyExists.exception';
@@ -23,6 +16,7 @@ import { PlaceBetDto } from './dto/bet/placeBet.dto';
 import { BetSelection } from './entities/enums/betSelection.enum';
 import { CompleteMatchDto } from './dto/match/completeMatch.dto';
 import { assert } from 'console';
+import { BetDocument, MatchDocument, UserDocument, WalletDocument } from 'src/schemas';
 
 @Injectable()
 export class BetbotService {
