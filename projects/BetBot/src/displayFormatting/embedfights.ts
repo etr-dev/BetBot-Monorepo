@@ -7,7 +7,7 @@ function pagifyFightEmbeds(
   matchupList: string[],
   embedTemplate,
 ): EmbedBuilder[] {
-  let embedReturnList: EmbedBuilder[] = [];
+  const embedReturnList: EmbedBuilder[] = [];
   const numberOfMatches = matchupList.length;
 
   let embed = new EmbedBuilder(embedTemplate);
@@ -65,11 +65,7 @@ export function embedFights(apiResponse: UfcEventResponse): EmbedBuilder[] {
     },
   };
 
-  const embedList = pagifyFightEmbeds(
-    apiResponse,
-    matchupList,
-    embedTemplate,
-  );
+  const embedList = pagifyFightEmbeds(apiResponse, matchupList, embedTemplate);
 
   return embedList;
 }
@@ -89,7 +85,7 @@ export function embedFighterChoice(apiResponse: UfcEventResponse, chosenMatch) {
     name: '\u200B \u200B \u200B',
     value: '\u200B \u200B \u200B',
     inline: true,
-  })
+  });
 
   embed.addFields({
     name: `__${matchUpData.Blue.name}__`,

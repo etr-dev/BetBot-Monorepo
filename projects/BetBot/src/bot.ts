@@ -4,19 +4,24 @@ import {
   GatewayIntentBits,
 } from 'discord.js';
 import { config } from 'dotenv';
-import { checkMatches, startBetSaga, startHistorySaga, startWalletSaga } from '@actions';
+import {
+  checkMatches,
+  startBetSaga,
+  startHistorySaga,
+  startWalletSaga,
+} from '@actions';
+import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
 import { logError, logServer, logWarning } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
-import { sleep } from '@utils/functions';
 
 config({ path: require('find-config')('.env') });
 
 // Command Code
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const { Routes } = require('discord.js');
+const { REST } = require('@discordjs/rest');
 
 export const client = new Client({
   intents: [
@@ -40,8 +45,8 @@ const rest = new REST({ version: '10' }).setToken(discordToken);
     },
     {
       name: 'wallet',
-      description: 'view your money.'
-    }
+      description: 'view your money.',
+    },
   ];
   try {
     console.log('Started refreshing application (/) commands.');

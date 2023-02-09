@@ -1,12 +1,17 @@
-import { ComponentType, Message, SelectMenuComponentOptionData, User } from 'discord.js';
-import { selectResponseTime } from '../utils/constants';
+import {
+  ComponentType,
+  Message,
+  SelectMenuComponentOptionData,
+  User,
+} from 'discord.js';
 import { logServer } from '../utils';
+import { selectResponseTime } from '../utils/constants';
 
 export function listToSelectOptions(inputList, includeCancel = false) {
-  let selectList: SelectMenuComponentOptionData[] = [];
+  const selectList: SelectMenuComponentOptionData[] = [];
   let count = 1;
-  for (let item of inputList) {
-    let selectOption: SelectMenuComponentOptionData = {
+  for (const item of inputList) {
+    const selectOption: SelectMenuComponentOptionData = {
       label: `${count}. ${item}`,
       value: item,
     };
@@ -15,7 +20,7 @@ export function listToSelectOptions(inputList, includeCancel = false) {
   }
 
   if (includeCancel) {
-    let selectOption: SelectMenuComponentOptionData = {
+    const selectOption: SelectMenuComponentOptionData = {
       label: 'Cancel',
       value: 'Cancel',
       emoji: '🚫',
@@ -26,9 +31,7 @@ export function listToSelectOptions(inputList, includeCancel = false) {
 }
 
 export async function getSelectOptionInteraction(selectMsg, originalUserId) {
-  const filter = (i) => {
-    return i.user.id === originalUserId;
-  };
+  const filter = (i) => i.user.id === originalUserId;
 
   return selectMsg
     .awaitMessageComponent({
@@ -36,10 +39,6 @@ export async function getSelectOptionInteraction(selectMsg, originalUserId) {
       componentType: ComponentType.SelectMenu,
       time: selectResponseTime,
     })
-    .then((interaction) => {
-        return interaction;
-    })
-    .catch((err) => {
-      return undefined;
-    });
+    .then((interaction) => interaction)
+    .catch((err) => undefined);
 }

@@ -1,33 +1,33 @@
+import { match } from 'assert';
 import {
   ChatInputCommandInteraction,
   ComponentType,
   MessagePayload,
 } from 'discord.js';
-import { choiceMessage, matchSelectMenu, wagerModal } from './betMenu';
-import { logError } from '@utils/log';
+import { CreateMatchRequest } from 'src/apis/backendApi/requests/createMatch.request';
+import { CreateUserRequest } from 'src/apis/backendApi/requests/createUser.request';
+import { PlaceBetRequest } from 'src/apis/backendApi/requests/placeBet.request';
+import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
 import {
+  createMatch,
   getEventByUrl,
   getUpcomingFights,
-  createMatch,
   getUserWalletId,
   getWallet,
   placeBet,
 } from '@apis';
-import { match } from 'assert';
 import { Wager } from '@classes';
-import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
-import { CreateUserRequest } from 'src/apis/backendApi/requests/createUser.request';
-import { PlaceBetRequest } from 'src/apis/backendApi/requests/placeBet.request';
-import { CreateMatchRequest } from 'src/apis/backendApi/requests/createMatch.request';
-import { sleep } from '@utils/functions';
 import {
-  getButtonInteraction,
-  getModalResponse,
-  getSelectOptionInteraction,                          
   embedSelectedFighter,
   embedValidationMessage,
   embedWaitMessage,
+  getButtonInteraction,
+  getModalResponse,
+  getSelectOptionInteraction,
 } from '@displayFormatting';
+import { sleep } from '@utils/functions';
+import { logError } from '@utils/log';
+import { choiceMessage, matchSelectMenu, wagerModal } from './betMenu';
 
 export async function startBetSaga(interaction) {
   //------------------------------------------------
@@ -38,7 +38,7 @@ export async function startBetSaga(interaction) {
   if (!walletRes) {
     interaction.reply('Error finding your wallet.');
   }
-  const walletId = walletRes.walletId;
+  const { walletId } = walletRes;
   const usersWallet = await getWallet(walletId);
 
   //------------------------------------------------
@@ -61,7 +61,7 @@ export async function startBetSaga(interaction) {
   //------------------------------------------------
   //              Temp Message - UFC Api
   //------------------------------------------------
-  let tempMsg = await modalResponseInteraction.reply({
+  const tempMsg = await modalResponseInteraction.reply({
     content: '',
     embeds: [embedWaitMessage()],
     ephemeral: true,
@@ -88,7 +88,7 @@ export async function startBetSaga(interaction) {
     modalResponseInteraction.user.id,
   );
   if (!selectedInteraction || selectedInteraction.values[0] === 'Cancel') {
-    //TODO: Let user know they have cancelled
+    // TODO: Let user know they have cancelled
     return;
   }
 
@@ -106,7 +106,7 @@ export async function startBetSaga(interaction) {
   );
 
   if (!buttonInteraction || buttonInteraction.customId === 'Cancel') {
-    //TODO: Let user know they have cancelled
+    // TODO: Let user know they have cancelled
     return;
   }
   const selectedCorner = buttonInteraction.customId;
@@ -114,7 +114,7 @@ export async function startBetSaga(interaction) {
   //------------------------------------------------
   //              Validate Wager, Fight, etc.
   //------------------------------------------------
-  let placingBetMessage = await modalResponseInteraction.editReply({
+  const placingBetMessage = await modalResponseInteraction.editReply({
     content: '',
     embeds: [embedValidationMessage()],
     components: [],
@@ -159,7 +159,7 @@ export async function startBetSaga(interaction) {
     validateUfcBetApiResponse.fights[selectedMatch][selectedCorner].odds,
   );
 
-  //Place bet
+  // Place bet
   const placeBetRequest: PlaceBetRequest = {
     matchId,
     userId: interaction.user.id,

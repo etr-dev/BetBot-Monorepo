@@ -2,4 +2,4 @@ export * from './betMenu';
 export * from './bet.saga';
 export * from './history.saga';
 export * from './checkmatches.routine';
-export * from './wallet.saga'
+export * from './wallet.saga';

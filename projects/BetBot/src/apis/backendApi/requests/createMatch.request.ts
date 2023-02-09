@@ -21,10 +21,16 @@ export class CreateMatchRequest {
     } = ufcEvent.fights[selectedMatch].Blue;
     this.Blue = { name: blueName, image: blueImage };
   }
+
   eventTitle: string;
+
   matchTitle: string;
+
   link: string;
+
   isComplete: boolean;
+
   Red: Partial<ICornerDetails> & Pick<ICornerDetails, 'name' | 'image'>;
+
   Blue: Partial<ICornerDetails> & Pick<ICornerDetails, 'name' | 'image'>;
 }

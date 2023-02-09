@@ -1,7 +1,6 @@
-import { IMatch } from "../interfaces/match.interface";
+import { IMatch } from '../interfaces/match.interface';
 
 export interface GetMatchResponse {
-    message: string;
-    data: IMatch[];
-  }
-  
+  message: string;
+  data: IMatch[];
+}

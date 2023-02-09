@@ -4,17 +4,17 @@ import {
   EmbedBuilder,
   Emoji,
 } from 'discord.js';
-import { getUsersBets } from '@apis';
-import { numberToEmoji, sleep, spliceIntoChunks } from '@utils/functions';
-import {
-  embedWaitMessage,
-  embedPlacedBet,
-  getButtonInteraction,
-} from '@displayFormatting';
 import {
   BetSelection,
   GetUsersBetsRequest,
 } from 'src/apis/backendApi/requests';
+import { getUsersBets } from '@apis';
+import {
+  embedPlacedBet,
+  embedWaitMessage,
+  getButtonInteraction,
+} from '@displayFormatting';
+import { numberToEmoji, sleep, spliceIntoChunks } from '@utils/functions';
 
 async function viewBetHistory(interaction, choice: BetSelection) {
   const getUsersBetsRequest: GetUsersBetsRequest = {
@@ -23,7 +23,7 @@ async function viewBetHistory(interaction, choice: BetSelection) {
     attachMatchInfo: true,
   };
   const { data } = await getUsersBets(getUsersBetsRequest);
-  let historyEmbeds: EmbedBuilder[] = [];
+  const historyEmbeds: EmbedBuilder[] = [];
   let count = 0;
   for (const elem of data) {
     // if (count > 9) break; // TOOD: split this into pages
@@ -32,7 +32,7 @@ async function viewBetHistory(interaction, choice: BetSelection) {
     count++;
   }
 
-  let historyIsActive = true;
+  const historyIsActive = true;
   const pages = spliceIntoChunks(historyEmbeds, 5);
   let selectedPage = 0;
   while (historyIsActive) {
@@ -41,7 +41,7 @@ async function viewBetHistory(interaction, choice: BetSelection) {
     const disableBack = back < 0;
     const disableNext = next == pages.length;
 
-    let pageButtons = new ActionRowBuilder().addComponents(
+    const pageButtons = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId(`${back}`)
         .setStyle(2)
@@ -109,7 +109,8 @@ async function viewBetHistory(interaction, choice: BetSelection) {
         ephemeral: true,
       });
       return;
-    } else if (res.customId == 'Cancel') {
+    }
+    if (res.customId == 'Cancel') {
       interaction.editReply({
         content: 'Cancelled',
         embeds: [],
@@ -127,13 +128,13 @@ export async function startHistorySaga(interaction) {
   //------------------------------------------------
   //              Temp Message - UFC Api
   //------------------------------------------------
-  let tempMsg = await interaction.reply({
+  const tempMsg = await interaction.reply({
     content: '',
     embeds: [embedWaitMessage()],
     ephemeral: true,
   });
 
-  let historyButtons = new ActionRowBuilder().addComponents(
+  const historyButtons = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId(BetSelection.ALL)
       .setStyle(2)
@@ -161,9 +162,9 @@ export async function startHistorySaga(interaction) {
     embeds: [],
     components: [historyButtons],
     ephemeral: true,
-    fetchReply: true
+    fetchReply: true,
   });
-  
+
   const res = await getButtonInteraction(
     historySelectionMsg,
     interaction.user.id,
