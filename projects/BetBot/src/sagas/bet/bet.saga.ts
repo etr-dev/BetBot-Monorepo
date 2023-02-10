@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { errorResponse } from '../common/tasks/errorResponse.task';
 import { Saga } from '../framework/saga';
 import { Task } from '../framework/task';
-
-const createUser = (username: string): string => {
-  console.log(`created ${username}`);
-  return 'POGGIE DOGGIE';
-};
-
-const wagerModal = (username: string): string => {
-  console.log(`wager ${username}`);
-  return 'WAGER OUTPUT';
-};
+import { createUser, selectMatch, UfcApiMessage, wagerTask } from './tasks';
 
 const defaultFunction = (input: any): string => {
   console.log(input);
@@ -57,15 +50,15 @@ export class BetSaga extends Saga {
   linkTasksToFunctions(): void {
     // Success
     this.addTask('Create User', createUser);
-    this.addTask('Wager Modal', wagerModal);
-    this.addTask('Temp Message', defaultFunction);
-    this.addTask('Select Match', defaultFunction);
+    this.addTask('Wager Modal', wagerTask);
+    this.addTask('Temp Message', UfcApiMessage);
+    this.addTask('Select Match', selectMatch);
 
     // Failure
-    this.addTask('Error Response', defaultFunction);
-    this.addTask('Invalid Wager', defaultFunction);
-    this.addTask('API Error', defaultFunction);
-    this.addTask('Cancel Select Match', defaultFunction);
+    this.addTask('Error Response', errorResponse);
+    this.addTask('Invalid Wager', errorResponse);
+    this.addTask('API Error', errorResponse);
+    this.addTask('Cancel Select Match', errorResponse);
   }
 
   setInitialInput(input: any): void {

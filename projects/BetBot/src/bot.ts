@@ -14,6 +14,7 @@ import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
 import { logError, logServer, logWarning } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
+import { BetSaga } from './sagas/bet/bet.saga';
 
 config({ path: require('find-config')('.env') });
 
@@ -66,9 +67,13 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const commandInteraction: ChatInputCommandInteraction = interaction;
+  // eslint-disable-next-line default-case
   switch (commandInteraction.commandName) {
     case 'bet':
-      await startBetSaga(commandInteraction);
+      // eslint-disable-next-line no-case-declarations
+      const betSaga = new BetSaga();
+      betSaga.setInitialInput({ interaction: commandInteraction });
+      betSaga.startSaga();
       break;
     case 'history':
       await startHistorySaga(commandInteraction);

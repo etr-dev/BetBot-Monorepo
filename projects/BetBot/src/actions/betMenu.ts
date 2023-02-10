@@ -1,7 +1,9 @@
 import {
   ActionRowBuilder,
+  BaseMessageOptions,
   ButtonBuilder,
   EmbedBuilder,
+  InteractionReplyOptions,
   ModalBuilder,
   SelectMenuBuilder,
   TextInputBuilder,
@@ -14,9 +16,11 @@ import {
   listToSelectOptions,
 } from '@displayFormatting/index';
 
-export const wagerModal = () => {
+export const wagerModal = (): ModalBuilder => {
   // Create the modal
-  const modal = new ModalBuilder().setCustomId('myModal').setTitle('My Modal');
+  const modal: ModalBuilder = new ModalBuilder()
+    .setCustomId('myModal')
+    .setTitle('My Modal');
 
   // Create the text input components
   const wagerInput = new TextInputBuilder()
@@ -35,7 +39,7 @@ export const wagerModal = () => {
   return modal;
 };
 
-export const matchSelectMenu = (ufcEventResponse: UfcEventResponse) => {
+export const matchSelectMenu = (ufcEventResponse: UfcEventResponse): any => {
   const matchupList: string[] = Object.keys(ufcEventResponse.fights);
   const embedList: EmbedBuilder[] = embedFights(ufcEventResponse);
   const matchSelector = new ActionRowBuilder().addComponents(

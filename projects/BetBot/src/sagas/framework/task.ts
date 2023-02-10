@@ -1,8 +1,17 @@
-import { ChatInputCommandInteraction } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  CommandInteraction,
+  MessageComponentInteraction,
+  ModalSubmitInteraction,
+} from 'discord.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ITaskData {
-  interaction?: ChatInputCommandInteraction;
+  interaction?:
+    | ChatInputCommandInteraction
+    | MessageComponentInteraction
+    | CommandInteraction
+    | ModalSubmitInteraction;
   [name: string]: any;
 }
 
