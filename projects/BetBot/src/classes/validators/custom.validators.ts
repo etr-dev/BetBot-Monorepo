@@ -9,7 +9,6 @@ import {
 @ValidatorConstraint({ name: 'isLessThanWalletAmount', async: false })
 class IsLessThanWalletAmountRule implements ValidatorConstraintInterface {
   validate(amount: number, args: ValidationArguments) {
-    console.log(args);
     // @ts-ignore
     return amount <= args.object.walletAmount;
   }
