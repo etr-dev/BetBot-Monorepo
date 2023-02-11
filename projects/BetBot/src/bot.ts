@@ -3,10 +3,13 @@ import {
   ChatInputCommandInteraction,
   Client,
   GatewayIntentBits,
+  REST,
+  Routes,
 } from 'discord.js';
 import { config } from 'dotenv';
 import { checkMatches } from '@actions';
 import { sleep } from '@utils/functions';
+import * as findConfig from 'find-config';
 import { healthCheck } from './apis/healthCheck.api';
 import { logServer } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
@@ -14,13 +17,7 @@ import { BetSaga } from './sagas/bet/bet.saga';
 import { WalletSaga } from './sagas/wallet/wallet.saga';
 import { HistorySaga } from './sagas/history/history.saga';
 
-config({ path: require('find-config')('.env') });
-
-// Command Code
-const fs = require('node:fs');
-const path = require('node:path');
-const { Routes } = require('discord.js');
-const { REST } = require('@discordjs/rest');
+config({ path: findConfig('.env') });
 
 export const client = new Client({
   intents: [
@@ -32,7 +29,7 @@ export const client = new Client({
 const discordToken = process.env.DISCORD_TOKEN_TESTBOT;
 const rest = new REST({ version: '10' }).setToken(discordToken);
 
-(async (): Promise<void> => {
+async function setSlashCommands(): Promise<void> {
   const commands = [
     {
       name: 'bet',
@@ -59,7 +56,7 @@ const rest = new REST({ version: '10' }).setToken(discordToken);
   } catch (error) {
     console.error(error);
   }
-})();
+}
 
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
@@ -102,3 +99,4 @@ client.on('ready', async () => {
 });
 
 client.login(discordToken);
+setSlashCommands();
