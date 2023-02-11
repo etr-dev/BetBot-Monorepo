@@ -17,6 +17,7 @@ import { logError, logServer, logWarning } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
 import { BetSaga } from './sagas/bet/bet.saga';
 import { WalletSaga } from './sagas/wallet/wallet.saga';
+import { HistorySaga } from './sagas/history/history.saga';
 
 config({ path: require('find-config')('.env') });
 
@@ -77,7 +78,9 @@ client.on('interactionCreate', async (interaction) => {
       betSaga.startSaga();
       break;
     case 'history':
-      await startHistorySaga(commandInteraction);
+      const historySaga = new HistorySaga();
+      historySaga.setInitialInput({ interaction: commandInteraction });
+      historySaga.startSaga();
       break;
     case 'wallet':
       const walletSaga = new WalletSaga();
