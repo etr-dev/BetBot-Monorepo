@@ -1,4 +1,3 @@
-import { IS_BYTE_LENGTH } from 'class-validator';
 import { Colors, EmbedBuilder } from 'discord.js';
 import { IBet } from 'src/apis/backendApi/interfaces/bet.interface';
 import { IMatch } from 'src/apis/backendApi/interfaces/match.interface';
@@ -8,7 +7,7 @@ import { PlaceBetRequest } from 'src/apis/backendApi/requests/placeBet.request';
 export function embedSelectedFighter(
   createdMatch: CreateMatchRequest,
   placedBet: PlaceBetRequest,
-) {
+): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle(createdMatch.matchTitle)
     .setDescription(
@@ -41,7 +40,7 @@ export function embedSelectedFighter(
   return embed;
 }
 
-export function embedPlacedBet(match: IMatch, bet: IBet) {
+export function embedPlacedBet(match: IMatch, bet: IBet): EmbedBuilder {
   let color = null;
   let payoutField = bet.amountToPayout;
   switch (bet.outcome) {
@@ -59,6 +58,8 @@ export function embedPlacedBet(match: IMatch, bet: IBet) {
     case 'NO_CONTEST':
       color = Colors.White;
       payoutField = bet.wagerAmount;
+      break;
+    default:
       break;
   }
 

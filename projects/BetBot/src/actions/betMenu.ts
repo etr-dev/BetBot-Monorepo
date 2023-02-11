@@ -1,7 +1,9 @@
+/* eslint-disable no-restricted-globals */
 import {
   ActionRowBuilder,
   ButtonBuilder,
   EmbedBuilder,
+  InteractionReplyOptions,
   ModalBuilder,
   SelectMenuBuilder,
   TextInputBuilder,
@@ -14,9 +16,11 @@ import {
   listToSelectOptions,
 } from '@displayFormatting/index';
 
-export const wagerModal = () => {
+export const wagerModal = (): ModalBuilder => {
   // Create the modal
-  const modal = new ModalBuilder().setCustomId('myModal').setTitle('My Modal');
+  const modal: ModalBuilder = new ModalBuilder()
+    .setCustomId('myModal')
+    .setTitle('My Modal');
 
   // Create the text input components
   const wagerInput = new TextInputBuilder()
@@ -35,7 +39,7 @@ export const wagerModal = () => {
   return modal;
 };
 
-export const matchSelectMenu = (ufcEventResponse: UfcEventResponse) => {
+export const matchSelectMenu = (ufcEventResponse: UfcEventResponse): any => {
   const matchupList: string[] = Object.keys(ufcEventResponse.fights);
   const embedList: EmbedBuilder[] = embedFights(ufcEventResponse);
   const matchSelector = new ActionRowBuilder().addComponents(
@@ -56,12 +60,22 @@ export const matchSelectMenu = (ufcEventResponse: UfcEventResponse) => {
 export const choiceMessage = (
   ufcEventResponse: UfcEventResponse,
   selectedMatch,
-) => {
+): InteractionReplyOptions => {
   const { Red, Blue } = ufcEventResponse.fights[selectedMatch];
   const embed = embedFighterChoice(ufcEventResponse, selectedMatch);
+
+  // Add button for red and blue fighter. If the odds are not a number disable the button.
   const fighterButtons = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId('Red').setStyle(4).setLabel(Red.name),
-    new ButtonBuilder().setCustomId('Blue').setStyle(1).setLabel(Blue.name),
+    new ButtonBuilder()
+      .setCustomId('Red')
+      .setStyle(4)
+      .setLabel(Red.name)
+      .setDisabled(isNaN(Number(Red.odds))),
+    new ButtonBuilder()
+      .setCustomId('Blue')
+      .setStyle(1)
+      .setLabel(Blue.name)
+      .setDisabled(isNaN(Number(Blue.odds))),
     new ButtonBuilder()
       .setCustomId('Cancel')
       .setStyle(2)
@@ -71,7 +85,7 @@ export const choiceMessage = (
   return {
     content: '',
     embeds: [embed],
-    components: [fighterButtons],
+    components: [fighterButtons as never],
     ephemeral: true,
     fetchReply: true,
   };

@@ -1,20 +1,13 @@
 import {
-  Contains,
-  contains,
-  IsInt,
   IsNumber,
   IsPositive,
   IsString,
-  Max,
   Min,
-  Validate,
   validate,
-  ValidationArguments,
   ValidationError,
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
 } from 'class-validator';
 import { embedErrors } from '@displayFormatting/errors.embed';
+import { InteractionReplyOptions } from 'discord.js';
 import { IsLessThanWalletAmount } from './validators/custom.validators';
 
 export class Wager {
@@ -47,7 +40,7 @@ export class Wager {
     return this.isValid;
   }
 
-  generateErrorMessage() {
+  generateErrorMessage(): InteractionReplyOptions {
     return {
       content: 'Your wager is invalid!',
       embeds: [embedErrors(this.errors[0])],

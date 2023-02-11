@@ -1,18 +1,16 @@
 import axios from 'axios';
-import { config } from 'dotenv';
-import {
-  UfcApiResponse,
-  UfcEventResponse,
-} from './responses/ufcEvent.response';
+import { config as dotenvConfig } from 'dotenv';
+import * as findConfig from 'find-config';
+import { UfcEventResponse } from './responses/ufcEvent.response';
 
-config({ path: require('find-config')('.env') });
+dotenvConfig({ path: findConfig('.env') });
 const headers = {
   'X-API-KEY': process.env.BACKEND_API_KEY,
   'Content-Type': 'application/json',
 };
 
 const url =
-  process.env.IS_LOCAL === 'true'
+  process.env.NODE_ENV === 'local'
     ? process.env.BETBOT_BACKEND_URL_LOCAL
     : process.env.BETBOT_BACKEND_URL_PROD;
 
@@ -46,7 +44,6 @@ export async function getUpcomingFights(): Promise<UfcEventResponse> {
 export async function getEventByUrl(
   eventUrl: string,
 ): Promise<UfcEventResponse> {
-  console.log(eventUrl);
   const config = {
     method: 'get',
     url: `${url}/ufc/eventByUrl`,

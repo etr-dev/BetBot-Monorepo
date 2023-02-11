@@ -1,9 +1,7 @@
-import { green } from 'colors';
-import { Colors } from 'discord.js';
+import { Colors, EmbedBuilder } from 'discord.js';
 import { GetWalletResponse } from '@apis';
-import { EmbedBuilder } from '@discordjs/builders';
 
-export function walletEmbed(user, wallet: GetWalletResponse) {
+export function walletEmbed(user, wallet: GetWalletResponse): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle(`${user.username} WALLET`)
     .setThumbnail(user.avatarURL())

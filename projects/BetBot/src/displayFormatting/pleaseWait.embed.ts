@@ -1,9 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
-import { CreateMatchRequest } from 'src/apis/backendApi/requests/createMatch.request';
-import { PlaceBetRequest } from 'src/apis/backendApi/requests/placeBet.request';
 import { betbotLogo } from '@utils/constants';
 
-export function embedValidationMessage() {
+export function embedValidationMessage(): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle('🔎 Validating')
     .setDescription('Placing bet and validating wager please wait...')
@@ -12,7 +10,7 @@ export function embedValidationMessage() {
   return embed;
 }
 
-export function embedWaitMessage() {
+export function embedWaitMessage(): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle('💬 Retrieving Data')
     .setDescription(
