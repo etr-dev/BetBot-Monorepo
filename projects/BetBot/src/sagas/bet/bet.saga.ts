@@ -15,7 +15,7 @@ const defaultFunction = (input: any): string => {
 };
 
 export class BetSaga extends Saga {
-  private firstTask: Task;
+  name = 'BET';
 
   constructor() {
     super();
@@ -86,13 +86,5 @@ export class BetSaga extends Saga {
     this.addTask('Cancel Select Fighter', errorResponse);
     this.addTask('Validation Failed', errorResponse);
     this.addTask('Place Bet Failed', errorResponse);
-  }
-
-  setInitialInput(input: any): void {
-    this.firstTask.setInput({ ...input, sagaId: this.sagaId });
-  }
-
-  startSaga(): void {
-    this.start(this.firstTask);
   }
 }

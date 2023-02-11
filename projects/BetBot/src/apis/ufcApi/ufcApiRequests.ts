@@ -12,7 +12,7 @@ const headers = {
 };
 
 const url =
-  process.env.IS_LOCAL === 'true'
+  process.env.NODE_ENV === 'local'
     ? process.env.BETBOT_BACKEND_URL_LOCAL
     : process.env.BETBOT_BACKEND_URL_PROD;
 
@@ -46,7 +46,6 @@ export async function getUpcomingFights(): Promise<UfcEventResponse> {
 export async function getEventByUrl(
   eventUrl: string,
 ): Promise<UfcEventResponse> {
-  console.log(eventUrl);
   const config = {
     method: 'get',
     url: `${url}/ufc/eventByUrl`,

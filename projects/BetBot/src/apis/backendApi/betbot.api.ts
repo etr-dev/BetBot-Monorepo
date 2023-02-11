@@ -1,3 +1,4 @@
+import { logServer } from '@utils/log';
 import axios from 'axios';
 import { config } from 'dotenv';
 import { IMatch } from './interfaces/match.interface';
@@ -22,7 +23,7 @@ const headers = {
 };
 
 const url =
-  process.env.IS_LOCAL === 'true'
+  process.env.NODE_ENV === 'local'
     ? process.env.BETBOT_BACKEND_URL_LOCAL
     : process.env.BETBOT_BACKEND_URL_PROD;
 
@@ -134,6 +135,8 @@ export async function createMatch(
 export async function completeMatch(
   completeMatchRequest: CompleteMatchRequest,
 ): Promise<unknown> {
+  logServer(`Completing: ${completeMatchRequest.matchTitle}`);
+
   const data = JSON.stringify(completeMatchRequest);
 
   const config = {

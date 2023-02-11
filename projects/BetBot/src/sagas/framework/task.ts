@@ -65,7 +65,7 @@ export class Task {
     this.taskInfo.input = input;
   }
 
-  setOutput(output: ITaskData, addToInput: boolean = true): void {
+  setOutput(output: ITaskData, addToInput = true): void {
     if (addToInput) {
       this.taskInfo.output = { ...this.taskInfo.input, ...output };
     } else {
@@ -107,7 +107,7 @@ export class Task {
   }
 
   logTask(): void {
-    let emoji = this.status === 'pass' ? '✅' : '❌'
+    let emoji = this.status === 'pass' ? '✅' : '⛔';
     if (!this.status) emoji = undefined;
     logServer(`TASK: ${this.name} - ${this.taskInfo.input.sagaId}`, emoji);
   }

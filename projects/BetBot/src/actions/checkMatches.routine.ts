@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { CompleteMatchRequest } from 'src/apis/backendApi/requests/completeMatch.request';
 import {
   completeMatch,
@@ -7,7 +9,7 @@ import {
 } from '@apis';
 import { logServer } from '@utils/log';
 
-export async function checkMatches() {
+export async function checkMatches(): Promise<void> {
   const { data: incompleteLinks } = await getIncompleteMatchLinks(); // Get links to all incomplete events
 
   for (const link of incompleteLinks) {
