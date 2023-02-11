@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 
-export function embedTimeout(title: string, msg: string) {
+export function embedTimeout(title: string, msg: string): EmbedBuilder {
   const embed = new EmbedBuilder().setTitle('⏱️ Timeout.');
 
   embed.addFields({

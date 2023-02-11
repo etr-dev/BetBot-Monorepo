@@ -1,17 +1,23 @@
-import { choiceMessage } from "@actions";
-import { getButtonInteraction } from "@displayFormatting/buttonHelpers";
-import { embedCancellation } from "@displayFormatting/cancellation.embed";
-import { messageBuilder } from "@displayFormatting/messageBuilder";
-import { embedTimeout } from "@displayFormatting/timeout.embed";
-import { logServer } from "@utils/log";
-import { InteractionUpdateOptions, MessageComponentInteraction } from "discord.js";
-import { TaskError } from "src/sagas/framework/error";
-import { ITaskData } from "src/sagas/framework/task";
+import { choiceMessage } from '@actions';
+import { getButtonInteraction } from '@displayFormatting/buttonHelpers';
+import { embedCancellation } from '@displayFormatting/cancellation.embed';
+import { messageBuilder } from '@displayFormatting/messageBuilder';
+import { embedTimeout } from '@displayFormatting/timeout.embed';
+import {
+  InteractionUpdateOptions,
+  MessageComponentInteraction,
+} from 'discord.js';
+import { TaskError } from 'src/sagas/framework/error';
+import { ITaskData } from 'src/sagas/framework/task';
 
 export async function selectFighter(input: ITaskData): Promise<ITaskData> {
-const interaction: MessageComponentInteraction = input.interaction as MessageComponentInteraction;
+  const interaction: MessageComponentInteraction =
+    input.interaction as MessageComponentInteraction;
   const choiceMsg = await interaction.update(
-    choiceMessage(input.ufcEventResponse, input.selectedMatch) as InteractionUpdateOptions,
+    choiceMessage(
+      input.ufcEventResponse,
+      input.selectedMatch,
+    ) as InteractionUpdateOptions,
   );
   const buttonInteraction = await getButtonInteraction(
     choiceMsg,
@@ -24,12 +30,13 @@ const interaction: MessageComponentInteraction = input.interaction as MessageCom
       interaction: input.interaction,
       action: 'EDIT',
       message: messageBuilder({
-        embeds: [embedTimeout(
-          'Fighter Selection',
-          'You did not make a selection in time, please use /bet to restart.'
-        )]
-      }
-      ),
+        embeds: [
+          embedTimeout(
+            'Fighter Selection',
+            'You did not make a selection in time, please use /bet to restart.',
+          ),
+        ],
+      }),
     });
   }
 
@@ -39,12 +46,13 @@ const interaction: MessageComponentInteraction = input.interaction as MessageCom
       interaction: input.interaction,
       action: 'EDIT',
       message: messageBuilder({
-        embeds: [embedCancellation(
-          'Fighter Selection',
-          'You have cancelled your fighter selection, please use /bet to restart.'
-        )]
-      }
-      ),
+        embeds: [
+          embedCancellation(
+            'Fighter Selection',
+            'You have cancelled your fighter selection, please use /bet to restart.',
+          ),
+        ],
+      }),
     });
   }
 

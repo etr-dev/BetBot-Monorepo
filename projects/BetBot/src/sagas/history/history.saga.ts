@@ -23,6 +23,7 @@ export class HistorySaga extends Saga {
 
     const taskErrorResponse = new Task('Error Response');
 
+    taskViewHistory.pass(taskViewHistory);
     taskViewHistory.fail(taskErrorResponse);
 
     taskGetUserBets.pass(taskViewHistory);

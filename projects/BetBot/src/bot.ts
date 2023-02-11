@@ -5,15 +5,10 @@ import {
   GatewayIntentBits,
 } from 'discord.js';
 import { config } from 'dotenv';
-import {
-  checkMatches,
-  startBetSaga,
-  startHistorySaga,
-  startWalletSaga,
-} from '@actions';
+import { checkMatches } from '@actions';
 import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
-import { logError, logServer, logWarning } from './utils';
+import { logServer } from './utils';
 import { testingClientId, testingGuildId } from './utils/constants';
 import { BetSaga } from './sagas/bet/bet.saga';
 import { WalletSaga } from './sagas/wallet/wallet.saga';
@@ -37,7 +32,7 @@ export const client = new Client({
 const discordToken = process.env.DISCORD_TOKEN_TESTBOT;
 const rest = new REST({ version: '10' }).setToken(discordToken);
 
-(async () => {
+(async (): Promise<void> => {
   const commands = [
     {
       name: 'bet',

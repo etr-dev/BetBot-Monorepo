@@ -1,14 +1,17 @@
-import { InteractionReplyOptions } from "discord.js";
+import { InteractionReplyOptions } from 'discord.js';
 
-export function messageBuilder(content: Partial<InteractionReplyOptions>) {
+export function messageBuilder(
+  content: Partial<InteractionReplyOptions>,
+  leaveContent = false,
+): InteractionReplyOptions {
+  const defaultMessage: InteractionReplyOptions = {
+    content: '',
+    embeds: [],
+    components: [],
+    ephemeral: true,
+    fetchReply: true,
+  };
 
-    const defaultMessage: InteractionReplyOptions = {
-      content: '',
-      embeds: [],
-      components: [],
-      ephemeral: true,
-      fetchReply: true,
-    }
-
-    return {...defaultMessage, ...content};
-  }
+  if (leaveContent) return { ...content };
+  return { ...defaultMessage, ...content };
+}
