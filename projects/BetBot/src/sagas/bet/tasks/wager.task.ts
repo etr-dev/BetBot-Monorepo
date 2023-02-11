@@ -15,7 +15,7 @@ export async function wagerTask(input: ITaskData): Promise<ITaskData> {
 
   // If there is no response fail with timeout
   if (!modalResponseInteraction) {
-    throw new TaskError('Wager Modal Timed Out.', {});
+    throw new TaskError('Wager Modal Timed Out.', {action: 'NOTHING'});
   }
 
   // Get the wager number from the modal and validate the wager
