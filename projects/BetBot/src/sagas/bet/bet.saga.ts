@@ -5,6 +5,9 @@ import { errorResponse } from '../common/tasks/errorResponse.task';
 import { Saga } from '../framework/saga';
 import { Task } from '../framework/task';
 import { createUser, selectMatch, UfcApiMessage, wagerTask } from './tasks';
+import { betValidation } from './tasks/betValidation.task';
+import { placeBetTask } from './tasks/placeBet.task';
+import { selectFighter } from './tasks/selectFighter.task';
 
 const defaultFunction = (input: any): string => {
   console.log(input);
@@ -33,6 +36,24 @@ export class BetSaga extends Saga {
     const taskSelectMatch = new Task('Select Match');
     const cancelSelectMatch = new Task('Cancel Select Match');
 
+    const taskSelectFighter = new Task('Select Fighter');
+    const cancelSelectFighter = new Task('Cancel Select Fighter');
+
+    const taskBetValidation = new Task('Validate Bet');
+    const validationFailed = new Task('Validation Failed');
+
+    const taskPlaceBet = new Task('Place Bet');
+    const placeBetFailed = new Task('Place Bet Failed');
+
+    taskPlaceBet.fail(placeBetFailed);
+
+    taskBetValidation.pass(taskPlaceBet);
+    taskBetValidation.fail(validationFailed);
+
+    taskSelectFighter.pass(taskBetValidation);
+    taskSelectFighter.fail(cancelSelectFighter);
+
+    taskSelectMatch.pass(taskSelectFighter);
     taskSelectMatch.fail(cancelSelectMatch);
 
     taskTempMessage.pass(taskSelectMatch);
@@ -53,12 +74,18 @@ export class BetSaga extends Saga {
     this.addTask('Wager Modal', wagerTask);
     this.addTask('Temp Message', UfcApiMessage);
     this.addTask('Select Match', selectMatch);
+    this.addTask('Select Fighter', selectFighter);
+    this.addTask('Validate Bet', betValidation);
+    this.addTask('Place Bet', placeBetTask);
 
     // Failure
     this.addTask('Error Response', errorResponse);
     this.addTask('Invalid Wager', errorResponse);
     this.addTask('API Error', errorResponse);
     this.addTask('Cancel Select Match', errorResponse);
+    this.addTask('Cancel Select Fighter', errorResponse);
+    this.addTask('Validation Failed', errorResponse);
+    this.addTask('Place Bet Failed', errorResponse);
   }
 
   setInitialInput(input: any): void {

@@ -1,3 +1,4 @@
+import { logError } from '@utils/log';
 import { TaskError } from './error';
 import { Task } from './task';
 
@@ -24,7 +25,13 @@ export class Saga {
       task.setOutput(await this.taskMap[task.name](task.taskInfo.input));
       task.completeTask('pass');
     } catch (err) {
-      if (err instanceof TaskError) task.setOutput(err.getTaskInfo());
+      if (err instanceof TaskError) {
+        logError('TASK ERROR');
+        task.setOutput(err.getTaskInfo());
+      } else {
+        logError('UNKNOWN ERROR');
+        console.log(err);
+      }
       task.completeTask('fail');
     }
 

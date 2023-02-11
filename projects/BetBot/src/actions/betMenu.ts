@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   EmbedBuilder,
   InteractionReplyOptions,
+  InteractionUpdateOptions,
   ModalBuilder,
   SelectMenuBuilder,
   TextInputBuilder,
@@ -63,9 +64,11 @@ export const choiceMessage = (
 ) => {
   const { Red, Blue } = ufcEventResponse.fights[selectedMatch];
   const embed = embedFighterChoice(ufcEventResponse, selectedMatch);
+
+  // Add button for red and blue fighter. If the odds are not a number disable the button.
   const fighterButtons = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId('Red').setStyle(4).setLabel(Red.name),
-    new ButtonBuilder().setCustomId('Blue').setStyle(1).setLabel(Blue.name),
+    new ButtonBuilder().setCustomId('Red').setStyle(4).setLabel(Red.name).setDisabled(isNaN(Number(Red.odds))),
+    new ButtonBuilder().setCustomId('Blue').setStyle(1).setLabel(Blue.name).setDisabled(isNaN(Number(Blue.odds))),
     new ButtonBuilder()
       .setCustomId('Cancel')
       .setStyle(2)

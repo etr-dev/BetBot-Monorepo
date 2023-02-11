@@ -1,16 +1,15 @@
 import { matchSelectMenu } from '@actions';
+import { embedCancellation } from '@displayFormatting/cancellation.embed';
+import { messageBuilder } from '@displayFormatting/messageBuilder';
 import { getSelectOptionInteraction } from '@displayFormatting/selectOption';
+import { embedTimeout } from '@displayFormatting/timeout.embed';
 import { logServer } from '@utils/log';
 import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 
-interface ISelectMatchInput extends ITaskData {
-  ufcEventResponse: UfcEventResponse;
-}
-
 export async function selectMatch(
-  input: ISelectMatchInput,
+  input: ITaskData,
 ): Promise<ITaskData> {
   logServer('TASK: selectMatch');
 
@@ -23,10 +22,35 @@ export async function selectMatch(
     matchSelectionMsg,
     input.interaction.user.id,
   );
-  if (!selectedInteraction || selectedInteraction.values[0] === 'Cancel') {
-    throw new TaskError('Cancelled or Timeout', {});
+
+  if (!selectedInteraction) {
+    throw new TaskError('Cancelled Fighter Select.', {
+      interaction: input.interaction,
+      action: 'EDIT',
+      message: messageBuilder({
+        embeds: [embedTimeout(
+          'Match Selection',
+          'You did not make a selection in time, please use /bet to restart.'
+        )]
+      }
+      ),
+    });
+  }
+
+  if ( selectedInteraction.values[0] === 'Cancel') {
+    throw new TaskError('Cancelled Match Select.', {
+      interaction: input.interaction,
+      action: 'EDIT',
+      message: messageBuilder({
+        embeds: [embedCancellation(
+          'Match Selection',
+          'You have cancelled your match selection, please use /bet to restart.'
+        )]
+      }
+      ),
+    });
   }
 
   const selectedMatch = selectedInteraction.values[0];
-  return { ...input, selectedMatch };
+  return { interaction: selectedInteraction, selectedMatch };
 }

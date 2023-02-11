@@ -1,9 +1,10 @@
-import { logServer } from '@utils/log';
+import { logError, logServer } from '@utils/log';
 import { InteractionReplyOptions } from 'discord.js';
 import { ITaskData } from 'src/sagas/framework/task';
 
 export interface IErrorResponse extends ITaskData {
   message: string | InteractionReplyOptions;
+  action?: 'EDIT' | 'REPLY';
 }
 
 export async function errorResponse(
@@ -15,6 +16,13 @@ export async function errorResponse(
   if (!taskInfo.interaction) return { ...taskInfo };
 
   // Reply with a message
-  await taskInfo.interaction.reply(taskInfo.message);
+  switch (taskInfo.action) {
+    case 'EDIT':
+      await taskInfo.interaction.editReply(taskInfo.message);
+      break;
+    case 'REPLY':
+    default:
+      await taskInfo.interaction.reply(taskInfo.message);
+  }
   return { ...taskInfo };
 }

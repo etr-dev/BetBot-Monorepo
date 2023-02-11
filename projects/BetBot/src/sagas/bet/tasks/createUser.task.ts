@@ -5,10 +5,6 @@ import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 import { logServer } from '@utils/log';
 
-export interface ICreateUserOutput extends ITaskData {
-  usersWallet: GetWalletResponse;
-}
-
 export async function createUser(input: ITaskData): Promise<ITaskData> {
   logServer('TASK: createUser');
 
@@ -27,5 +23,5 @@ export async function createUser(input: ITaskData): Promise<ITaskData> {
   const usersWallet = await getWallet(walletId);
 
   // Pass to next task with the userWallet
-  return { interaction: input.interaction, usersWallet };
+  return { interaction: input.interaction, walletId, usersWallet, ...input};
 }

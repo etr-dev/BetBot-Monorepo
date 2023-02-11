@@ -7,7 +7,7 @@ import {
 import { logServer } from '../utils';
 import { selectResponseTime } from '../utils/constants';
 
-export function listToSelectOptions(inputList, includeCancel = false) {
+export function listToSelectOptions(inputList, includeCancel = true) {
   const selectList: SelectMenuComponentOptionData[] = [];
   let count = 1;
   for (const item of inputList) {

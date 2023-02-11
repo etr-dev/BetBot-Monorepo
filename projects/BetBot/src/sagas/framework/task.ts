@@ -64,8 +64,12 @@ export class Task {
     this.taskInfo.input = input;
   }
 
-  setOutput(output: ITaskData): void {
-    this.taskInfo.output = output;
+  setOutput(output: ITaskData, addToInput: boolean = true): void {
+    if (addToInput) {
+      this.taskInfo.output = { ...this.taskInfo.input, ...output };
+    } else {
+      this.taskInfo.output = output;
+    }
   }
 
   private taskToHistory(): ITaskHistory {

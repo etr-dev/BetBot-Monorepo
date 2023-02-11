@@ -34,5 +34,6 @@ export async function wagerTask(input: ITaskData): Promise<ITaskData> {
   return {
     interaction: modalResponseInteraction,
     wager,
+    wagerClass,
   };
 }
