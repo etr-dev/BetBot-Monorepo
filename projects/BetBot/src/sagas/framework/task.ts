@@ -1,3 +1,4 @@
+import { logServer } from '@utils/log';
 import {
   ChatInputCommandInteraction,
   CommandInteraction,
@@ -103,5 +104,11 @@ export class Task {
       return this.passTask;
     }
     throw Error(`TASK INCOMPLETE: ${this.name}`);
+  }
+
+  logTask(): void {
+    let emoji = this.status === 'pass' ? '✅' : '❌'
+    if (!this.status) emoji = undefined;
+    logServer(`TASK: ${this.name} - ${this.taskInfo.input.sagaId}`, emoji);
   }
 }

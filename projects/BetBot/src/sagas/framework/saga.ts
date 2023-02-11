@@ -1,6 +1,8 @@
 import { logError } from '@utils/log';
+import { randomUUID } from 'crypto';
 import { TaskError } from './error';
 import { Task } from './task';
+import { v4 as uuidv4 } from 'uuid';
 
 /* eslint-disable @typescript-eslint/ban-types */
 interface ITaskMap {
@@ -10,6 +12,11 @@ interface ITaskMap {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class Saga {
   taskMap: ITaskMap = {};
+  protected sagaId: string; // generate a unique id for each saga
+
+  constructor() {
+    this.sagaId = uuidv4();
+  }
 
   addTask(taskName: string, func: Function): void {
     this.taskMap[taskName] = func;
@@ -26,7 +33,6 @@ export class Saga {
       task.completeTask('pass');
     } catch (err) {
       if (err instanceof TaskError) {
-        logError('TASK ERROR');
         task.setOutput(err.getTaskInfo());
       } else {
         logError('UNKNOWN ERROR');
@@ -35,6 +41,7 @@ export class Saga {
       task.completeTask('fail');
     }
 
+    task.logTask();
     const nextTask = task.nextTask();
     if (nextTask) this.start(nextTask);
   }

@@ -7,8 +7,6 @@ import { TaskError } from "src/sagas/framework/error";
 import { ITaskData, Task } from "src/sagas/framework/task";
 
 export async function betValidation(input: ITaskData): Promise<ITaskData> {
-    logServer('TASK: betValidation');
-    
   const placingBetMessage = await input.interaction.editReply({
     content: '',
     embeds: [embedValidationMessage()],

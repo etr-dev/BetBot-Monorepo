@@ -3,11 +3,11 @@ const emoji = require('node-emoji');
 
 colors.enable();
 
-export function logServer(message: string, logEmoji = 'robot_face') {
+export function logServer(message: string, logEmoji = '🤖') {
   const current = new Date();
   console.log(
     `${
-      emoji.get(logEmoji) +
+      emoji.find(logEmoji).emoji +
       colors.green(' SERVER ') +
       colors.yellow(`${current.toLocaleTimeString()}`)
     }:\t` + `${message}`,

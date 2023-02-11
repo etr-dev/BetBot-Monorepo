@@ -89,7 +89,7 @@ export class BetSaga extends Saga {
   }
 
   setInitialInput(input: any): void {
-    this.firstTask.setInput(input);
+    this.firstTask.setInput({ ...input, sagaId: this.sagaId });
   }
 
   startSaga(): void {

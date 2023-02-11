@@ -6,8 +6,6 @@ import { ITaskData } from 'src/sagas/framework/task';
 import { logServer } from '@utils/log';
 
 export async function createUser(input: ITaskData): Promise<ITaskData> {
-  logServer('TASK: createUser');
-
   // Create a new user (or get existing)
   const createUserRequest = new CreateUserRequest(input.interaction);
   const walletRes = await getUserWalletId(createUserRequest);

@@ -9,8 +9,6 @@ import { TaskError } from "src/sagas/framework/error";
 import { ITaskData } from "src/sagas/framework/task";
 
 export async function selectFighter(input: ITaskData): Promise<ITaskData> {
-    logServer('TASK: selectFighter');
-    
 const interaction: MessageComponentInteraction = input.interaction as MessageComponentInteraction;
   const choiceMsg = await interaction.update(
     choiceMessage(input.ufcEventResponse, input.selectedMatch) as InteractionUpdateOptions,

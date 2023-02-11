@@ -7,8 +7,6 @@ import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 
 export async function wagerTask(input: ITaskData): Promise<ITaskData> {
-  logServer('TASK: wagerTask');
-
   // Show the wager modal on the interaction
   const commandInteraction = input.interaction as CommandInteraction;
   await commandInteraction.showModal(wagerModal());

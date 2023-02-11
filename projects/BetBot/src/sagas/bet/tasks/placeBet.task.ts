@@ -8,8 +8,6 @@ import { Wager } from '@classes';
 import { embedSelectedFighter } from '@displayFormatting/fighterCard.embed';
 
 export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
-  logServer('TASK: placeBetTask');
-
   const createMatchRequest = new CreateMatchRequest(
     input.ufcEventResponse,
     input.selectedMatch,

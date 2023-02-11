@@ -5,8 +5,6 @@ import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 
 export async function UfcApiMessage(input: ITaskData): Promise<ITaskData> {
-  logServer('TASK: UfcApiMessage');
-
   await input.interaction.reply({
     content: '',
     embeds: [embedWaitMessage()],

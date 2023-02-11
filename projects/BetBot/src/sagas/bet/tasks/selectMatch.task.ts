@@ -11,8 +11,6 @@ import { ITaskData } from 'src/sagas/framework/task';
 export async function selectMatch(
   input: ITaskData,
 ): Promise<ITaskData> {
-  logServer('TASK: selectMatch');
-
   const matchSelectionMsg = await input.interaction.editReply(
     matchSelectMenu(input.ufcEventResponse),
   );
