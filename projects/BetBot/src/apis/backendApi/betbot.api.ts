@@ -1,3 +1,4 @@
+import { logServer } from '@utils/log';
 import axios from 'axios';
 import { config } from 'dotenv';
 import { IMatch } from './interfaces/match.interface';
@@ -22,32 +23,28 @@ const headers = {
 };
 
 const url =
-  process.env.IS_LOCAL === 'true'
+  process.env.NODE_ENV === 'local'
     ? process.env.BETBOT_BACKEND_URL_LOCAL
     : process.env.BETBOT_BACKEND_URL_PROD;
 
 export async function databaseHealth() {
-  var config = {
+  const config = {
     method: 'get',
     url: `${url}`,
     headers,
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
-      return null;
-    });
+    .then((response) => response.data)
+    .catch((error) => null);
 }
 
 export async function getUserWalletId(
   createUserRequest: CreateUserRequest,
 ): Promise<CreateUserResponse> {
-  var data = JSON.stringify(createUserRequest);
+  const data = JSON.stringify(createUserRequest);
 
-  var config = {
+  const config = {
     method: 'post',
     url: `${url}/betbot/createUser`,
     headers,
@@ -55,19 +52,17 @@ export async function getUserWalletId(
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
 }
 
 export async function getWallet(walletId: string): Promise<GetWalletResponse> {
-  var data = JSON.stringify({ walletId: walletId });
+  const data = JSON.stringify({ walletId });
 
-  var config = {
+  const config = {
     method: 'get',
     url: `${url}/betbot/wallet`,
     headers,
@@ -75,10 +70,8 @@ export async function getWallet(walletId: string): Promise<GetWalletResponse> {
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
@@ -87,9 +80,9 @@ export async function getWallet(walletId: string): Promise<GetWalletResponse> {
 export async function getMatch(
   partialMatch: Partial<IMatch>,
 ): Promise<GetMatchResponse> {
-  var data = JSON.stringify(partialMatch);
+  const data = JSON.stringify(partialMatch);
 
-  var config = {
+  const config = {
     method: 'get',
     url: `${url}/betbot/getMatch`,
     headers,
@@ -97,27 +90,23 @@ export async function getMatch(
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
 }
 
 export async function getIncompleteMatchLinks(): Promise<GetAllIncompleteMatchLinksResponse> {
-  var config = {
+  const config = {
     method: 'get',
     url: `${url}/betbot/getAllIncompleteMatchLinks`,
     headers,
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
@@ -126,9 +115,9 @@ export async function getIncompleteMatchLinks(): Promise<GetAllIncompleteMatchLi
 export async function createMatch(
   createMatchRequest: CreateMatchRequest,
 ): Promise<CreateMatchResponse> {
-  var data = JSON.stringify(createMatchRequest);
+  const data = JSON.stringify(createMatchRequest);
 
-  var config = {
+  const config = {
     method: 'post',
     url: `${url}/betbot/createMatch`,
     headers,
@@ -136,10 +125,8 @@ export async function createMatch(
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
@@ -148,9 +135,11 @@ export async function createMatch(
 export async function completeMatch(
   completeMatchRequest: CompleteMatchRequest,
 ): Promise<unknown> {
-  var data = JSON.stringify(completeMatchRequest);
+  logServer(`Completing: ${completeMatchRequest.matchTitle}`);
 
-  var config = {
+  const data = JSON.stringify(completeMatchRequest);
+
+  const config = {
     method: 'post',
     url: `${url}/betbot/completeMatch`,
     headers,
@@ -158,10 +147,8 @@ export async function completeMatch(
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
@@ -170,9 +157,9 @@ export async function completeMatch(
 export async function placeBet(
   placeBetRequest: PlaceBetRequest,
 ): Promise<PlaceBetResponse> {
-  var data = JSON.stringify(placeBetRequest);
+  const data = JSON.stringify(placeBetRequest);
 
-  var config = {
+  const config = {
     method: 'post',
     url: `${url}/betbot/placeBet`,
     headers,
@@ -180,10 +167,8 @@ export async function placeBet(
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });
@@ -192,9 +177,9 @@ export async function placeBet(
 export async function getUsersBets(
   getUsersBetsRequest: GetUsersBetsRequest,
 ): Promise<GetUsersResponse> {
-  var data = JSON.stringify(getUsersBetsRequest);
+  const data = JSON.stringify(getUsersBetsRequest);
 
-  var config = {
+  const config = {
     method: 'get',
     url: `${url}/betbot/getUsersBets`,
     headers,
@@ -202,10 +187,8 @@ export async function getUsersBets(
   };
 
   return axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
+    .then((response) => response.data)
+    .catch((error) => {
       console.log(error.response.data);
       return null;
     });

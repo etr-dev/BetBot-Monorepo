@@ -1,4 +1,4 @@
 export interface CreateUserResponse {
-    message: string;
-    walletId: string;
+  message: string;
+  walletId: string;
 }

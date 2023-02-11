@@ -1,5 +1,5 @@
-import { ICornerDetails } from "./cornerDetails.interface";
-import { IPostMatchInfo } from "./postMatchInfo.interface";
+import { ICornerDetails } from './cornerDetails.interface';
+import { IPostMatchInfo } from './postMatchInfo.interface';
 
 export interface IMatch {
   _id: string;

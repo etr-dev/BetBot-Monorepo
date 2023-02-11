@@ -1,4 +1,4 @@
 export interface PlaceBetResponse {
-    message: string;
-    betId: string;
+  message: string;
+  betId: string;
 }

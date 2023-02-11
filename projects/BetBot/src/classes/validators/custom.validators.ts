@@ -1,9 +1,14 @@
-import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, ValidatorOptions, registerDecorator } from "class-validator";
+import {
+  registerDecorator,
+  ValidationArguments,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidatorOptions,
+} from 'class-validator';
 
 @ValidatorConstraint({ name: 'isLessThanWalletAmount', async: false })
 class IsLessThanWalletAmountRule implements ValidatorConstraintInterface {
   validate(amount: number, args: ValidationArguments) {
-    console.log(args);
     // @ts-ignore
     return amount <= args.object.walletAmount;
   }
@@ -19,9 +24,9 @@ export function IsLessThanWalletAmount(validatorOptions?: ValidatorOptions) {
     registerDecorator({
       name: 'IsLessThanWalletAmount',
       target: object.constructor,
-      propertyName: propertyName,
+      propertyName,
       options: validatorOptions,
       validator: IsLessThanWalletAmountRule,
-    })
-  }
+    });
+  };
 }

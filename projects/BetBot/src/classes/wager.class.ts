@@ -1,36 +1,33 @@
-import { embedErrors } from '@displayFormatting/errors.embed';
 import {
-  Contains,
-  contains,
-  IsInt,
   IsNumber,
   IsPositive,
   IsString,
-  Max,
   Min,
-  Validate,
   validate,
-  ValidationArguments,
   ValidationError,
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
 } from 'class-validator';
+import { embedErrors } from '@displayFormatting/errors.embed';
+import { InteractionReplyOptions } from 'discord.js';
 import { IsLessThanWalletAmount } from './validators/custom.validators';
-
 
 export class Wager {
   public isValid: boolean;
-  private errors: ValidationError[] = [];
-  private walletAmount: number = 0;
 
-  //TODO: Add a user to this class so we can check their wallet in DB
+  private errors: ValidationError[] = [];
+
+  private walletAmount = 0;
+
+  // TODO: Add a user to this class so we can check their wallet in DB
   constructor(strWager: string, userWalletAmount: number) {
     this.amount = Number(strWager);
     this.walletAmount = userWalletAmount;
   }
 
-  async validate(): Promise<Boolean> {
-    await validate(this, { skipMissingProperties: true, stopAtFirstError: true }).then((errors) => {
+  async validate(): Promise<boolean> {
+    await validate(this, {
+      skipMissingProperties: true,
+      stopAtFirstError: true,
+    }).then((errors) => {
       // errors is an array of validation errors
       if (errors.length > 0) {
         this.isValid = false;
@@ -43,7 +40,7 @@ export class Wager {
     return this.isValid;
   }
 
-  generateErrorMessage() {
+  generateErrorMessage(): InteractionReplyOptions {
     return {
       content: 'Your wager is invalid!',
       embeds: [embedErrors(this.errors[0])],

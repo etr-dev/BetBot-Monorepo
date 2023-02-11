@@ -1,1 +1,1 @@
-export * from './ufcApiRequests'
+export * from './ufcApiRequests';

@@ -1,22 +1,22 @@
-import { betbotLogo } from '@utils/constants';
 import { EmbedBuilder } from 'discord.js';
-import { CreateMatchRequest } from 'src/apis/backendApi/requests/createMatch.request';
-import { PlaceBetRequest } from 'src/apis/backendApi/requests/placeBet.request';
+import { betbotLogo } from '@utils/constants';
 
-export function embedValidationMessage() {
-    const embed = new EmbedBuilder()
-        .setTitle('🔎 Validating')
-        .setDescription('Placing bet and validating wager please wait...')
-        .setFooter({text: 'betbot', iconURL: betbotLogo});
+export function embedValidationMessage(): EmbedBuilder {
+  const embed = new EmbedBuilder()
+    .setTitle('🔎 Validating')
+    .setDescription('Placing bet and validating wager please wait...')
+    .setFooter({ text: 'betbot', iconURL: betbotLogo });
 
   return embed;
 }
 
-export function embedWaitMessage() {
+export function embedWaitMessage(): EmbedBuilder {
   const embed = new EmbedBuilder()
-      .setTitle('💬 Retrieving Data')
-      .setDescription('Getting UFC data this could take a few seconds, please wait...')
-      .setFooter({text: 'betbot', iconURL: betbotLogo});
+    .setTitle('💬 Retrieving Data')
+    .setDescription(
+      'Getting UFC data this could take a few seconds, please wait...',
+    )
+    .setFooter({ text: 'betbot', iconURL: betbotLogo });
 
-return embed;
+  return embed;
 }

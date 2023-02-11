@@ -1,4 +1,4 @@
 export interface GetWalletResponse {
-    amount: number;
-    escrow: number;
+  amount: number;
+  escrow: number;
 }

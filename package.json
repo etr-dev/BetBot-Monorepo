@@ -20,7 +20,7 @@
     "start:backend:prod": "cd projects/BetBot-Backend & yarn start:prod",
     "start:bot:prod": "cd projects/BetBot & yarn start:prod",
     "start:all:prod": "concurrently \"yarn start:backend:prod\" \"yarn start:bot:prod\"",
-
+    
     "build:backend": "cd projects/BetBot-Backend & yarn run build & cd ../..",
     "build:bot": "cd projects/BetBot & yarn run build & cd ../..",
     "build:common": "cd projects/common & yarn run build & cd ../..",
