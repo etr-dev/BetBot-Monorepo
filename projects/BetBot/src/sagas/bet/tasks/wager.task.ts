@@ -1,7 +1,6 @@
 import { wagerModal } from '@actions';
 import { Wager } from '@classes';
 import { getModalResponse } from '@displayFormatting/modal.helpers';
-import { logServer } from '@utils/log';
 import { CommandInteraction, ModalSubmitInteraction } from 'discord.js';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
@@ -15,7 +14,7 @@ export async function wagerTask(input: ITaskData): Promise<ITaskData> {
 
   // If there is no response fail with timeout
   if (!modalResponseInteraction) {
-    throw new TaskError('Wager Modal Timed Out.', {action: 'NOTHING'});
+    throw new TaskError('Wager Modal Timed Out.', { action: 'NOTHING' });
   }
 
   // Get the wager number from the modal and validate the wager

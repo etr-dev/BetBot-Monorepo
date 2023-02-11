@@ -1,12 +1,12 @@
+/* eslint-disable no-restricted-syntax */
 import {
   ComponentType,
-  Message,
   SelectMenuComponentOptionData,
-  User,
+  SelectMenuInteraction,
 } from 'discord.js';
-import { logServer } from '../utils';
 import { selectResponseTime } from '../utils/constants';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function listToSelectOptions(inputList, includeCancel = true) {
   const selectList: SelectMenuComponentOptionData[] = [];
   let count = 1;
@@ -16,7 +16,7 @@ export function listToSelectOptions(inputList, includeCancel = true) {
       value: item,
     };
     selectList.push(selectOption);
-    count++;
+    count += 1;
   }
 
   if (includeCancel) {
@@ -30,15 +30,21 @@ export function listToSelectOptions(inputList, includeCancel = true) {
   return selectList;
 }
 
-export async function getSelectOptionInteraction(selectMsg, originalUserId) {
-  const filter = (i) => i.user.id === originalUserId;
+export async function getSelectOptionInteraction(
+  selectMsg,
+  originalUserId,
+): Promise<SelectMenuInteraction> {
+  const filter = (i): boolean => i.user.id === originalUserId;
 
-  return selectMsg
-    .awaitMessageComponent({
-      filter,
-      componentType: ComponentType.SelectMenu,
-      time: selectResponseTime,
-    })
-    .then((interaction) => interaction)
-    .catch((err) => undefined);
+  return (
+    selectMsg
+      .awaitMessageComponent({
+        filter,
+        componentType: ComponentType.SelectMenu,
+        time: selectResponseTime,
+      })
+      .then((interaction) => interaction)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .catch((err) => undefined)
+  );
 }

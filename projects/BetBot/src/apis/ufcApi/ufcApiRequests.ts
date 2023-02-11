@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { config } from 'dotenv';
-import {
-  UfcApiResponse,
-  UfcEventResponse,
-} from './responses/ufcEvent.response';
+import { config as dotenvConfig } from 'dotenv';
+import * as findConfig from 'find-config';
+import { UfcEventResponse } from './responses/ufcEvent.response';
 
-config({ path: require('find-config')('.env') });
+dotenvConfig({ path: findConfig('.env') });
 const headers = {
   'X-API-KEY': process.env.BACKEND_API_KEY,
   'Content-Type': 'application/json',

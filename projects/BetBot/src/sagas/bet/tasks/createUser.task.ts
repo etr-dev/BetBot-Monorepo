@@ -21,5 +21,5 @@ export async function createUser(input: ITaskData): Promise<ITaskData> {
   const usersWallet = await getWallet(walletId);
 
   // Pass to next task with the userWallet
-  return { interaction: input.interaction, walletId, usersWallet, ...input};
+  return { interaction: input.interaction, walletId, usersWallet, ...input };
 }

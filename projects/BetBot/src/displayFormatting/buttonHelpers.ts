@@ -1,13 +1,12 @@
-import { ComponentType } from 'discord.js';
+import { ButtonInteraction, ComponentType } from 'discord.js';
 import { logError } from '../utils';
-import { selectResponseTime } from '../utils/constants';
 
 export async function getButtonInteraction(
   messageWithButtons,
   orginalUserId,
   timeout = 10000,
-) {
-  const filter = (i) => {
+): Promise<ButtonInteraction> {
+  const filter = (i): boolean => {
     i.deferUpdate();
     return i.user.id === orginalUserId;
   };

@@ -1,6 +1,6 @@
 import { getUpcomingFights } from '@apis';
 import { embedWaitMessage } from '@displayFormatting/pleaseWait.embed';
-import { logError, logServer } from '@utils/log';
+import { logError } from '@utils/log';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 

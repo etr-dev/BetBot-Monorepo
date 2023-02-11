@@ -23,9 +23,11 @@ const emojiNumberMap = {
   '.': '.',
 };
 
-export function numberToEmoji(num: number) {
+export function numberToEmoji(num: number): string {
   let emojiString = '';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const stringNum: any = num.toString();
+  // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (const i in stringNum) {
     emojiString += emojiNumberMap[stringNum[i]];
   }

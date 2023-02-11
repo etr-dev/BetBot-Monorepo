@@ -1,6 +1,5 @@
-import { Colors, Embed, EmbedBuilder, EmbedData } from 'discord.js';
+import { Colors, EmbedBuilder, EmbedData } from 'discord.js';
 import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
-import { logServer } from '../utils';
 
 function pagifyFightEmbeds(
   apiResponse: UfcEventResponse,
@@ -12,14 +11,14 @@ function pagifyFightEmbeds(
 
   let embed = new EmbedBuilder(embedTemplate);
   let pageNumber = 1;
-  for (let i = 0; i < numberOfMatches; i++) {
-    if (i % 7 == 0 && i != 0) {
+  for (let i = 0; i < numberOfMatches; i += 1) {
+    if (i % 7 === 0 && i !== 0) {
       embedReturnList.push(embed);
       embed = new EmbedBuilder({
         color: Colors.Green,
         footer: { text: `${pageNumber}` },
       });
-      pageNumber++;
+      pageNumber += 1;
       embed.setFooter({
         text: `Page ${pageNumber}\n________________________________________________________________`,
       });
@@ -42,7 +41,7 @@ function pagifyFightEmbeds(
       inline: true,
     });
 
-    if (i == numberOfMatches - 1) {
+    if (i === numberOfMatches - 1) {
       embedReturnList.push(embed);
     }
   }
@@ -70,7 +69,10 @@ export function embedFights(apiResponse: UfcEventResponse): EmbedBuilder[] {
   return embedList;
 }
 
-export function embedFighterChoice(apiResponse: UfcEventResponse, chosenMatch) {
+export function embedFighterChoice(
+  apiResponse: UfcEventResponse,
+  chosenMatch,
+): EmbedBuilder {
   const matchUpData = apiResponse.fights[chosenMatch];
 
   const embed = new EmbedBuilder().setTitle('Who would you like to bet on?');

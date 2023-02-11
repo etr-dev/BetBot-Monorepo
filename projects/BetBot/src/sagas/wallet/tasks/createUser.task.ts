@@ -3,7 +3,6 @@ import { getUserWalletId, getWallet, GetWalletResponse } from '@apis';
 import { CreateUserRequest } from 'src/apis/backendApi/requests';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
-import { logServer } from '@utils/log';
 
 export async function createUser(input: ITaskData): Promise<ITaskData> {
   // Create a new user (or get existing)

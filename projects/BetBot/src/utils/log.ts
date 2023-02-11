@@ -1,5 +1,5 @@
-const colors = require('colors/safe');
-const emoji = require('node-emoji');
+import * as emoji from 'node-emoji';
+import * as colors from 'colors/safe';
 
 colors.enable();
 
