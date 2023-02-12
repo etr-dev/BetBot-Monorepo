@@ -1,2 +1,2 @@
 export * from './betMenu';
-export * from './checkmatches.routine';
+export * from './checkMatches.routine';
