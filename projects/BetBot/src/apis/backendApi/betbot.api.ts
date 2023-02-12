@@ -1,6 +1,6 @@
 import { logServer } from '@utils/log';
 import axios from 'axios';
-import { config } from 'dotenv';
+import { config as dotenvConfig } from 'dotenv';
 import { IMatch } from './interfaces/match.interface';
 import { GetUsersBetsRequest } from './requests';
 import { CompleteMatchRequest } from './requests/completeMatch.request';
@@ -15,7 +15,7 @@ import { GetMatchResponse } from './responses/getMatch.response';
 import { GetWalletResponse } from './responses/getWallet.response';
 import { PlaceBetResponse } from './responses/placeBet.response';
 
-config({ path: '../../.env' });
+dotenvConfig({ path: '../../.env' });
 
 const headers = {
   'X-API-KEY': process.env.BACKEND_API_KEY,
