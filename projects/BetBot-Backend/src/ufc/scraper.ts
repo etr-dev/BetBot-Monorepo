@@ -1,14 +1,12 @@
 import { NotFoundException } from '@nestjs/common';
-import { match } from 'assert';
-import { assert } from 'console';
 import { UfcEvent } from 'src/ufc/models/entities/event.entity';
 import { Outcomes } from 'src/ufc/models/enums/outcome.enum';
 import { UfcFighterInfo } from 'src/ufc/models/interfaces/fighterInfor.interface';
 import { UfcMatchDetails } from 'src/ufc/models/interfaces/matchDetails.interface';
 import { UfcMatchInfo } from 'src/ufc/models/interfaces/matchInfo.interface';
 import { logServer } from 'src/utils/log';
+import * as puppeteer from 'puppeteer';
 
-const puppeteer = require('puppeteer');
 let browser, page;
 
 async function startBrowser(debug = false) {
