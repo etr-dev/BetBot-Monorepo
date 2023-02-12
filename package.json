@@ -21,10 +21,12 @@
     "start:bot:prod": "cd projects/BetBot & yarn start:prod",
     "start:all:prod": "concurrently \"yarn start:backend:prod\" \"yarn start:bot:prod\"",
     
-    "build:backend": "cd projects/BetBot-Backend & yarn run build & cd ../..",
-    "build:bot": "cd projects/BetBot & yarn run build & cd ../..",
+    "build:backend": "yarn workspace @betbot-monorepo/betbot-backend build",
+    "build:bot": "yarn workspace @betbot-monorepo/betbot build",
     "build:common": "cd projects/common & yarn run build & cd ../..",
-    "build:all": "yarn build:backend & yarn build:bot"
+    "build:all": "yarn build:backend & yarn build:bot",
+    
+    "heroku-postbuild": "yarn build:all"
   },
   "dependencies": {
     "concurrently": "^7.6.0"
