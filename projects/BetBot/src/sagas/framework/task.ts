@@ -33,6 +33,8 @@ interface ITaskInfo {
 export class Task {
   name: string;
 
+  protected username: string;
+
   private passTask: Task;
 
   private failTask: Task;
@@ -62,6 +64,7 @@ export class Task {
   }
 
   setInput(input: ITaskData): void {
+    this.username = input.interaction.user.username;
     this.taskInfo.input = input;
   }
 
@@ -109,6 +112,9 @@ export class Task {
   logTask(): void {
     let emoji = this.status === 'pass' ? '✅' : '⛔';
     if (!this.status) emoji = undefined;
-    logServer(`TASK: ${this.name} - ${this.taskInfo.input.sagaId}`, emoji);
+    logServer(
+      `@${this.username} TASK: ${this.name} - ${this.taskInfo.input.sagaId}`,
+      emoji,
+    );
   }
 }

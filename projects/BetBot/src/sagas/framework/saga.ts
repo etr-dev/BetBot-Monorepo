@@ -16,6 +16,8 @@ export class Saga {
 
   protected name = 'Saga';
 
+  protected username;
+
   protected sagaId: string; // generate a unique id for each saga
 
   protected firstTask: Task;
@@ -25,6 +27,7 @@ export class Saga {
   }
 
   public setInitialInput(input: ITaskData): void {
+    this.username = input.interaction.user.username;
     this.firstTask.setInput({ ...input, sagaId: this.sagaId });
   }
 
@@ -84,6 +87,6 @@ export class Saga {
         break;
     }
 
-    logServer(`SAGA: ${this.name} - ${this.sagaId}`, emoji);
+    logServer(`@${this.username} SAGA: ${this.name} - ${this.sagaId}`, emoji);
   }
 }
