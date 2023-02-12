@@ -42,7 +42,7 @@
     "node-emoji": "^1.11.0",
     "passport": "^0.6.0",
     "passport-headerapikey": "^1.2.2",
-    "puppeteer": "^19.6.3",
+    "puppeteer": "18.2.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
