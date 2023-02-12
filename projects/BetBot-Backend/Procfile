@@ -1,1 +1,0 @@
-web: yarn workspace @betbot-monorepo/betbot-backend start:prod
