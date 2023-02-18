@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import mongoose, { Connection, Model } from 'mongoose';
-import { BetNotActiveException } from 'src/exceptions/betNotActive.exception';
-import { MatchAlreadyExistsException } from 'src/exceptions/matchAlreadyExists.exception';
+import { Connection, Model } from 'mongoose';
 import { MatchNotFoundException } from 'src/exceptions/matchNotFound.exception';
 import { NotEnoughInWalletException } from 'src/exceptions/notEnoughInWallet.exception';
-import { UserAlreadyExistsException } from 'src/exceptions/userAlreadyExists.exception';
-import { logServer } from 'src/utils/log';
 import { CreateUserDto } from './dto/user/createUser.dto';
 import { GetUsersBetsDto } from './dto/user/getUsersBets.dto';
 import { GetWalletDto } from './dto/wallet/getWallet.dto';
@@ -15,8 +11,13 @@ import { GetMatchDto } from './dto/match/getMatch.dto';
 import { PlaceBetDto } from './dto/bet/placeBet.dto';
 import { BetSelection } from './entities/enums/betSelection.enum';
 import { CompleteMatchDto } from './dto/match/completeMatch.dto';
-import { assert } from 'console';
-import { BetDocument, MatchDocument, UserDocument, WalletDocument } from 'src/schemas';
+import {
+  BetDocument,
+  MatchDocument,
+  UserDocument,
+  WalletDocument,
+} from 'src/schemas';
+import { GetUserDto } from './dto/user/getUser.dto';
 
 @Injectable()
 export class BetbotService {
@@ -42,6 +43,14 @@ export class BetbotService {
     const preExistingUser = await this.userModel.findOne({
       userId: createUserDto.userId,
     });
+
+    if (
+      !preExistingUser.discordGuildIdList.includes(createUserDto.discordGuildId)
+    ) {
+      preExistingUser.discordGuildIdList.push(createUserDto.discordGuildId);
+      await preExistingUser.save();
+    }
+
     if (preExistingUser) {
       return { message: 'FOUND', walletId: preExistingUser.walletId };
     }
@@ -69,10 +78,17 @@ export class BetbotService {
           activeBets: [],
         },
       },
-    })
+    });
     createdUser.discordGuildIdList.push(createUserDto.discordGuildId);
     await createdUser.save();
     return { message: 'CREATED', walletId: createdUser.walletId };
+  }
+
+  //-----------------------------------------------------
+  //                CREATE USER
+  //-----------------------------------------------------
+  async findUser(getUserDto: GetUserDto) {
+    return this.userModel.find(getUserDto);
   }
 
   //-----------------------------------------------------
@@ -156,7 +172,7 @@ export class BetbotService {
 
     const betsOnMatch = await this.betModel.find({ matchId: match._id });
 
-    for (let bet of betsOnMatch) {
+    for (const bet of betsOnMatch) {
       const wallet = await this.walletModel.findById(bet.walletId);
       const user = await this.userModel.findOne({ userId: bet.userId });
 
@@ -243,9 +259,9 @@ export class BetbotService {
     //     return [bet, bet.matchId]
     // });
 
-    let matchMapById = {};
+    const matchMapById = {};
 
-    for (let bet of bets) {
+    for (const bet of bets) {
       const matchId: string = bet.matchId.toString();
       if (!(matchId in matchMapById)) {
         matchMapById[matchId] = await this.matchModel.findById(matchId);

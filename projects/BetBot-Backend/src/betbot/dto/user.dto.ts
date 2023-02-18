@@ -8,7 +8,7 @@ export class UserDto {
   userId: string;
 
   @IsNumberString({ each: true })
-  discordGuildList: string[];
+  discordGuildIdList: string[];
 
   @IsString()
   name: string;
