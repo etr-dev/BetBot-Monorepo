@@ -114,7 +114,7 @@ export class BetbotService {
   //                FIND USER
   //-----------------------------------------------------
   async findUser(getUserDto: GetUserDto) {
-    const data = await this.userModel.find(getUserDto);
+    const data = await this.userModel.find(getUserDto).sort(getUserDto.sort);
     return { message: 'COMPLETE', data };
   }
 
