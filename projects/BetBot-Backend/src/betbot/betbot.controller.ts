@@ -6,6 +6,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { logServer } from 'src/utils/log';
@@ -18,6 +19,7 @@ import { GetMatchDto } from './dto/match/getMatch.dto';
 import { CompleteMatchDto } from './dto/match/completeMatch.dto';
 import { PlaceBetDto } from './dto/bet/placeBet.dto';
 import { GetUserDto } from './dto/user/getUser.dto';
+import { use } from 'passport';
 
 @Controller('betbot')
 @UseGuards(AuthGuard('api-key'))
@@ -73,9 +75,16 @@ export class BetbotController {
 
   @Get('user')
   async findUser(@Query() getUserDto: GetUserDto) {
+    console.log(getUserDto);
     if (!Object.keys(getUserDto).length) return;
 
     return this.betbotService.findUser(getUserDto);
+  }
+
+  @Post('user/:id/stats')
+  async calcStats(@Param('id') discordId: string) {
+    console.log(discordId);
+    return this.betbotService.calcStats({ userId: discordId });
   }
 
   @Get('findAllUsers')

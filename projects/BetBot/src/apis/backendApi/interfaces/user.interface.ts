@@ -1,8 +1,12 @@
 export interface IUser {
   _id: string;
   userId: string;
+  discordGuildIdList: string | string[];
   name: string;
   walletId: string;
-  discordGuildIdList: string[];
-  __v: number;
+  userBets: {
+    activeBets: string[];
+    inactiveBets: string[];
+  };
+  __v: string;
 }

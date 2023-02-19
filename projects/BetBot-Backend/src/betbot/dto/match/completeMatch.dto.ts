@@ -1,4 +1,4 @@
-import { OmitType, PickType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { MatchDto } from '../match.dto';
 
 export class CompleteMatchDto extends PickType(MatchDto, [

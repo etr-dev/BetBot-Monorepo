@@ -1,5 +1,5 @@
 import { logServer } from '@utils/log';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { config as dotenvConfig } from 'dotenv';
 import { IMatch, IUser } from './interfaces';
 import {
@@ -199,14 +199,14 @@ export async function getUsersBets(
     });
 }
 
-export async function getUser(userData: IUser): Promise<GetUserResponse> {
-  const data = JSON.stringify(userData);
-
-  const config = {
+export async function getUser(
+  userData: Partial<IUser>,
+): Promise<GetUserResponse> {
+  const config: AxiosRequestConfig = {
     method: 'get',
     url: `${url}/betbot/user`,
     headers,
-    data,
+    params: userData,
   };
 
   return axios(config)

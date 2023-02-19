@@ -13,11 +13,13 @@ import { BetSelection } from './entities/enums/betSelection.enum';
 import { CompleteMatchDto } from './dto/match/completeMatch.dto';
 import {
   BetDocument,
+  Match,
   MatchDocument,
   UserDocument,
   WalletDocument,
 } from 'src/schemas';
 import { GetUserDto } from './dto/user/getUser.dto';
+import { Stats } from 'src/schemas/Nested/stats.schema';
 
 @Injectable()
 export class BetbotService {
@@ -70,12 +72,36 @@ export class BetbotService {
         inactiveBets: [],
         activeBets: [],
       },
+      stats: {
+        walletAmount: 500,
+        winnings: 0,
+        wins: 0,
+        losings: 0,
+        losses: 0,
+        winPercentage: 0,
+        bets: 0,
+        averageOdds: 0,
+        averageWinningOdds: 0,
+        averageLosingOdds: 0,
+      },
     });
     createdUser.updateOne({
       $set: {
         userBets: {
           inactiveBets: [],
           activeBets: [],
+        },
+        stats: {
+          walletAmount: 500,
+          winnings: 0,
+          wins: 0,
+          losings: 0,
+          losses: 0,
+          winPercentage: 0,
+          bets: 0,
+          averageOdds: 0,
+          averageWinningOdds: 0,
+          averageLosingOdds: 0,
         },
       },
     });
@@ -85,10 +111,78 @@ export class BetbotService {
   }
 
   //-----------------------------------------------------
-  //                CREATE USER
+  //                FIND USER
   //-----------------------------------------------------
   async findUser(getUserDto: GetUserDto) {
-    return this.userModel.find(getUserDto);
+    const data = await this.userModel.find(getUserDto);
+    return { message: 'COMPLETE', data };
+  }
+
+  //-----------------------------------------------------
+  //                CALC USER STATS
+  //-----------------------------------------------------
+  async calcStats(getUserDto: GetUserDto) {
+    const user = await this.userModel.findOne(getUserDto);
+    const wallet = await this.walletModel.findById(user.walletId);
+    if (!user) console.log('ERROR');
+
+    const previousBets = await this.betModel.find({
+      outcome: { $exists: true },
+      userId: user.userId,
+    });
+
+    let winningOdds = 0;
+    let losingOdds = 0;
+    const data: Partial<Stats> = {
+      walletAmount: wallet.amount,
+      winnings: 0,
+      wins: 0,
+      losings: 0,
+      losses: 0,
+      winPercentage: 0,
+      bets: previousBets.length,
+      averageOdds: 0,
+      averageWinningOdds: 0,
+      averageLosingOdds: 0,
+    };
+    for (const bet of previousBets) {
+      switch (bet.outcome) {
+        case 'WIN':
+          data.wins += 1;
+          data.winnings += bet.amountToWin;
+          winningOdds += Number(bet.wagerOdds);
+          break;
+        case 'LOSS':
+          data.losses += 1;
+          data.losings += Number(bet.wagerAmount);
+          losingOdds += Number(bet.wagerOdds);
+          break;
+      }
+    }
+
+    if (data.wins || data.losses) {
+      data.averageOdds = (winningOdds + losingOdds) / (data.wins + data.losses);
+      data.winPercentage = data.wins / (data.losses + data.wins);
+
+      if (data.wins) data.averageWinningOdds = winningOdds / data.wins;
+      if (data.losses) data.averageLosingOdds = losingOdds / data.losses;
+    }
+
+    user.stats.walletAmount = data.walletAmount;
+    user.stats.winnings = data.winnings;
+    user.stats.wins = data.wins;
+    user.stats.losings = data.losings;
+    user.stats.losses = data.losses;
+    user.stats.winPercentage = data.winPercentage;
+    user.stats.bets = data.bets;
+    user.stats.averageOdds = data.averageOdds;
+    user.stats.averageWinningOdds = data.averageWinningOdds;
+    user.stats.averageLosingOdds = data.averageLosingOdds;
+
+    user.stats = this.roundUserStats(user.stats);
+
+    user.save();
+    return { message: 'COMPLETE', data: user };
   }
 
   //-----------------------------------------------------
@@ -128,7 +222,7 @@ export class BetbotService {
   //                PLACE BET
   //-----------------------------------------------------
   async placeBet(placeBetDto: PlaceBetDto) {
-    const preExistingMatch = await this.matchModel.findOne({
+    const preExistingMatch: MatchDocument = await this.matchModel.findOne({
       _id: placeBetDto.matchId,
     });
 
@@ -150,6 +244,13 @@ export class BetbotService {
     }
     wallet.amount -= placeBetDto.wagerAmount;
     wallet.escrow += placeBetDto.wagerAmount;
+
+    const odds = preExistingMatch[placeBetDto.selectedCorner].odds;
+    user.stats.bets += 1;
+    // calculate the new average betting odds for the user
+    user.stats.averageOdds =
+      ((user.stats.bets - 1) * user.stats.averageOdds + odds) / user.stats.bets;
+
     await wallet.save();
     await bet.save();
     await user.save();
@@ -170,7 +271,9 @@ export class BetbotService {
       throw new MatchNotFoundException(completeMatchDto.matchTitle);
     }
 
-    const betsOnMatch = await this.betModel.find({ matchId: match._id });
+    const betsOnMatch: BetDocument[] = await this.betModel.find({
+      matchId: match._id,
+    });
 
     for (const bet of betsOnMatch) {
       const wallet = await this.walletModel.findById(bet.walletId);
@@ -207,18 +310,8 @@ export class BetbotService {
 
       user.userBets.activeBets.splice(index, 1);
       user.userBets.inactiveBets.push(bet._id);
-      // await this.matchModel.findOneAndUpdate(
-      //   {
-      //     eventTitle: completeMatchDto.eventTitle,
-      //     matchTitle: completeMatchDto.matchTitle,
-      //   },
-      //   {
-      //     $set: {
-      //       postMatchInfo: completeMatchDto.postMatchInfo,
-      //       isComplete: true,
-      //     },
-      //   },
-      // );
+
+      user.stats = this.updateUserStats(user.stats, bet);
       await bet.save();
       await user.save();
       await wallet.save();
@@ -304,6 +397,47 @@ export class BetbotService {
     const matches = await this.matchModel.find(query);
 
     return { message: 'COMPLETE', data: matches };
+  }
+
+  private updateUserStats(stats: Stats, bet: BetDocument) {
+    const odds = Number(bet.wagerOdds);
+    switch (bet.outcome) {
+      case 'WIN':
+        stats.winnings += bet.amountToWin;
+        stats.wins += 1;
+        stats.averageWinningOdds =
+          ((stats.wins - 1) * stats.averageWinningOdds + odds) / stats.wins;
+        break;
+      case 'DRAW':
+        stats.losings -= bet.wagerAmount;
+        stats.losses += 1; // This will change once allow people to bet draw
+        stats.averageLosingOdds =
+          ((stats.losses - 1) * stats.averageLosingOdds + odds) / stats.losses;
+        break;
+      case 'LOSS': // take money out of escrow
+        stats.losings += bet.wagerAmount;
+        stats.losses += 1;
+        stats.averageLosingOdds =
+          ((stats.losses - 1) * stats.averageLosingOdds + odds) / stats.losses;
+        break;
+    }
+    // Calculate win percentage
+    stats.winPercentage = stats.wins / (stats.wins + stats.losses);
+    stats = this.roundUserStats(stats);
+
+    return stats;
+  }
+
+  private roundUserStats(stats: Stats): Stats {
+    stats.walletAmount = Number(stats.walletAmount.toFixed(2));
+    stats.winnings = Number(stats.winnings.toFixed(2));
+    stats.losings = Number(stats.losings.toFixed(2));
+    stats.winPercentage = Number(stats.winPercentage.toFixed(2));
+    stats.averageOdds = Math.floor(stats.averageOdds);
+    stats.averageWinningOdds = Math.floor(stats.averageWinningOdds);
+    stats.averageLosingOdds = Math.floor(stats.averageLosingOdds);
+
+    return stats;
   }
 }
 

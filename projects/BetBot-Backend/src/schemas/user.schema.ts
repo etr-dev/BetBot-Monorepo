@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { Stats, StatsSchema } from './Nested/stats.schema';
 import { UserBets, UserBetsSchema } from './Nested/userBets.schema';
 import { Wallet } from './wallet.schema';
 
@@ -21,6 +22,9 @@ export class User {
 
   @Prop({ type: UserBetsSchema })
   userBets: UserBets;
+
+  @Prop({ type: StatsSchema })
+  stats: Stats;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
