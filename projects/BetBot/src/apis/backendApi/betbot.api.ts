@@ -1,7 +1,9 @@
 import { logServer } from '@utils/log';
 import axios, { AxiosRequestConfig } from 'axios';
 import { config as dotenvConfig } from 'dotenv';
+import QueryString from 'qs';
 import { IMatch, IUser } from './interfaces';
+import { IGetRequest } from './interfaces/get.interface';
 import {
   CompleteMatchRequest,
   CreateMatchRequest,
@@ -200,7 +202,7 @@ export async function getUsersBets(
 }
 
 export async function getUser(
-  userData: Partial<IUser>,
+  userData: Partial<IUser> | IGetRequest,
 ): Promise<GetUserResponse> {
   const config: AxiosRequestConfig = {
     method: 'get',

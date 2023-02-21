@@ -8,8 +8,8 @@ import {
 } from 'discord.js';
 import { config } from 'dotenv';
 import { checkMatches } from '@actions';
-import { sleep } from '@utils/functions';
 import * as findConfig from 'find-config';
+import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
 import { logServer } from './utils';
 import { BetSaga } from './sagas/bet/bet.saga';

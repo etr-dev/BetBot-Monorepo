@@ -46,14 +46,16 @@ export class BetbotService {
       userId: createUserDto.userId,
     });
 
-    if (
-      !preExistingUser.discordGuildIdList.includes(createUserDto.discordGuildId)
-    ) {
-      preExistingUser.discordGuildIdList.push(createUserDto.discordGuildId);
-      await preExistingUser.save();
-    }
-
     if (preExistingUser) {
+      if (
+        !preExistingUser.discordGuildIdList.includes(
+          createUserDto.discordGuildId,
+        )
+      ) {
+        preExistingUser.discordGuildIdList.push(createUserDto.discordGuildId);
+        await preExistingUser.save();
+      }
+
       return { message: 'FOUND', walletId: preExistingUser.walletId };
     }
 

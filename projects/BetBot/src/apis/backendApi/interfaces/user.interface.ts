@@ -8,5 +8,17 @@ export interface IUser {
     activeBets: string[];
     inactiveBets: string[];
   };
+  stats: {
+    walletAmount: number;
+    winnings: number;
+    wins: number;
+    losings: number;
+    losses: number;
+    winPercentage: number;
+    bets: number;
+    averageOdds: number;
+    averageWinningOdds: number;
+    averageLosingOdds: number;
+  };
   __v: string;
 }

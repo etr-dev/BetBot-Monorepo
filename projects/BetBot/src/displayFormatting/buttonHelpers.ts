@@ -1,5 +1,4 @@
 import { ButtonInteraction, ComponentType } from 'discord.js';
-import { logError } from '../utils';
 
 export async function getButtonInteraction(
   messageWithButtons,
@@ -18,8 +17,5 @@ export async function getButtonInteraction(
       time: timeout,
     })
     .then((interaction) => interaction)
-    .catch((err) => {
-      logError(err);
-      return undefined;
-    });
+    .catch((err) => undefined);
 }

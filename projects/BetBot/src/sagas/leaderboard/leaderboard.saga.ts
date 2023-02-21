@@ -12,6 +12,7 @@ export class LeaderboardSaga extends Saga {
     super();
     this.createTasks();
     this.linkTasksToFunctions();
+    this.defaultSagaInput({ sort: { 'sort[stats.walletAmount]': 'desc' } });
   }
 
   createTasks(): void {
@@ -21,6 +22,7 @@ export class LeaderboardSaga extends Saga {
 
     const taskErrorResponse = new Task('Error Response');
 
+    taskShowLeaderBoard.pass(taskGetGuildUsers);
     taskShowLeaderBoard.fail(taskErrorResponse);
 
     taskGetGuildUsers.pass(taskShowLeaderBoard);
