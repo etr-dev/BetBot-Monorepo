@@ -1,4 +1,4 @@
-import { getButtonInteraction } from '@displayFormatting/buttonHelpers';
+import { getButtonInteraction } from '@displayFormatting';
 import { embedCancellation } from '@displayFormatting/cancellation.embed';
 import { embedHistorySelection } from '@displayFormatting/historySelection.embed';
 import { messageBuilder } from '@displayFormatting/messageBuilder';

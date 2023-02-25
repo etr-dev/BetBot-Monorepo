@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getButtonInteraction } from '@displayFormatting/buttonHelpers';
+import { getButtonInteraction } from '@displayFormatting';
 import { embedCancellation } from '@displayFormatting/cancellation.embed';
 import { embedsToPages } from '@displayFormatting/embedsToPages';
 import { embedPlacedBet } from '@displayFormatting/fighterCard.embed';

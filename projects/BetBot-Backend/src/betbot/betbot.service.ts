@@ -238,6 +238,7 @@ export class BetbotService {
     user.userBets.activeBets.push(bet._id);
 
     const wallet = await this.walletModel.findById(placeBetDto.walletId);
+    if (!wallet) throw new Error('Wallet not found');
     if (placeBetDto.wagerAmount > wallet.amount) {
       throw new NotEnoughInWalletException(
         placeBetDto.wagerAmount,
@@ -247,15 +248,25 @@ export class BetbotService {
     wallet.amount -= placeBetDto.wagerAmount;
     wallet.escrow += placeBetDto.wagerAmount;
 
-    const odds = preExistingMatch[placeBetDto.selectedCorner].odds;
+    const odds = Number(placeBetDto.wagerOdds);
     user.stats.bets += 1;
     // calculate the new average betting odds for the user
     user.stats.averageOdds =
       ((user.stats.bets - 1) * user.stats.averageOdds + odds) / user.stats.bets;
 
-    await wallet.save();
-    await bet.save();
-    await user.save();
+    const session = await this.connection.startSession();
+    session.startTransaction();
+    try {
+      await wallet.save({ session });
+      await bet.save({ session });
+      await user.save({ session });
+      await session.commitTransaction();
+      session.endSession();
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      throw error;
+    }
 
     return { message: 'CREATED', betId: bet._id };
   }

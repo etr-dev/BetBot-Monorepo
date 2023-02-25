@@ -41,7 +41,7 @@ export async function getButtonInteraction(
       (uuid ? i.customId.includes(uuid) : true); // If UUID is provided check if it is included in customId
 
     if (res && deferUpdate) i.deferUpdate();
-    if (res && deferReply) i.deferUpdate();
+    if (res && deferReply) i.deferReply();
 
     return res;
   };

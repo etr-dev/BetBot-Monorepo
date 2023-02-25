@@ -1,12 +1,12 @@
-import { getButtonInteraction } from '@displayFormatting/buttonHelpers';
+import {
+  getButtonInteraction,
+  getSelectOptionInteraction,
+  listToSelectOptions,
+} from '@displayFormatting';
 import { embedCancellation } from '@displayFormatting/cancellation.embed';
 import { embedsToPages } from '@displayFormatting/embedsToPages';
 import { embedLeaderboard } from '@displayFormatting/leaderboard.embed';
 import { messageBuilder } from '@displayFormatting/messageBuilder';
-import {
-  getSelectOptionInteraction,
-  listToSelectOptions,
-} from '@displayFormatting';
 import {
   ActionRowBuilder,
   ButtonInteraction,
