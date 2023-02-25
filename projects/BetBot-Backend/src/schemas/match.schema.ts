@@ -4,7 +4,6 @@ import {
   PostMatchInfo,
   PostMatchInfoSchema,
 } from './Nested/postMatchInfo.schema';
-import { UserBets } from './Nested/userBets.schema';
 
 export type MatchDocument = Match & Document;
 
@@ -19,6 +18,7 @@ export class Match {
   @Prop()
   link: string;
 
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   @Prop()
   isComplete: boolean = false;
 

@@ -1,4 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
-import { User } from 'src/schemas';
+import { IsOptional } from 'class-validator';
+import { UserDto } from '../user.dto';
 
-export class GetUserDto extends PartialType(User) {}
+export class GetUserDto extends PartialType(UserDto) {
+  @IsOptional()
+  sort?: Record<string, 'asc' | 'desc'> = {};
+}

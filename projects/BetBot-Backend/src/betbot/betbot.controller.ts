@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Delete,
+  UseGuards,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { logServer } from 'src/utils/log';
 import { BetbotService } from './betbot.service';
@@ -9,7 +18,8 @@ import { CreateMatchDto } from './dto/match/createMatch.dto';
 import { GetMatchDto } from './dto/match/getMatch.dto';
 import { CompleteMatchDto } from './dto/match/completeMatch.dto';
 import { PlaceBetDto } from './dto/bet/placeBet.dto';
-
+import { GetUserDto } from './dto/user/getUser.dto';
+import { use } from 'passport';
 
 @Controller('betbot')
 @UseGuards(AuthGuard('api-key'))
@@ -42,7 +52,7 @@ export class BetbotController {
     logServer(`Completing match ${completeMatchDto.matchTitle}`);
     return this.betbotService.completeMatch(completeMatchDto);
   }
-  
+
   @Get('wallet')
   async wallet(@Body() getWalletDto: GetWalletDto) {
     return this.betbotService.wallet(getWalletDto);
@@ -61,6 +71,19 @@ export class BetbotController {
   @Get('getAllIncompleteMatchLinks')
   async getAllIncompleteMatchLinks() {
     return this.betbotService.getAllIncompleteMatchLinks();
+  }
+
+  @Get('user')
+  async findUser(@Query() getUserDto: GetUserDto) {
+    if (!Object.keys(getUserDto).length) return;
+
+    return this.betbotService.findUser(getUserDto);
+  }
+
+  @Post('user/:id/stats')
+  async calcStats(@Param('id') discordId: string) {
+    console.log(discordId);
+    return this.betbotService.calcStats({ userId: discordId });
   }
 
   @Get('findAllUsers')

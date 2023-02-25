@@ -1,7 +1,7 @@
 import { IBet } from '../interfaces/bet.interface';
 import { IMatch } from '../interfaces/match.interface';
 
-export interface GetUsersResponse {
+export interface GetUsersBetsResponse {
   message: string;
   data: BetsResponse[];
 }

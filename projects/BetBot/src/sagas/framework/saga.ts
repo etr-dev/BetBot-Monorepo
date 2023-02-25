@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { logError, logServer } from '@utils/log';
 import { v4 as uuidv4 } from 'uuid';
 import { TaskError } from './error';
@@ -22,13 +23,23 @@ export class Saga {
 
   protected firstTask: Task;
 
+  private defaultInput: any;
+
   constructor() {
     this.sagaId = uuidv4();
   }
 
   public setInitialInput(input: ITaskData): void {
     this.username = input.interaction.user.username;
-    this.firstTask.setInput({ ...input, sagaId: this.sagaId });
+    this.firstTask.setInput({
+      ...this.defaultInput,
+      ...input,
+      sagaId: this.sagaId,
+    });
+  }
+
+  protected defaultSagaInput(input: any): void {
+    this.defaultInput = input;
   }
 
   protected addTask(taskName: string, func: Function): void {
