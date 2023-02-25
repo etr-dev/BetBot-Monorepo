@@ -27,7 +27,6 @@ export async function showHistoryTask(input: ITaskData): Promise<ITaskData> {
   const res = await getButtonInteraction(
     pageSelectorMsg,
     input.interaction.user.id,
-    20000,
   );
 
   // END CASES:

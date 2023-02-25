@@ -2,15 +2,16 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   InteractionReplyOptions,
-  SelectMenuBuilder,
 } from 'discord.js';
 import { numberToEmoji, spliceIntoChunks } from '@utils/functions';
-import { listToSelectOptions } from './selectOption';
 
 interface IOptions {
   pageLength?: number;
   timeout?: boolean;
+  uuid?: string;
 }
+
+const addUUID = (uuid: string): string => (uuid ? `|${uuid}` : '');
 
 export function embedsToPages(
   embedList,
@@ -19,6 +20,7 @@ export function embedsToPages(
 ): InteractionReplyOptions {
   const pageLength = options ? options.pageLength : 5;
   const timeout = options ? options.timeout : false;
+  const uuid = options ? options.uuid : undefined;
 
   // eslint-disable-next-line no-param-reassign
   if (!selectedPage) selectedPage = 0;
@@ -57,19 +59,19 @@ export function embedsToPages(
     : // NORMAL BUTTONS
       new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-          .setCustomId(`${back}`)
+          .setCustomId(`${back}${addUUID(uuid)}`)
           .setStyle(2)
           .setEmoji('⬅️')
           .setDisabled(disableBack),
         new ButtonBuilder()
-          .setCustomId(`${next}`)
+          .setCustomId(`${next}${addUUID(uuid)}`)
           .setStyle(2)
           .setEmoji('➡️')
           .setDisabled(disableNext),
         new ButtonBuilder()
-          .setCustomId('Cancel')
+          .setCustomId(`Cancel${addUUID(uuid)}`)
           .setStyle(2)
-          .setLabel('Cancel')
+          .setLabel(`Cancel`)
           .setEmoji('🚫'),
         new ButtonBuilder()
           .setCustomId(`Page`)

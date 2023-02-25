@@ -6,7 +6,7 @@ import { messageBuilder } from '@displayFormatting/messageBuilder';
 import {
   getSelectOptionInteraction,
   listToSelectOptions,
-} from '@displayFormatting/selectOption';
+} from '@displayFormatting';
 import {
   ActionRowBuilder,
   ButtonInteraction,
@@ -27,6 +27,7 @@ export async function showLeaderboardTask(
     Object.keys(input.sort)[0].split('.')[1].slice(0, -1) || 'walletAmount';
   let count = 1;
   let statKeys = [];
+  const uniqueId = uuidv4();
   // eslint-disable-next-line no-restricted-syntax
   for (const user of input.guildUsers) {
     if (statKeys.length === 0) statKeys = Object.keys(user.stats);
@@ -49,7 +50,7 @@ export async function showLeaderboardTask(
 
   const selctor = new ActionRowBuilder().addComponents(
     new SelectMenuBuilder()
-      .setCustomId(`StatSort-${uuidv4()}`)
+      .setCustomId(`StatSort-${uniqueId}`)
       .setPlaceholder(sortChoice)
       .addOptions(
         listToSelectOptions(
@@ -59,7 +60,9 @@ export async function showLeaderboardTask(
       ),
   );
 
-  const msg = embedsToPages(userEmbeds, input.selectedPage || 0);
+  const msg = embedsToPages(userEmbeds, input.selectedPage || 0, {
+    uuid: uniqueId,
+  });
   msg.components.push(selctor as never);
 
   const leaderBoardMsg = await input.interaction.editReply(msg);
@@ -67,12 +70,12 @@ export async function showLeaderboardTask(
   const buttonRes = getButtonInteraction(
     leaderBoardMsg,
     input.interaction.user.id,
-    20000,
+    { uuid: uniqueId, deferUpdate: true },
   );
-
   const selectionRes = getSelectOptionInteraction(
     leaderBoardMsg,
     input.interaction.user.id,
+    { uuid: uniqueId, deferUpdate: true },
   );
 
   const response = await Promise.race([buttonRes, selectionRes]);
@@ -96,7 +99,7 @@ export async function showLeaderboardTask(
   }
 
   // Cancel
-  if (response.customId === 'Cancel') {
+  if (response.customId.startsWith('Cancel')) {
     throw new TaskError('Cancelled Leaderboard Viewing.', {
       interaction: input.interaction,
       action: 'EDIT',
@@ -118,10 +121,9 @@ export async function showLeaderboardTask(
     sort = input.sort;
   }
 
-  console.log(response.customId);
   const selectedPage =
     response instanceof ButtonInteraction<CacheType>
-      ? Number(response.customId)
+      ? Number(response.customId.split('|')[0])
       : input.selectedPage;
 
   return { selectedPage, sort };
