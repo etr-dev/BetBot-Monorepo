@@ -75,7 +75,6 @@ export class BetbotController {
 
   @Get('user')
   async findUser(@Query() getUserDto: GetUserDto) {
-    console.log(getUserDto);
     if (!Object.keys(getUserDto).length) return;
 
     return this.betbotService.findUser(getUserDto);
