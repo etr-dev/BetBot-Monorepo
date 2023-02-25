@@ -27,6 +27,7 @@ export async function showHistoryTask(input: ITaskData): Promise<ITaskData> {
   const res = await getButtonInteraction(
     pageSelectorMsg,
     input.interaction.user.id,
+    { deferUpdate: true },
   );
 
   // END CASES:
@@ -37,7 +38,9 @@ export async function showHistoryTask(input: ITaskData): Promise<ITaskData> {
       action: 'EDIT',
       message: messageBuilder(
         {
-          ...embedsToPages(historyEmbeds, input.selectedPage, {timeout: true}),
+          ...embedsToPages(historyEmbeds, input.selectedPage, {
+            timeout: true,
+          }),
           content: 'Response Timed out do /history again to select a new page.',
         },
         true,

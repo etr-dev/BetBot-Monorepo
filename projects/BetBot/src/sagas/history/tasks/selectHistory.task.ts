@@ -45,6 +45,7 @@ export async function selectHistoryTask(input: ITaskData): Promise<ITaskData> {
   const res = await getButtonInteraction(
     historySelectionMsg,
     input.interaction.user.id,
+    { deferUpdate: true },
   );
 
   if (!res) {
