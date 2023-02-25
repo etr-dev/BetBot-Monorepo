@@ -1,19 +1,26 @@
 import { logServer } from '@utils/log';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { config as dotenvConfig } from 'dotenv';
-import { IMatch } from './interfaces/match.interface';
-import { GetUsersBetsRequest } from './requests';
-import { CompleteMatchRequest } from './requests/completeMatch.request';
-import { CreateMatchRequest } from './requests/createMatch.request';
-import { CreateUserRequest } from './requests/createUser.request';
-import { PlaceBetRequest } from './requests/placeBet.request';
-import { GetUsersResponse } from './responses';
-import { CreateMatchResponse } from './responses/createMatch.response';
-import { CreateUserResponse } from './responses/createUser.response';
-import { GetAllIncompleteMatchLinksResponse } from './responses/getAllIncompleteMatchLinks.response';
-import { GetMatchResponse } from './responses/getMatch.response';
-import { GetWalletResponse } from './responses/getWallet.response';
-import { PlaceBetResponse } from './responses/placeBet.response';
+import QueryString from 'qs';
+import { IMatch, IUser } from './interfaces';
+import { IGetRequest } from './interfaces/get.interface';
+import {
+  CompleteMatchRequest,
+  CreateMatchRequest,
+  CreateUserRequest,
+  GetUsersBetsRequest,
+  PlaceBetRequest,
+} from './requests';
+import {
+  CreateMatchResponse,
+  CreateUserResponse,
+  GetAllIncompleteMatchLinksResponse,
+  GetMatchResponse,
+  GetUserResponse,
+  GetUsersBetsResponse,
+  GetWalletResponse,
+  PlaceBetResponse,
+} from './responses';
 
 dotenvConfig({ path: '../../.env' });
 
@@ -176,7 +183,7 @@ export async function placeBet(
 
 export async function getUsersBets(
   getUsersBetsRequest: GetUsersBetsRequest,
-): Promise<GetUsersResponse> {
+): Promise<GetUsersBetsResponse> {
   const data = JSON.stringify(getUsersBetsRequest);
 
   const config = {
@@ -184,6 +191,24 @@ export async function getUsersBets(
     url: `${url}/betbot/getUsersBets`,
     headers,
     data,
+  };
+
+  return axios(config)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(error.response.data);
+      return null;
+    });
+}
+
+export async function getUser(
+  userData: Partial<IUser> | IGetRequest,
+): Promise<GetUserResponse> {
+  const config: AxiosRequestConfig = {
+    method: 'get',
+    url: `${url}/betbot/user`,
+    headers,
+    params: userData,
   };
 
   return axios(config)

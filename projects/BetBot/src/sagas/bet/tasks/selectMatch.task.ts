@@ -1,7 +1,7 @@
 import { matchSelectMenu } from '@actions';
 import { embedCancellation } from '@displayFormatting/cancellation.embed';
 import { messageBuilder } from '@displayFormatting/messageBuilder';
-import { getSelectOptionInteraction } from '@displayFormatting/selectOption';
+import { getSelectOptionInteraction } from '@displayFormatting';
 import { embedTimeout } from '@displayFormatting/timeout.embed';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';

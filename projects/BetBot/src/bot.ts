@@ -8,13 +8,14 @@ import {
 } from 'discord.js';
 import { config } from 'dotenv';
 import { checkMatches } from '@actions';
-import { sleep } from '@utils/functions';
 import * as findConfig from 'find-config';
+import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
 import { logServer } from './utils';
 import { BetSaga } from './sagas/bet/bet.saga';
 import { WalletSaga } from './sagas/wallet/wallet.saga';
 import { HistorySaga } from './sagas/history/history.saga';
+import { LeaderboardSaga } from './sagas/leaderboard/leaderboard.saga';
 
 config({ path: findConfig('.env') });
 
@@ -32,7 +33,7 @@ async function setSlashCommands(): Promise<void> {
   const commands = [
     {
       name: 'bet',
-      description: 'bet some of your mula on a UFC fight.',
+      description: 'Bet some of your mula on a UFC fight.',
     },
     {
       name: 'history',
@@ -40,7 +41,11 @@ async function setSlashCommands(): Promise<void> {
     },
     {
       name: 'wallet',
-      description: 'view your money.',
+      description: 'View your money.',
+    },
+    {
+      name: 'leaderboard',
+      description: 'View the leaderboard for this discord server.',
     },
   ];
   try {
@@ -76,6 +81,11 @@ client.on('interactionCreate', async (interaction) => {
       const walletSaga = new WalletSaga();
       walletSaga.setInitialInput({ interaction: commandInteraction });
       walletSaga.startSaga();
+      break;
+    case 'leaderboard':
+      const leaderboardSaga = new LeaderboardSaga();
+      leaderboardSaga.setInitialInput({ interaction: commandInteraction });
+      leaderboardSaga.startSaga();
       break;
   }
 });

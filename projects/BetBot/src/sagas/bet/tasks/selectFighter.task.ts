@@ -1,5 +1,5 @@
 import { choiceMessage } from '@actions';
-import { getButtonInteraction } from '@displayFormatting/buttonHelpers';
+import { getButtonInteraction } from '@displayFormatting';
 import { embedCancellation } from '@displayFormatting/cancellation.embed';
 import { messageBuilder } from '@displayFormatting/messageBuilder';
 import { embedTimeout } from '@displayFormatting/timeout.embed';
@@ -22,6 +22,7 @@ export async function selectFighter(input: ITaskData): Promise<ITaskData> {
   const buttonInteraction = await getButtonInteraction(
     choiceMsg,
     input.interaction.user.id,
+    { deferUpdate: true },
   );
 
   // If the selection times out show timeout error message

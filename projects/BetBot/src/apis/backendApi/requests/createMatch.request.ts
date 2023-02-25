@@ -10,14 +10,16 @@ export class CreateMatchRequest {
     const {
       name: redName,
       image: redImage,
-      ...restBlue
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ...restRed
     } = ufcEvent.fights[selectedMatch].Red;
     this.Red = { name: redName, image: redImage };
 
     const {
       name: blueName,
       image: blueImage,
-      ...restRed
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ...restBlue
     } = ufcEvent.fights[selectedMatch].Blue;
     this.Blue = { name: blueName, image: blueImage };
   }
