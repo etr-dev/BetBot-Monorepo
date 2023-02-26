@@ -20,6 +20,10 @@ import {
 } from 'src/schemas';
 import { GetUserDto } from './dto/user/getUser.dto';
 import { Stats } from 'src/schemas/Nested/stats.schema';
+import {
+  DeleteMatchByIdDto,
+  DeleteMatchDto,
+} from './dto/match/deleteMatch.dto';
 
 @Injectable()
 export class BetbotService {
@@ -410,6 +414,18 @@ export class BetbotService {
     const matches = await this.matchModel.find(query);
 
     return { message: 'COMPLETE', data: matches };
+  }
+
+  async deleteMatch(deleteMatchDto: DeleteMatchDto | DeleteMatchByIdDto) {
+    let deletedDoc;
+
+    if ('id' in deleteMatchDto) {
+      deletedDoc = await this.matchModel.findByIdAndDelete(deleteMatchDto.id);
+    } else {
+      deletedDoc = await this.matchModel.deleteOne(deleteMatchDto);
+    }
+
+    return deletedDoc;
   }
 
   private updateUserStats(stats: Stats, bet: BetDocument) {
