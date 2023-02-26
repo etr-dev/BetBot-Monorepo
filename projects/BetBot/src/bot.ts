@@ -100,6 +100,7 @@ client.on('ready', async () => {
       await sleep(1000 * 20);
     }
   }
+  await sleep(1000 * 2);
   await checkMatches();
   setInterval(checkMatches, 1000 * 60 * 1); // 1000 * 60 seconds * 15 minutes
   logServer(`Logged in as ${client.user.tag}`);

@@ -20,6 +20,7 @@ import { CompleteMatchDto } from './dto/match/completeMatch.dto';
 import { PlaceBetDto } from './dto/bet/placeBet.dto';
 import { GetUserDto } from './dto/user/getUser.dto';
 import { use } from 'passport';
+import { DeleteMatchByIdDto, DeleteMatchDto } from './dto/match/deleteMatch.dto';
 
 @Controller('betbot')
 @UseGuards(AuthGuard('api-key'))
@@ -51,6 +52,18 @@ export class BetbotController {
   async matchComplete(@Body() completeMatchDto: CompleteMatchDto) {
     logServer(`Completing match ${completeMatchDto.matchTitle}`);
     return this.betbotService.completeMatch(completeMatchDto);
+  }
+
+  @Delete('match')
+  async deleteMatch(@Query() deleteMatchDto: DeleteMatchDto) {
+    const data = await this.betbotService.deleteMatch(deleteMatchDto);
+    return { message: 'COMPLETE', data };
+  }
+
+  @Delete('match/:id')
+  async deleteMatchById(@Param() matchId: DeleteMatchByIdDto) {
+    const data = await this.betbotService.deleteMatch(matchId);
+    return { message: 'COMPLETE', data };
   }
 
   @Get('wallet')
