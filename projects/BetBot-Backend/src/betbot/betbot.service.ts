@@ -328,7 +328,6 @@ export class BetbotService {
       user.userBets.activeBets.splice(index, 1);
       user.userBets.inactiveBets.push(bet._id);
       user.stats.walletAmount = wallet.amount;
-
       user.stats = this.updateUserStats(user.stats, bet);
 
       const session = await this.connection.startSession();
