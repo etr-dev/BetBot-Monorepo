@@ -327,11 +327,22 @@ export class BetbotService {
 
       user.userBets.activeBets.splice(index, 1);
       user.userBets.inactiveBets.push(bet._id);
-
+      user.stats.walletAmount = wallet.amount;
       user.stats = this.updateUserStats(user.stats, bet);
-      await bet.save();
-      await user.save();
-      await wallet.save();
+
+      const session = await this.connection.startSession();
+      session.startTransaction();
+      try {
+        await wallet.save({ session });
+        await bet.save({ session });
+        await user.save({ session });
+        await session.commitTransaction();
+        session.endSession();
+      } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+      }
     }
 
     await match.updateOne({
