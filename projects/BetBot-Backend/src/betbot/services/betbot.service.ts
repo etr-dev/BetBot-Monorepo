@@ -11,9 +11,19 @@ import {
   WalletDocument,
 } from 'src/schemas';
 import { Stats } from 'src/schemas/Nested/stats.schema';
-import { CreateUserDto, GetUserDto, GetWalletDto, CreateMatchDto, PlaceBetDto, CompleteMatchDto, GetUsersBetsDto, GetMatchDto, DeleteMatchDto, DeleteMatchByIdDto } from './dto';
-import { BetSelection } from './entities/enums/betSelection.enum';
-
+import {
+  CompleteMatchDto,
+  CreateMatchDto,
+  CreateUserDto,
+  DeleteMatchByIdDto,
+  DeleteMatchDto,
+  GetMatchDto,
+  GetUserDto,
+  GetUsersBetsDto,
+  GetWalletDto,
+  PlaceBetDto,
+} from '../dto';
+import { BetSelection } from '../entities/enums/betSelection.enum';
 @Injectable()
 export class BetbotService {
   constructor(

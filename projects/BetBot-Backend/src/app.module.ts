@@ -6,7 +6,7 @@ import { UfcModule } from './ufc/ufc.module';
 import { BetbotModule } from './betbot/betbot.module';
 import { AppController, AppService } from './app';
 
-config({ path: ('../../.env') });
+config({ path: '../../.env' });
 @Module({
   imports: [ConfigModule.forRoot(), AuthModule, UfcModule, BetbotModule],
   controllers: [AppController],

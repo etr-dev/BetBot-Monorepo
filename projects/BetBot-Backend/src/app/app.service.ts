@@ -4,10 +4,11 @@ import { Connection } from 'mongoose';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectConnection('BetBot') private connection: Connection) {
-  }
+  constructor(@InjectConnection('BetBot') private connection: Connection) {}
 
   health(): string {
-    return this.connection ? `App is running and database is connected! PORT: ${process.env.PORT}` : `App is running but database is not connected. PORT: ${process.env.PORT}`
+    return this.connection
+      ? `App is running and database is connected! PORT: ${process.env.PORT}`
+      : `App is running but database is not connected. PORT: ${process.env.PORT}`;
   }
 }
