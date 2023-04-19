@@ -5,9 +5,9 @@ import {
   matchFeature,
   userFeature,
   walletFeature,
-} from 'src/schemas';
-import { BetbotController } from './betbot.controller';
-import { BetbotService } from './betbot.service';
+} from '../schemas';
+import { BetController, MatchController, UserController, WalletController } from './controllers';
+import { BetbotService } from './services/betbot.service';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { BetbotService } from './betbot.service';
       'BetBot',
     ),
   ],
-  controllers: [BetbotController],
+  controllers: [BetController, MatchController, UserController, WalletController],
   providers: [BetbotService],
 })
 export class BetbotModule {}

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { BetbotService } from '../betbot.service';
+import { BetbotService } from '../services/betbot.service';
 import { GetWalletDto } from '../dto';
 
 @Controller('betbot')

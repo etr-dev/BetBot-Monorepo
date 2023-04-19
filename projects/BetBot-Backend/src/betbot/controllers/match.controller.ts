@@ -11,7 +11,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Match } from 'src/schemas';
 import { logServer } from 'src/utils/log';
-import { BetbotService } from '../betbot.service';
+import { BetbotService } from '../services/betbot.service';
 import {
   CreateMatchDto,
   CompleteMatchDto,
