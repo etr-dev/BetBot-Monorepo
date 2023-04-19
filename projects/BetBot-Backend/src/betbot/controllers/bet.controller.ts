@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { logServer } from 'src/utils/log';
-import { BetbotService } from '../betbot.service';
+import { BetbotService } from '../services/betbot.service';
 import { PlaceBetDto, GetUsersBetsDto } from '../dto';
 
 @Controller('betbot')
