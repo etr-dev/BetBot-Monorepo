@@ -16,6 +16,7 @@
       // "@schemas": ["src/schemas"],
       // "@schemas/*": ["src/schemas/*"],
       // "@root": ["../../"]
+      "@betbot/dto/*": ["src/betbot/dto/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

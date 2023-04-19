@@ -1,11 +1,11 @@
 export class UfcEvent {
-    eventTitle: string;
+  eventTitle: string;
 
-    url: string;
+  url: string;
 
-    date: string;
+  date: string;
 
-    image: string;
-    
-    fights: object;
+  image: string;
+
+  fights: object;
 }

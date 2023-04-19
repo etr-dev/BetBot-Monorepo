@@ -1,10 +1,10 @@
-import { UfcFighterInfo } from "./fighterInfor.interface";
-import { UfcMatchDetails } from "./matchDetails.interface";
+import { UfcFighterInfo } from './fighterInfor.interface';
+import { UfcMatchDetails } from './matchDetails.interface';
 
 export interface UfcMatchInfo {
-    details: UfcMatchDetails;
+  details: UfcMatchDetails;
 
-    Red: UfcFighterInfo;
-    
-    Blue: UfcFighterInfo;
+  Red: UfcFighterInfo;
+
+  Blue: UfcFighterInfo;
 }

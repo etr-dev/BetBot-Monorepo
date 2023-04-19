@@ -11,16 +11,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { logServer } from 'src/utils/log';
 import { BetbotService } from './betbot.service';
-import { CreateUserDto } from './dto/user/createUser.dto';
-import { GetUsersBetsDto } from './dto/user/getUsersBets.dto';
-import { GetWalletDto } from './dto/wallet/getWallet.dto';
-import { CreateMatchDto } from './dto/match/createMatch.dto';
-import { GetMatchDto } from './dto/match/getMatch.dto';
-import { CompleteMatchDto } from './dto/match/completeMatch.dto';
-import { PlaceBetDto } from './dto/bet/placeBet.dto';
-import { GetUserDto } from './dto/user/getUser.dto';
-import { use } from 'passport';
-import { DeleteMatchByIdDto, DeleteMatchDto } from './dto/match/deleteMatch.dto';
+import { CreateUserDto, CreateMatchDto, PlaceBetDto, CompleteMatchDto, DeleteMatchDto, DeleteMatchByIdDto, GetWalletDto, GetUsersBetsDto, GetMatchDto, GetUserDto } from './dto';
 
 @Controller('betbot')
 @UseGuards(AuthGuard('api-key'))
