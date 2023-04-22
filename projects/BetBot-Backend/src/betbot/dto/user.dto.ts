@@ -35,5 +35,6 @@ export class UserDto {
 
   @ValidateNested()
   @Type(() => UserBetsDto)
+  @ApiProperty({ type: () => UserBetsDto })
   userBets: UserBetsDto;
 }
