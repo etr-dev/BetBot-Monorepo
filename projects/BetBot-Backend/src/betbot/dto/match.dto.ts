@@ -6,30 +6,46 @@ import { PostMatchInfoDto } from './match/nested/postMatchInfo.dto';
 
 export class MatchDto {
   @IsString()
+  @ApiProperty({
+    description: "The title of the UFC Event.",
+    example: 'UFC Fight Night March 11 2023'
+  })
   eventTitle: string;
 
   @IsString()
+  @ApiProperty({
+    description: "The title of the UFC match, typically fighter vs fighter.",
+    example: 'Petr Yan vs Merab Dvalishvili'
+  })
   matchTitle: string;
 
   @IsString()
   @IsUrl()
   @ApiProperty({
     description: 'The link to the event, not the specific match.',
+    example: "https://www.ufc.com/event/ufc-fight-night-march-11-2023",
   })
   link: string;
 
   @IsBoolean()
+  @ApiProperty({
+    description: 'Has the match been completed.',
+    example: true,
+  })
   isComplete: boolean;
 
   @ValidateNested()
   @Type(() => CornerDetailsDto)
+  @ApiProperty({ type: () => CornerDetailsDto })
   Red: CornerDetailsDto;
 
   @ValidateNested()
   @Type(() => CornerDetailsDto)
+  @ApiProperty({ type: () => CornerDetailsDto })
   Blue: CornerDetailsDto;
 
   @ValidateNested()
   @Type(() => PostMatchInfoDto)
+  @ApiProperty({ type: () => PostMatchInfoDto })
   postMatchInfo: PostMatchInfoDto;
 }
