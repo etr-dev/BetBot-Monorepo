@@ -1,9 +1,19 @@
 import { ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
-import { GetMatchResponse } from "src/betbot/entities";
 import { applyDecorators } from '@nestjs/common';
-import { DeleteMatchResponse } from "src/betbot/entities/responses/deleteMatch.response";
-import { CompleteMatchResponse } from "src/betbot/entities/responses/completeMatch.response";
+import { CompleteMatchResponse, CreateMatchResponse, DeleteMatchResponse, GetMatchResponse } from "../../entities";
 
+export function CreateMatch(): MethodDecorator {
+    return applyDecorators(
+        ApiOperation({
+            summary: 'Create UFC Match',
+            description: `When a user bets on a match this should be called if the match does not already exist`,
+        }),
+        ApiOkResponse({
+            description: `Created match`,
+            type: CreateMatchResponse,
+        }),
+    )
+}
 
 export function GetMatch(): MethodDecorator {
     return applyDecorators(

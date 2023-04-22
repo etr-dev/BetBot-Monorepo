@@ -20,7 +20,7 @@ import {
   GetMatchDto,
 } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
-import { DeleteMatch, DeleteMatchById, GetMatch } from './api-descriptions/match.api';
+import { CompleteMatch, CreateMatch, DeleteMatch, DeleteMatchById, GetMatch } from './api-descriptions/match.api';
 import { SecurityHeader } from './api-descriptions/headers.api';
 
 @Controller('betbot')
@@ -31,12 +31,14 @@ export class MatchController {
 
   @Post('match')
   @SecurityHeader()
+  @CreateMatch()
   async createMatch(@Body() createMatchDto: CreateMatchDto) {
     return this.betbotService.createMatch(createMatchDto);
   }
 
   @Post('match/complete')
   @SecurityHeader()
+  @CompleteMatch()
   async matchComplete(@Body() completeMatchDto: CompleteMatchDto) {
     logServer(`Completing match ${completeMatchDto.matchTitle}`);
     return this.betbotService.completeMatch(completeMatchDto);
