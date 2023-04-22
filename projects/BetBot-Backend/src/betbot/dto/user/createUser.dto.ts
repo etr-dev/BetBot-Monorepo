@@ -8,5 +8,9 @@ export class CreateUserDto extends PickType(UserDto, [
   'name',
 ] as const) {
   @IsNumberString()
+  @ApiProperty({
+    description: 'The discord guild id of the discord server that the user is in.',
+    example: '211663642280722433',
+  }) 
   discordGuildId: string;
 }

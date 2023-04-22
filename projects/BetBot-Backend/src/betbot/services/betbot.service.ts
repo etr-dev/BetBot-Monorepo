@@ -24,6 +24,7 @@ import {
   PlaceBetDto,
 } from '../dto';
 import { BetSelection } from '../entities/enums/betSelection.enum';
+import { PlaceBetResponse } from '../entities';
 @Injectable()
 export class BetbotService {
   constructor(
@@ -226,7 +227,7 @@ export class BetbotService {
   //-----------------------------------------------------
   //                PLACE BET
   //-----------------------------------------------------
-  async placeBet(placeBetDto: PlaceBetDto) {
+  async placeBet(placeBetDto: PlaceBetDto): Promise<PlaceBetResponse> {
     const preExistingMatch: MatchDocument = await this.matchModel.findOne({
       _id: placeBetDto.matchId,
     });
