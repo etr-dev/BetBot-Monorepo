@@ -13,6 +13,7 @@ import { PlaceBetDto, GetUsersBetsDto } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
 import { GetBets, PlaceBet } from './api-descriptions/bet.api';
 import { PlaceBetResponse } from '../entities';
+import { SecurityHeader } from './api-descriptions/headers.api';
 
 @Controller('betbot')
 @ApiTags('BetBot', 'Bet')
@@ -21,6 +22,7 @@ export class BetController {
   constructor(private readonly betbotService: BetbotService) {}
 
   @Post('bet')
+  @SecurityHeader()
   @PlaceBet()
   async placeBet(@Body() placeBetDto: PlaceBetDto): Promise<PlaceBetResponse> {
     logServer(`Bet placed by ${placeBetDto.userId}`);
@@ -28,10 +30,9 @@ export class BetController {
   }
 
   @Get('bet/user')
+  @SecurityHeader()
   @GetBets()
-  async getActiveBets(
-    @Query() getUsersBetsDto: GetUsersBetsDto,
-  ) {
+  async getActiveBets(@Query() getUsersBetsDto: GetUsersBetsDto ) {
     return this.betbotService.getUsersBets(getUsersBetsDto);
   }
 }
