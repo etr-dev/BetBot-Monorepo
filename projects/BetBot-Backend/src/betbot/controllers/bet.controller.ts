@@ -10,26 +10,28 @@ import { AuthGuard } from '@nestjs/passport';
 import { logServer } from 'src/utils/log';
 import { BetbotService } from '../services/betbot.service';
 import { PlaceBetDto, GetUsersBetsDto } from '../dto';
+import { ApiTags } from '@nestjs/swagger';
+import { GetBets, PlaceBet } from './api-descriptions/bet.api';
+import { PlaceBetResponse } from '../entities';
 
 @Controller('betbot')
+@ApiTags('BetBot', 'Bet')
 @UseGuards(AuthGuard('api-key'))
 export class BetController {
   constructor(private readonly betbotService: BetbotService) {}
 
   @Post('bet')
-  async placeBet(@Body() placeBetDto: PlaceBetDto) {
+  @PlaceBet()
+  async placeBet(@Body() placeBetDto: PlaceBetDto): Promise<PlaceBetResponse> {
     logServer(`Bet placed by ${placeBetDto.userId}`);
     return this.betbotService.placeBet(placeBetDto);
   }
 
-  @Get('bet/user/:id')
+  @Get('bet/user')
+  @GetBets()
   async getActiveBets(
-    @Param('id') discordId: string,
-    @Query() getUsersBetsDto: Omit<GetUsersBetsDto, 'userId'>,
+    @Query() getUsersBetsDto: GetUsersBetsDto,
   ) {
-    return this.betbotService.getUsersBets({
-      userId: discordId,
-      ...getUsersBetsDto,
-    });
+    return this.betbotService.getUsersBets(getUsersBetsDto);
   }
 }

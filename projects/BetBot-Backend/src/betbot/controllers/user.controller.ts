@@ -10,8 +10,10 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { BetbotService } from '../services/betbot.service';
 import { CreateUserDto, GetUserDto, GetUsersBetsDto } from '../dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('betbot')
+@ApiTags('BetBot', 'User')
 @UseGuards(AuthGuard('api-key'))
 export class UserController {
   constructor(private readonly betbotService: BetbotService) {}
@@ -29,14 +31,8 @@ export class UserController {
   }
 
   @Get('user/:id/bet')
-  async getActiveBets(
-    @Param('id') discordId: string,
-    @Query() getUsersBetsDto: Omit<GetUsersBetsDto, 'userId'>,
-  ) {
-    return this.betbotService.getUsersBets({
-      userId: discordId,
-      ...getUsersBetsDto,
-    });
+  async getActiveBets(@Query() getUsersBetsDto: GetUsersBetsDto) {
+    return this.betbotService.getUsersBets(getUsersBetsDto);
   }
 
   @Post('user/:id/stats')

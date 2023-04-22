@@ -19,8 +19,10 @@ import {
   DeleteMatchByIdDto,
   GetMatchDto,
 } from '../dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('betbot')
+@ApiTags('BetBot', 'Match')
 @UseGuards(AuthGuard('api-key'))
 export class MatchController {
   constructor(private readonly betbotService: BetbotService) {}
