@@ -1,6 +1,6 @@
 import { ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { applyDecorators } from '@nestjs/common';
-import { CompleteMatchControllerResponse, CreateMatchControllerResponse, DeleteMatchControllerResponse, GetMatchesControllerResponse } from "src/betbot/entities";
+import { CompleteMatchControllerResponse, CreateMatchControllerResponse, DeleteMatchControllerResponse, GetMatchesControllerResponse } from "../../entities";
 export function CreateMatch(): MethodDecorator {
     return applyDecorators(
         ApiOperation({

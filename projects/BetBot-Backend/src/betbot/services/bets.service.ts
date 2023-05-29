@@ -5,8 +5,7 @@ import { NotEnoughInWalletException } from "src/exceptions/notEnoughInWallet.exc
 import { BetDocument, MatchDocument, UserDocument, WalletDocument } from "src/schemas";
 import { GetUsersBetsDto, PlaceBetDto } from "../dto";
 import { BetSelection } from "../entities";
-import { GetBetsServiceResponse } from "../entities/responses/bets/getUserBets.response";
-import { PlaceBetsServiceResponse } from "../entities/responses/bets/placeBet.response";
+import { PlaceBetsServiceResponse, GetBetsServiceResponse } from "../entities";
 
 export class BetService {
     constructor(

@@ -1,7 +1,7 @@
 
 import { ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { applyDecorators } from '@nestjs/common';
-import { GetWalletByIdControllerResponse } from "src/betbot/entities";
+import { GetWalletByIdControllerResponse } from "../../entities";
 
 export function GetWalletById(): MethodDecorator {
     return applyDecorators(
