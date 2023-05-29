@@ -1,6 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { BetDocument } from "src/schemas";
 
-export class CompleteMatchResponse {
+export type CompleteMatchServiceResponse = BetDocument['_id'][];
+
+export class CompleteMatchControllerResponse {
     @ApiProperty({
         example: 'COMPLETE'
     })
@@ -10,5 +13,5 @@ export class CompleteMatchResponse {
         isArray: true,
         example: ['640a00faf89f0f55c90003f4', '640116784143af16477aec95']
      })
-    betId: string[]
+    data: CompleteMatchServiceResponse
 }

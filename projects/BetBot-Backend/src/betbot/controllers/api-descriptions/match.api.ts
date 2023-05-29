@@ -1,7 +1,6 @@
 import { ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { applyDecorators } from '@nestjs/common';
-import { CompleteMatchResponse, CreateMatchResponse, DeleteMatchResponse, GetMatchResponse } from "../../entities";
-
+import { CompleteMatchControllerResponse, CreateMatchControllerResponse, DeleteMatchControllerResponse, GetMatchControllerResponse } from "src/betbot/entities";
 export function CreateMatch(): MethodDecorator {
     return applyDecorators(
         ApiOperation({
@@ -10,7 +9,7 @@ export function CreateMatch(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Created match`,
-            type: CreateMatchResponse,
+            type: CreateMatchControllerResponse,
         }),
     )
 }
@@ -23,7 +22,7 @@ export function GetMatch(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `A list of matches that match input`,
-            type: GetMatchResponse,
+            type: GetMatchControllerResponse,
         }),
     )
 }
@@ -36,7 +35,7 @@ export function DeleteMatch(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Delete match info`,
-            type: DeleteMatchResponse,
+            type: DeleteMatchControllerResponse,
         }),
     )
 }
@@ -49,7 +48,7 @@ export function DeleteMatchById(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Delete match info`,
-            type: DeleteMatchResponse,
+            type: DeleteMatchControllerResponse,
         }),
     )
 }
@@ -62,7 +61,7 @@ export function CompleteMatch(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Completed match`,
-            type: CompleteMatchResponse,
+            type: CompleteMatchControllerResponse,
         }),
     )
 }

@@ -1,12 +1,19 @@
 import { MatchDto } from "@betbot/dto/match.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { DeleteResult } from "mongodb";
 
-export class DeleteMatchResponse {
+export type DeleteMatchServiceResponse = DeleteResult;
+export class DeleteMatchControllerResponse {
     @ApiProperty({
-        example: 'COMPLETE'
+        example: 'DELETED'
     })
-    message: 'COMPLETE';
+    message: 'DELETED';
 
-    @ApiProperty({ type: MatchDto })
-    data: MatchDto;
+    @ApiProperty({
+        example: {
+            acknowledged: true,
+            deletedCount: 1,
+        }
+    })
+    data: DeleteMatchServiceResponse;
 }

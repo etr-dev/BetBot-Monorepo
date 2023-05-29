@@ -1,13 +1,16 @@
+import { MatchDto } from "@betbot/dto/match.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { MatchDocument } from "src/schemas";
 
-export class CreateMatchResponse {
+export type CreateMatchServiceResponse = MatchDocument;
+export class CreateMatchControllerResponse {
     @ApiProperty({
-        example: 'COMPLETE'
+        example: 'CREATED'
     })
-    message: 'COMPLETE';
+    message: 'CREATED';
 
     @ApiProperty({
-        example: '64000afb4143af16477ae354',
+        example: '640a00fafd9f0f55c90003f1'
     })
-    matchId: string;
+    data: CreateMatchServiceResponse['id']
 }
