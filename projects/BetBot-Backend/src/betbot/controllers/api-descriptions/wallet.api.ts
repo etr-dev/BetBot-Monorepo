@@ -4,6 +4,7 @@ import { ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { applyIsOptionalDecorator } from "@nestjs/mapped-types";
 import { applyDecorators } from '@nestjs/common';
 import { WalletDto } from "@betbot/dto/wallet.dto";
+import { FindWalletControllerResponse } from "src/betbot/entities";
 
 export function GetWallet(): MethodDecorator {
     return applyDecorators(
@@ -13,7 +14,7 @@ export function GetWallet(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `The user's wallet`,
-            type: WalletDto,
+            type: FindWalletControllerResponse,
         })
     )
 }
