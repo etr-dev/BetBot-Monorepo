@@ -1,6 +1,6 @@
 import { ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { applyDecorators } from '@nestjs/common';
-import { CompleteMatchControllerResponse, CreateMatchControllerResponse, DeleteMatchControllerResponse, GetMatchControllerResponse } from "src/betbot/entities";
+import { CompleteMatchControllerResponse, CreateMatchControllerResponse, DeleteMatchControllerResponse, GetMatchesControllerResponse } from "src/betbot/entities";
 export function CreateMatch(): MethodDecorator {
     return applyDecorators(
         ApiOperation({
@@ -14,7 +14,7 @@ export function CreateMatch(): MethodDecorator {
     )
 }
 
-export function GetMatch(): MethodDecorator {
+export function GetMatches(): MethodDecorator {
     return applyDecorators(
         ApiOperation({
             summary: 'Get UFC Match',
@@ -22,7 +22,7 @@ export function GetMatch(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `A list of matches that match input`,
-            type: GetMatchControllerResponse,
+            type: GetMatchesControllerResponse,
         }),
     )
 }

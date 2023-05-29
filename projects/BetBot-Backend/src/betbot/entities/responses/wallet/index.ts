@@ -1,1 +1,1 @@
-export * from './findWallet.response'
+export * from './getWalletById.response'

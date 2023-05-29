@@ -17,10 +17,10 @@ import {
   DeleteMatchByIdDto,
   GetMatchDto,
 } from '../dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CompleteMatch, CreateMatch, DeleteMatch, DeleteMatchById, GetMatch } from './api-descriptions/match.api';
+import { ApiTags } from '@nestjs/swagger';
+import { CompleteMatch, CreateMatch, DeleteMatch, DeleteMatchById, GetMatches } from './api-descriptions/match.api';
 import { SecurityHeader } from './api-descriptions/headers.api';
-import { CompleteMatchControllerResponse, CompleteMatchServiceResponse, CreateMatchControllerResponse, CreateMatchServiceResponse, DeleteMatchControllerResponse, DeleteMatchServiceResponse, GetMatchControllerResponse, GetMatchServiceResponse } from '../entities';
+import { CompleteMatchControllerResponse, CompleteMatchServiceResponse, CreateMatchControllerResponse, CreateMatchServiceResponse, DeleteMatchControllerResponse, DeleteMatchServiceResponse, GetMatchesControllerResponse, GetMatchesServiceResponse } from '../entities';
 import { MatchService } from '../services/match.service';
 
 @Controller('betbot')
@@ -64,9 +64,9 @@ export class MatchController {
 
   @Get('match')
   @SecurityHeader()
-  @GetMatch()
-  async findMatch(@Body() getMatchDto: GetMatchDto): Promise<GetMatchControllerResponse> {
-    const matches: GetMatchServiceResponse = await this.matchService.getMatch(getMatchDto);
+  @GetMatches()
+  async getMatches(@Body() getMatchDto: GetMatchDto): Promise<GetMatchesControllerResponse> {
+    const matches: GetMatchesServiceResponse = await this.matchService.getMatch(getMatchDto);
     return { message: 'FOUND', data: matches };
   }
 }

@@ -2,9 +2,9 @@ import { MatchDto } from "@betbot/dto/match.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { MatchDocument } from "src/schemas";
 
-export type GetMatchServiceResponse = MatchDocument[];
+export type GetMatchesServiceResponse = MatchDocument[];
 
-export class GetMatchControllerResponse {
+export class GetMatchesControllerResponse {
     @ApiProperty({
         example: 'FOUND'
     })
@@ -14,5 +14,5 @@ export class GetMatchControllerResponse {
         type: MatchDto,
         isArray: true,
     })
-    data: GetMatchServiceResponse;
+    data: GetMatchesServiceResponse;
 }

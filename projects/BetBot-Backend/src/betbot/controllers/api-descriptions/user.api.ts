@@ -1,6 +1,6 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation } from "@nestjs/swagger";
-import { CalcStatsControllerResponse, CreateUserControllerResponse, FindUserControllerResponse, GetBetsControllerResponse, PlaceBetControllerResponse } from '../../entities';
+import { CalcStatsControllerResponse, CreateUserControllerResponse, GetUsersControllerResponse } from '../../entities';
 
 export function CreateUser(): MethodDecorator {
     return applyDecorators(
@@ -31,7 +31,7 @@ export function FindUser(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Successful retrieval of user.`,
-            type: FindUserControllerResponse,
+            type: GetUsersControllerResponse,
         }),
     )
 }

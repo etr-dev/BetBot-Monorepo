@@ -1,9 +1,9 @@
 import { InjectConnection, InjectModel } from "@nestjs/mongoose";
 import { Connection, Model } from "mongoose";
-import { BetDocument, MatchDocument, UserDocument, WalletDocument } from "src/schemas";
+import { BetDocument, UserDocument, WalletDocument } from "src/schemas";
 import { Stats } from "src/schemas/Nested/stats.schema";
 import { CreateUserDto, GetUserDto } from "../dto";
-import { CalcStatsServiceResponse, CreateUserServiceResponse, FindUserServiceResponse } from "../entities";
+import { CalcStatsServiceResponse, CreateUserServiceResponse, GetUsersServiceResponse } from "../entities";
 
 export class UserService {
     constructor(
@@ -84,7 +84,7 @@ export class UserService {
     return createdUser;
   }
 
-  async findUser(getUserDto: GetUserDto): Promise<FindUserServiceResponse> {
+  async getUsers(getUserDto: GetUserDto): Promise<GetUsersServiceResponse> {
     const data = await this.userModel.find(getUserDto).sort(getUserDto.sort);
     return data;
   }

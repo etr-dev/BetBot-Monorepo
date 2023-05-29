@@ -2,8 +2,8 @@ import { WalletDto } from "@betbot/dto/wallet.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { WalletDocument } from "../../../../schemas";
 
-export type FindWalletServiceResponse = WalletDocument;
-export class FindWalletControllerResponse {
+export type GetWalletByIdServiceResponse = WalletDocument;
+export class GetWalletByIdControllerResponse {
     @ApiProperty({
         example: 'FOUND'
     })
@@ -12,5 +12,5 @@ export class FindWalletControllerResponse {
     @ApiProperty({
         type: WalletDto
     })
-    data: FindWalletServiceResponse;
+    data: GetWalletByIdServiceResponse;
 }
