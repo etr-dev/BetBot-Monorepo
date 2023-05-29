@@ -1,14 +1,17 @@
+import { UserDto } from "@betbot/dto/user.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { User } from "../../../../schemas";
+import { UserDocument } from "../../../../schemas";
 
-export class CalcStatsResponse {
+export type CalcStatsServiceResponse = UserDocument;
+
+export class CalcStatsControllerResponse {
     @ApiProperty({
         example: 'CREATED'
     })
     message: 'COMPLETE';
 
     @ApiProperty({
-        example: '6312f198fab84e025633c4f7'
+        type: UserDto
     })
-    data: User;
+    data: CalcStatsServiceResponse;
 }

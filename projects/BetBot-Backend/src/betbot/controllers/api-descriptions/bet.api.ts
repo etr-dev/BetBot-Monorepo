@@ -21,7 +21,7 @@ export function PlaceBet(): MethodDecorator {
 export function GetBets(): MethodDecorator {
     return applyDecorators(
         ApiOperation({
-            summary: 'Get bets that user has active.',
+            summary: 'Get bets that user has placed.',
             description: `
             Endpoint used to place a bet. Will attach the bet to active bets under the
             user who placed it and remove the amount from their wallet. 

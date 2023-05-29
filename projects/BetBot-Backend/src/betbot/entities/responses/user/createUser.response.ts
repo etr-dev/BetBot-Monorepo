@@ -1,14 +1,17 @@
+import { UserDto } from "@betbot/dto/user.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { Wallet } from "../../../../schemas";
+import { UserDocument } from "../../../../schemas";
 
-export class CreateUserResponse {
+export type CreateUserServiceResponse = UserDocument;
+
+export class CreateUserControllerResponse {
     @ApiProperty({
         example: 'CREATED'
     })
     message: 'CREATED' | 'FOUND';
 
     @ApiProperty({
-        example: '6312f198fab84e025633c4f7'
+        type: UserDto
     })
-    walletId: Wallet | string;
+    data: CreateUserServiceResponse;
 }

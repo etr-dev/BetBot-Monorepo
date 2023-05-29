@@ -1,14 +1,19 @@
+import { UserDto } from "@betbot/dto/user.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { isArray } from "class-validator";
 import { User, UserDocument } from "../../../../schemas";
 
-export class FindUserResponse {
+export type FindUserServiceResponse = UserDocument[];
+
+export class FindUserControllerResponse {
     @ApiProperty({
         example: 'CREATED'
     })
     message: 'FOUND';
 
     @ApiProperty({
-        example: '6312f198fab84e025633c4f7'
+        type: UserDto,
+        isArray: true,
     })
-    data: UserDocument[];
+    data: FindUserServiceResponse;
 }
