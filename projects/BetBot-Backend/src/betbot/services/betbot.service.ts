@@ -23,7 +23,7 @@ import {
   GetWalletDto,
   PlaceBetDto,
 } from '../dto';
-import { CalcStatsResponse, CreateUserResponse, FindUserResponse, GetBetsResponse, PlaceBetResponse } from '../entities';
+import { CalcStatsResponse, CreateUserResponse, FindUserResponse, FindWalletResponse, GetBetsResponse, PlaceBetResponse } from '../entities';
 import { BetSelection } from '../entities/enums/betSelection.enum';
 @Injectable()
 export class BetbotService {
@@ -199,10 +199,11 @@ export class BetbotService {
   }
 
   //-----------------------------------------------------
-  //                GET ALL USERS
+  //                GET WALLET BY ID
   //-----------------------------------------------------
-  wallet(getWalletDto: GetWalletDto) {
-    return this.walletModel.findById(getWalletDto.walletId);
+  async wallet(getWalletDto: GetWalletDto): Promise<FindWalletResponse> {
+    const data = await this.walletModel.findById(getWalletDto.walletId);
+    return { message: 'FOUND', data };
   }
 
   //-----------------------------------------------------
