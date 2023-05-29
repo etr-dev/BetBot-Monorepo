@@ -11,8 +11,8 @@ import {
   ActionRowBuilder,
   ButtonInteraction,
   CacheType,
-  SelectMenuBuilder,
-  SelectMenuInteraction,
+  StringSelectMenuBuilder,
+  StringSelectMenuInteraction,
   User,
 } from 'discord.js';
 import { TaskError } from 'src/sagas/framework/error';
@@ -49,7 +49,7 @@ export async function showLeaderboardTask(
   }
 
   const selctor = new ActionRowBuilder().addComponents(
-    new SelectMenuBuilder()
+    new StringSelectMenuBuilder()
       .setCustomId(`StatSort-${uniqueId}`)
       .setPlaceholder(sortChoice)
       .addOptions(
@@ -115,7 +115,7 @@ export async function showLeaderboardTask(
   }
 
   let sort = {};
-  if (response instanceof SelectMenuInteraction<CacheType>) {
+  if (response instanceof StringSelectMenuInteraction<CacheType>) {
     sort[`sort[stats.${response.values[0]}]`] = 'desc';
   } else {
     sort = input.sort;

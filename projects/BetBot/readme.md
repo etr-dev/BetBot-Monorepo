@@ -103,7 +103,7 @@ I plan on continuing to build this project up. Currently the stack I am using is
 - DiscordJS
 - NestJS
 - Puppetteer
-- DynamoDB
+- MongoDB
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -149,9 +149,10 @@ This is a way for people to make the UFC fights more engaging and fun without th
 - [x] Allow users to place bets
 - [x] Check bets and award winners
 - [x] list previous wagers and outcome
+- [] Add integration tests
 - [] Add a way for users to earn money
 - [] Add a ranking/xp system
-- [] Add server leaderboards
+- [x] Add server leaderboards
 
 See the [open issues](https://github.com/erobin27/BetBot/issues) for a full list of proposed features (and known issues).
 
