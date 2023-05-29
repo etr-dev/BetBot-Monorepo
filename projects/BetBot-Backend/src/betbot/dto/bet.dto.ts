@@ -5,6 +5,13 @@ import { Outcome } from '../entities/enums/outcome.enum';
 export class BetDto {
   @IsString()
   @ApiProperty({
+      description: 'The identifying id of the bet.',
+      example:'640a00fafd9f0f55c90003f1',
+  })
+  _id?: string;
+
+  @IsString()
+  @ApiProperty({
       description: 'The identifying id of the match the bet was placed on.',
       example:'640a00faf89f0f55c90003f1',
   })

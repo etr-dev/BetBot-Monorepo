@@ -7,6 +7,13 @@ import { PostMatchInfoDto } from './match/nested/postMatchInfo.dto';
 export class MatchDto {
   @IsString()
   @ApiProperty({
+      description: 'The identifying id of the match.',
+      example:'640a00fafd9f0f55c90003f1',
+  })
+  _id?: string;
+
+  @IsString()
+  @ApiProperty({
     description: "The title of the UFC Event.",
     example: 'UFC Fight Night March 11 2023'
   })
