@@ -4,6 +4,13 @@ import { IsNumberString, IsString, ValidateNested } from 'class-validator';
 import { UserBetsDto } from './user/nested/userBets.dto';
 
 export class UserDto {
+  @IsString()
+  @ApiProperty({
+      description: 'The identifying id of the user by mongo (userId property is the one to use).',
+      example:'640a00fafd9f0f55c90003f1',
+  })
+  _id?: string;
+
   @IsNumberString()
   @ApiProperty({
     description: 'The identifying id for the user, also their discord id.',
