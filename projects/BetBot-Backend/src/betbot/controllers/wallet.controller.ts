@@ -5,6 +5,7 @@ import { GetWalletDto } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
 import { GetWallet } from './api-descriptions/wallet.api';
 import { SecurityHeader } from './api-descriptions/headers.api';
+import { FindWalletResponse } from '../entities';
 
 @Controller('betbot')
 @ApiTags('BetBot', 'Wallet')
@@ -15,7 +16,7 @@ export class WalletController {
   @Get('wallet')
   @SecurityHeader()
   @GetWallet()
-  async wallet(@Query() getWalletDto: GetWalletDto) {
+  async findWallet(@Query() getWalletDto: GetWalletDto): Promise<FindWalletResponse> {
     return this.betbotService.wallet(getWalletDto);
   }
 }
