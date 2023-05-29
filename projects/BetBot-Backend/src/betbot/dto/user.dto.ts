@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumberString, IsString, ValidateNested } from 'class-validator';
+import { StatsDto } from './user/nested/stats.dto';
 import { UserBetsDto } from './user/nested/userBets.dto';
 
 export class UserDto {
@@ -44,4 +45,9 @@ export class UserDto {
   @Type(() => UserBetsDto)
   @ApiProperty({ type: () => UserBetsDto })
   userBets: UserBetsDto;
+
+  @ValidateNested()
+  @Type(() => StatsDto)
+  @ApiProperty({ type: () => StatsDto })
+  stats: StatsDto
 }
