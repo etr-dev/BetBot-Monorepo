@@ -28,6 +28,6 @@ export async function backendRequest<T>(
     return response.data;
   } catch (err) {
     console.log(err.response.data);
-    throw err;
+    return undefined;
   }
 }
