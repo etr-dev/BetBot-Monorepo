@@ -27,7 +27,7 @@ export async function backendRequest<T>(
     const response = await backendClient.request<T>(options);
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err.response?.data);
     return undefined;
   }
 }
