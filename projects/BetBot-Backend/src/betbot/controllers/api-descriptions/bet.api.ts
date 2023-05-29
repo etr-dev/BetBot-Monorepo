@@ -1,6 +1,6 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation } from "@nestjs/swagger";
-import { GetBetsResponse, PlaceBetResponse } from '../../entities';
+import { GetBetsControllerResponse, PlaceBetControllerResponse } from '../../entities';
 
 export function PlaceBet(): MethodDecorator {
     return applyDecorators(
@@ -13,7 +13,7 @@ export function PlaceBet(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Successful bet 2.`,
-            type: PlaceBetResponse,
+            type: PlaceBetControllerResponse,
         })
     )
 }
@@ -29,7 +29,7 @@ export function GetBets(): MethodDecorator {
         }),
         ApiOkResponse({
             description: `Successful list of bets - no match info.`,
-            type: GetBetsResponse,
+            type: GetBetsControllerResponse,
         }),
     )
 }
