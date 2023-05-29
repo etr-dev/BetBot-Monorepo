@@ -23,7 +23,7 @@ export class MatchService {
         });
     
         if (preExistingMatch) {
-          return preExistingMatch._id;
+          return preExistingMatch;
         } else {
           const createdMatch = new this.matchModel(createMatchDto);
           await createdMatch.save();

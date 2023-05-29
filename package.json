@@ -12,10 +12,9 @@
   ],
   "scripts": {
     "heroku-prod": "yarn build:all && yarn start:all",
-
-    "start:backend": "cd projects/BetBot-Backend & yarn start:dev",
-    "start:bot": "cd projects/BetBot & yarn start:dev",
-    "start:all": "concurrently \"yarn start:backend\" \"yarn start:bot\"",
+    "start:all": "concurrently \"yarn workspace @betbot-monorepo/betbot-backend start:dev\" \"yarn workspace @betbot-monorepo/betbot start:dev\"",
+    "start:dev:backend": "yarn workspace @betbot-monorepo/betbot-backend start:dev",
+    "start:dev:bot": "yarn workspace @betbot-monorepo/betbot start:dev",
 
     "start:backend:prod": "cd projects/BetBot-Backend & yarn start:prod",
     "start:bot:prod": "cd projects/BetBot & yarn start:prod",

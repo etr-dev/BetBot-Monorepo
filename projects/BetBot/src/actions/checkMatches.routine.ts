@@ -27,6 +27,7 @@ export async function checkMatches(): Promise<void> {
       }
     }
   } catch (error) {
+    logError(error);
     logError('Match completion issue! Could be cancelled match');
   }
 }

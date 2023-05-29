@@ -34,7 +34,7 @@ export class MatchController {
   @CreateMatch()
   async createMatch(@Body() createMatchDto: CreateMatchDto): Promise<CreateMatchControllerResponse> {
     const match: CreateMatchServiceResponse = await this.matchService.createMatch(createMatchDto);
-    return { message: 'CREATED', data: match };
+    return { message: 'CREATED', matchId: match._id };
   }
 
   @Post('match/complete')
