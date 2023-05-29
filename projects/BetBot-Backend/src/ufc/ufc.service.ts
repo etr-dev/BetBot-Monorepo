@@ -7,8 +7,8 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { SUCCESS_MESSAGE } from 'src/utils/constants';
-import { logError } from 'src/utils/log';
+import { SUCCESS_MESSAGE } from '../utils/constants';
+import { logError } from '../utils/log';
 import { UfcEvent } from './models/entities/event.entity';
 import {
   GetUfcEventResponse,
