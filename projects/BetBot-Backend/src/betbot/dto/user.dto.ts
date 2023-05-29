@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumberString, IsString, ValidateNested } from 'class-validator';
+import { IsNumberString, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { StatsDto } from './user/nested/stats.dto';
 import { UserBetsDto } from './user/nested/userBets.dto';
 
@@ -10,6 +10,7 @@ export class UserDto {
       description: 'The identifying id of the user by mongo (userId property is the one to use).',
       example:'640a00fafd9f0f55c90003f1',
   })
+  @IsOptional()
   _id?: string;
 
   @IsNumberString()

@@ -1,7 +1,10 @@
+import {
+  CompleteMatchDto,
+  PostMatchInfoDto,
+} from '@betbot-monorepo/betbot-backend';
 import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
-import { IPostMatchInfo } from '../interfaces/postMatchInfo.interface';
 
-export class CompleteMatchRequest {
+export class CompleteMatchRequest implements CompleteMatchDto {
   constructor(ufcEvent: UfcEventResponse, selectedMatch: string) {
     this.eventTitle = ufcEvent.eventTitle;
     this.matchTitle = selectedMatch;
@@ -31,5 +34,5 @@ export class CompleteMatchRequest {
 
   matchTitle: string;
 
-  postMatchInfo: IPostMatchInfo;
+  postMatchInfo: PostMatchInfoDto;
 }

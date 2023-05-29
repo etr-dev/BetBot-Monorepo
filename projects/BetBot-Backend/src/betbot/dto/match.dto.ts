@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { CornerDetailsDto } from './match/nested/cornerDetails.dto';
 import { PostMatchInfoDto } from './match/nested/postMatchInfo.dto';
 
@@ -10,6 +10,7 @@ export class MatchDto {
       description: 'The identifying id of the match.',
       example:'640a00fafd9f0f55c90003f1',
   })
+  @IsOptional()
   _id?: string;
 
   @IsString()

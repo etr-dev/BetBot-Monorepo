@@ -14,7 +14,7 @@ export async function getUserBetsTask(input: ITaskData): Promise<ITaskData> {
     betSelection: input.buttonSelection,
     attachMatchInfo: true,
   };
-  const { data } = await getUsersBets(getUsersBetsRequest);
+  const data = await getUsersBets(getUsersBetsRequest);
   if (!data.length) {
     throw new TaskError('Cancelled History Select.', {
       interaction: input.interaction,

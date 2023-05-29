@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Outcome } from '../entities/enums/outcome.enum';
 
 export class BetDto {
@@ -8,6 +8,7 @@ export class BetDto {
       description: 'The identifying id of the bet.',
       example:'640a00fafd9f0f55c90003f1',
   })
+  @IsOptional()
   _id?: string;
 
   @IsString()

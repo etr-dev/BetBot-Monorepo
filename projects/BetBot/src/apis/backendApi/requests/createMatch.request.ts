@@ -1,7 +1,10 @@
+import {
+  CornerDetailsDto,
+  CreateMatchDto,
+} from '@betbot-monorepo/betbot-backend';
 import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
-import { ICornerDetails } from '../interfaces/cornerDetails.interface';
 
-export class CreateMatchRequest {
+export class CreateMatchRequest implements CreateMatchDto {
   constructor(ufcEvent: UfcEventResponse, selectedMatch: string) {
     this.eventTitle = ufcEvent.eventTitle;
     this.matchTitle = selectedMatch;
@@ -32,7 +35,7 @@ export class CreateMatchRequest {
 
   isComplete: boolean;
 
-  Red: Partial<ICornerDetails> & Pick<ICornerDetails, 'name' | 'image'>;
+  Red: Partial<CornerDetailsDto> & Pick<CornerDetailsDto, 'name' | 'image'>;
 
-  Blue: Partial<ICornerDetails> & Pick<ICornerDetails, 'name' | 'image'>;
+  Blue: Partial<CornerDetailsDto> & Pick<CornerDetailsDto, 'name' | 'image'>;
 }

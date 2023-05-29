@@ -1,7 +1,7 @@
 import { PickType } from '@nestjs/swagger';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsEnum } from 'class-validator';
-import { BetSelection } from 'src/betbot/entities/enums/betSelection.enum';
+import { BetSelection } from '../../entities/enums/betSelection.enum';
 import { UserDto } from '../user.dto';
 import { Transform } from 'class-transformer';
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class WalletDto {
   @IsString()
@@ -7,6 +7,7 @@ export class WalletDto {
       description: 'The identifying id of the wallet.',
       example:'640a00fafd9f0f55c90003f1',
   })
+  @IsOptional()
   _id?: string;
 
   @IsNumber({ maxDecimalPlaces: 2 })
@@ -14,12 +15,12 @@ export class WalletDto {
     description: "The amount of money available to use in the user's wallet. Max decimal places is 2",
     example: 420.69
   })
-  amount: string;
+  amount: number;
 
   @IsNumber({ maxDecimalPlaces: 2 })
   @ApiProperty({
     description: "The amount of money currently in bet on a match that cannot be used.",
     example: 69.00
   })
-  escrow: string;
+  escrow: number;
 }
