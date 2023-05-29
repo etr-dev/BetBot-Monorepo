@@ -12,7 +12,7 @@ import { BetbotService } from '../services/betbot.service';
 import { PlaceBetDto, GetUsersBetsDto } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
 import { GetBets, PlaceBet } from './api-descriptions/bet.api';
-import { PlaceBetResponse } from '../entities';
+import { GetBetsResponse, PlaceBetResponse } from '../entities';
 import { SecurityHeader } from './api-descriptions/headers.api';
 
 @Controller('betbot')
@@ -32,7 +32,7 @@ export class BetController {
   @Get('bet/user')
   @SecurityHeader()
   @GetBets()
-  async getActiveBets(@Query() getUsersBetsDto: GetUsersBetsDto ) {
+  async getUserBets(@Query() getUsersBetsDto: GetUsersBetsDto ) : Promise<GetBetsResponse> {
     return this.betbotService.getUsersBets(getUsersBetsDto);
   }
 }

@@ -3,7 +3,10 @@ import { MatchDto } from '@betbot/dto/match.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 class BetWithMatchInfo {
+    @ApiProperty()
     bet: BetDto;
+
+    @ApiProperty()
     match: MatchDto;
 }
 
@@ -14,8 +17,8 @@ export class GetBetsResponse {
     message: 'COMPLETE';
 
     @ApiProperty({
-        type: BetDto,
+        type: BetWithMatchInfo,
         isArray: true,
     })
-    data: BetDto[];
+    data: BetWithMatchInfo[];
 }
