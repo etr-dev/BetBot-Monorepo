@@ -14,7 +14,6 @@ export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
     input.selectedMatch,
   );
   const matchId = await createMatch(createMatchRequest);
-  console.log('MY MATCH ID :', matchId);
   if (!matchId) {
     throw new TaskError('Match failed to POST', {
       interaction: input.interaction,
