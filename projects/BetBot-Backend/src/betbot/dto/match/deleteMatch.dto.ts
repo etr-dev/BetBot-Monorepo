@@ -1,13 +1,7 @@
-import { PickType } from '@nestjs/mapped-types';
-import { IsMongoId, IsString } from 'class-validator';
+import { PickType} from '@nestjs/swagger';
 import { MatchDto } from '../match.dto';
 
 export class DeleteMatchDto extends PickType(MatchDto, [
   'eventTitle',
   'matchTitle',
 ] as const) {}
-
-export class DeleteMatchByIdDto {
-  @IsString()
-  id: string;
-}

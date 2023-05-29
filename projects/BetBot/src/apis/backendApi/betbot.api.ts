@@ -1,220 +1,153 @@
+import {
+  BetDto,
+  CompleteMatchControllerResponse,
+  CompleteMatchDto,
+  CreateMatchControllerResponse,
+  CreateMatchDto,
+  CreateUserControllerResponse,
+  CreateUserDto,
+  GetBetsControllerResponse,
+  GetMatchDto,
+  GetMatchesControllerResponse,
+  GetUserDto,
+  GetUsersBetsDto,
+  GetUsersControllerResponse,
+  GetWalletByIdControllerResponse,
+  GetWalletDto,
+  MatchDto,
+  PlaceBetControllerResponse,
+  PlaceBetDto,
+} from '@betbot-monorepo/betbot-backend';
 import { logServer } from '@utils/log';
-import axios, { AxiosRequestConfig } from 'axios';
-import { config as dotenvConfig } from 'dotenv';
-import QueryString from 'qs';
-import { IMatch, IUser } from './interfaces';
-import { IGetRequest } from './interfaces/get.interface';
-import {
-  CompleteMatchRequest,
-  CreateMatchRequest,
-  CreateUserRequest,
-  GetUsersBetsRequest,
-  PlaceBetRequest,
-} from './requests';
-import {
-  CreateMatchResponse,
-  CreateUserResponse,
-  GetAllIncompleteMatchLinksResponse,
-  GetMatchResponse,
-  GetUserResponse,
-  GetUsersBetsResponse,
-  GetWalletResponse,
-  PlaceBetResponse,
-} from './responses';
+import { backendRequest } from './backend.client';
 
-dotenvConfig({ path: '../../.env' });
-
-const headers = {
-  'X-API-KEY': process.env.BACKEND_API_KEY,
-  'Content-Type': 'application/json',
-};
-
-const url =
-  process.env.NODE_ENV === 'local'
-    ? process.env.BETBOT_BACKEND_URL_LOCAL
-    : process.env.BETBOT_BACKEND_URL_PROD;
-
-export async function databaseHealth() {
-  const config = {
-    method: 'get',
-    url: `${url}`,
-    headers,
-  };
-
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => null);
+export async function databaseHealth(): Promise<string> {
+  return backendRequest({ url: '' });
 }
 
-export async function getUserWalletId(
-  createUserRequest: CreateUserRequest,
-): Promise<CreateUserResponse> {
+export async function createUser(
+  createUserRequest: CreateUserDto,
+): Promise<CreateUserControllerResponse['data']> {
   const data = JSON.stringify(createUserRequest);
 
-  const config = {
+  const user = await backendRequest<CreateUserControllerResponse>({
     method: 'post',
-    url: `${url}/betbot/createUser`,
-    headers,
+    url: '/betbot/user',
     data,
-  };
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return user.data;
 }
 
-export async function getWallet(walletId: string): Promise<GetWalletResponse> {
-  const data = JSON.stringify({ walletId });
-
-  const config = {
+export async function getWallet(
+  getWalletDto: GetWalletDto,
+): Promise<GetWalletByIdControllerResponse['data']> {
+  const wallet = await backendRequest<GetWalletByIdControllerResponse>({
     method: 'get',
-    url: `${url}/betbot/wallet`,
-    headers,
-    data,
-  };
+    url: `/betbot/wallet`,
+    params: getWalletDto,
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return wallet.data;
 }
 
 export async function getMatch(
-  partialMatch: Partial<IMatch>,
-): Promise<GetMatchResponse> {
-  const data = JSON.stringify(partialMatch);
+  getMatchDto: GetMatchDto,
+): Promise<GetMatchesControllerResponse['data']> {
+  const data = JSON.stringify(getMatchDto);
 
-  const config = {
+  const match = await backendRequest<GetMatchesControllerResponse>({
     method: 'get',
-    url: `${url}/betbot/getMatch`,
-    headers,
+    url: `/betbot/match`,
     data,
-  };
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return match.data; // Array of matches
 }
 
-export async function getIncompleteMatchLinks(): Promise<GetAllIncompleteMatchLinksResponse> {
-  const config = {
-    method: 'get',
-    url: `${url}/betbot/getAllIncompleteMatchLinks`,
-    headers,
-  };
+export async function getIncompleteMatchLinks(): Promise<string[]> {
+  const data: GetMatchDto = { isComplete: false };
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  const response = await backendRequest<GetMatchesControllerResponse>({
+    method: 'get',
+    url: `/betbot/match`,
+    data,
+  });
+
+  const matches = response.data;
+  const incompleteMatchLinks = matches.map(
+    (specificMatch) => specificMatch.link,
+  );
+  return incompleteMatchLinks;
 }
 
 export async function createMatch(
-  createMatchRequest: CreateMatchRequest,
-): Promise<CreateMatchResponse> {
-  const data = JSON.stringify(createMatchRequest);
+  createMatchDto: CreateMatchDto,
+): Promise<MatchDto['_id']> {
+  const data = JSON.stringify(createMatchDto);
 
-  const config = {
+  const response = await backendRequest<CreateMatchControllerResponse>({
     method: 'post',
-    url: `${url}/betbot/createMatch`,
-    headers,
+    url: `/betbot/match`,
     data,
-  };
+  });
+  const matchId = response.data;
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return matchId;
 }
 
 export async function completeMatch(
-  completeMatchRequest: CompleteMatchRequest,
-): Promise<unknown> {
-  logServer(`Completing: ${completeMatchRequest.matchTitle}`);
+  completeMatchDto: CompleteMatchDto,
+): Promise<BetDto['_id'][]> {
+  logServer(`Completing: ${completeMatchDto.matchTitle}`);
+  const data = JSON.stringify(completeMatchDto);
 
-  const data = JSON.stringify(completeMatchRequest);
-
-  const config = {
+  const response = await backendRequest<CompleteMatchControllerResponse>({
     method: 'post',
-    url: `${url}/betbot/completeMatch`,
-    headers,
+    url: `/betbot/match/complete`,
     data,
-  };
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return response.data; // list of betIds
 }
 
 export async function placeBet(
-  placeBetRequest: PlaceBetRequest,
-): Promise<PlaceBetResponse> {
-  const data = JSON.stringify(placeBetRequest);
+  placeBetDto: PlaceBetDto,
+): Promise<PlaceBetControllerResponse['betId']> {
+  const data = JSON.stringify(placeBetDto);
 
-  const config = {
+  const response = await backendRequest<PlaceBetControllerResponse>({
     method: 'post',
-    url: `${url}/betbot/placeBet`,
-    headers,
+    url: `/betbot/bet`,
     data,
-  };
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return response.betId;
 }
 
 export async function getUsersBets(
-  getUsersBetsRequest: GetUsersBetsRequest,
-): Promise<GetUsersBetsResponse> {
-  const data = JSON.stringify(getUsersBetsRequest);
-
-  const config = {
+  getUsersBetsRequest: GetUsersBetsDto,
+): Promise<GetBetsControllerResponse['bets']> {
+  const response = await backendRequest<GetBetsControllerResponse>({
     method: 'get',
-    url: `${url}/betbot/getUsersBets`,
-    headers,
-    data,
-  };
+    url: `/betbot/bet/user/${getUsersBetsRequest.userId}`,
+    params: {
+      betSelection: getUsersBetsRequest.betSelection,
+      attachMatchInfo: getUsersBetsRequest.attachMatchInfo,
+    },
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return response.bets; // array of {bet, match}[]
 }
 
 export async function getUser(
-  userData: Partial<IUser> | IGetRequest,
-): Promise<GetUserResponse> {
-  const config: AxiosRequestConfig = {
+  getUserDto: GetUserDto,
+): Promise<GetUsersControllerResponse['data']> {
+  const response = await backendRequest<GetUsersControllerResponse>({
     method: 'get',
-    url: `${url}/betbot/user`,
-    headers,
-    params: userData,
-  };
+    url: `/betbot/user`,
+    params: getUserDto,
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response.data);
-      return null;
-    });
+  return response.data; // list of users
 }
