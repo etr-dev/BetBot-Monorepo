@@ -1,7 +1,7 @@
 import { Colors, EmbedBuilder } from 'discord.js';
-import { GetWalletResponse } from '@apis';
+import { WalletDto } from '@betbot-monorepo/betbot-backend';
 
-export function walletEmbed(user, wallet: GetWalletResponse): EmbedBuilder {
+export function walletEmbed(user, wallet: WalletDto): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle(`${user.username} WALLET`)
     .setThumbnail(user.avatarURL())

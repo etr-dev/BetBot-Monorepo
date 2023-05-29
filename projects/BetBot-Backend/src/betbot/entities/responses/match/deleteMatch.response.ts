@@ -1,4 +1,3 @@
-import { MatchDto } from "@betbot/dto/match.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { DeleteResult } from "mongodb";
 

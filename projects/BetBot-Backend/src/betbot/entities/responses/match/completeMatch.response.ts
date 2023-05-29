@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BetDocument } from "src/schemas";
+import { BetDocument } from "../../../../schemas";
 
 export type CompleteMatchServiceResponse = BetDocument['_id'][];
 

@@ -1,6 +1,5 @@
-import { MatchDto } from "@betbot/dto/match.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { MatchDocument } from "src/schemas";
+import { MatchDocument } from "../../../../schemas";
 
 export type CreateMatchServiceResponse = MatchDocument;
 export class CreateMatchControllerResponse {

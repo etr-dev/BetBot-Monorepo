@@ -1,4 +1,4 @@
-import { UserDto } from "@betbot/dto/user.dto";
+import { UserDto } from "../../../dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { UserDocument } from "../../../../schemas";
 

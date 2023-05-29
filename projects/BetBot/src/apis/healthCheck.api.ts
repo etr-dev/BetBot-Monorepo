@@ -1,5 +1,5 @@
 import { logError, logServer } from '@utils/log';
-import { databaseHealth } from './backendApi';
+import { databaseHealth } from './backendApi/betbot.api';
 import { ufcApiHealth } from './ufcApi';
 
 export async function healthCheck(): Promise<boolean> {

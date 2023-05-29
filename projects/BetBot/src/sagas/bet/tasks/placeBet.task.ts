@@ -13,14 +13,14 @@ export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
     input.ufcEventResponse,
     input.selectedMatch,
   );
-  const matchRes = await createMatch(createMatchRequest);
-  if (!matchRes) {
+  const matchId = await createMatch(createMatchRequest);
+  console.log('MY MATCH ID :', matchId);
+  if (!matchId) {
     throw new TaskError('Match failed to POST', {
       interaction: input.interaction,
       message: 'The match failed to post, report this error.',
     });
   }
-  const { matchId } = matchRes;
 
   const { wagerClass } = input;
   wagerClass.calculateWagerDetails(
@@ -31,7 +31,7 @@ export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
 
   // Place bet
   const placeBetRequest: PlaceBetRequest = {
-    matchId,
+    matchId: matchId.toString(),
     userId: input.interaction.user.id,
     walletId: input.walletId,
     selectedCorner: input.selectedCorner,

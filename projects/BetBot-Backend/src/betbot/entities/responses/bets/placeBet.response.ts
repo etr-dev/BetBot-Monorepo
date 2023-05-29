@@ -1,6 +1,5 @@
-import { BetDto } from '@betbot/dto/bet.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { BetDocument } from 'src/schemas';
+import { BetDocument } from '../../../../schemas';
 
 export type PlaceBetsServiceResponse = BetDocument;
 

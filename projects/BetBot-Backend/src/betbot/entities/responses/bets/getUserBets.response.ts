@@ -1,7 +1,6 @@
-import { BetDto } from '@betbot/dto/bet.dto';
-import { MatchDto } from '@betbot/dto/match.dto';
+import { BetDto, MatchDto} from '../../../dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { Bet, BetDocument, Match, MatchDocument } from 'src/schemas';
+import { BetDocument, MatchDocument } from '../../../../schemas';
 
 class BetWithMatchInfo {
     @ApiProperty({

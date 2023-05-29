@@ -64,52 +64,52 @@ export class BetService {
         return bet;
       }
 
-      async getUsersBets(getUsersBetsDto: GetUsersBetsDto): Promise<GetBetsServiceResponse> 
-      {
-        const { userId, betSelection, attachMatchInfo } = getUsersBetsDto;
-    
-        const user = await this.userModel.findOne({ userId });
-        let betIdList = [];
-    
-        switch (betSelection) {
-          case BetSelection.ACTIVE:
-            betIdList = user.userBets.activeBets;
-            break;
-          case BetSelection.INACTIVE:
-            betIdList = user.userBets.inactiveBets;
-            break;
-          case BetSelection.ALL:
-            betIdList = user.userBets.activeBets;
-            betIdList = betIdList.concat(user.userBets.inactiveBets);
-        }
-    
-        const bets = await this.betModel.find({
-          _id: { $in: betIdList },
-        });
-    
-        //   var data = bets.map(function (bet) {
-        //     return [bet, bet.matchId]
-        // });
-    
-        const matchMapById = {};
-    
-        for (const bet of bets) {
-          const matchId: string = bet.matchId.toString();
-          if (!(matchId in matchMapById)) {
-            matchMapById[matchId] = await this.matchModel.findById(matchId);
-          }
-        }
-    
-        // Sort most recent at index 0 by creation date
-        bets.sort((a, b) => b.creationDate - a.creationDate);
-        const data: GetBetsServiceResponse = bets.map(function (bet) {
-            const obj = {
-                bet: bet,
-                match: attachMatchInfo ? matchMapById[bet.matchId.toString()] : undefined,
-            };
-            return obj;
-        });
-    
-        return data;
+    async getUsersBets(getUsersBetsDto: GetUsersBetsDto): Promise<GetBetsServiceResponse> 
+    {
+      const { userId, betSelection, attachMatchInfo } = getUsersBetsDto;
+  
+      const user = await this.userModel.findOne({ userId });
+      let betIdList = [];
+  
+      switch (betSelection) {
+        case BetSelection.ACTIVE:
+          betIdList = user.userBets.activeBets;
+          break;
+        case BetSelection.INACTIVE:
+          betIdList = user.userBets.inactiveBets;
+          break;
+        case BetSelection.ALL:
+          betIdList = user.userBets.activeBets;
+          betIdList = betIdList.concat(user.userBets.inactiveBets);
       }
+  
+      const bets = await this.betModel.find({
+        _id: { $in: betIdList },
+      });
+  
+      //   var data = bets.map(function (bet) {
+      //     return [bet, bet.matchId]
+      // });
+  
+      const matchMapById = {};
+  
+      for (const bet of bets) {
+        const matchId: string = bet.matchId.toString();
+        if (!(matchId in matchMapById)) {
+          matchMapById[matchId] = await this.matchModel.findById(matchId);
+        }
+      }
+  
+      // Sort most recent at index 0 by creation date
+      bets.sort((a, b) => b.creationDate - a.creationDate);
+      const data: GetBetsServiceResponse = bets.map(function (bet) {
+          const obj = {
+              bet: bet,
+              match: attachMatchInfo ? matchMapById[bet.matchId.toString()] : undefined,
+          };
+          return obj;
+      });
+  
+      return data;
+    }
     }

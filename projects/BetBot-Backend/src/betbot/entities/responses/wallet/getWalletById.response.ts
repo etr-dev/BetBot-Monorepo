@@ -1,4 +1,4 @@
-import { WalletDto } from "@betbot/dto/wallet.dto";
+import { WalletDto } from "../../../dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { WalletDocument } from "../../../../schemas";
 

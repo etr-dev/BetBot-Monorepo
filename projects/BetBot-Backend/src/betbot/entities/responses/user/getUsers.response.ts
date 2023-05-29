@@ -1,7 +1,6 @@
-import { UserDto } from "@betbot/dto/user.dto";
+import { UserDto } from "../../../dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { isArray } from "class-validator";
-import { User, UserDocument } from "../../../../schemas";
+import { UserDocument } from "../../../../schemas";
 
 export type GetUsersServiceResponse = UserDocument[];
 
