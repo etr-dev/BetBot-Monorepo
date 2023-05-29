@@ -2,9 +2,10 @@ import { InjectConnection, InjectModel } from "@nestjs/mongoose";
 import { DeleteResult } from "mongodb";
 import { Connection, Model } from "mongoose";
 import { MatchNotFoundException } from "src/exceptions/matchNotFound.exception";
-import { BetDocument, Match, MatchDocument, UserDocument, WalletDocument } from "src/schemas";
+import { BetDocument, MatchDocument, UserDocument, WalletDocument } from "src/schemas";
 import { Stats } from "src/schemas/Nested/stats.schema";
 import { CompleteMatchDto, CreateMatchDto, DeleteMatchByIdDto, DeleteMatchDto, GetMatchDto } from "../dto";
+import { CompleteMatchServiceResponse, CreateMatchServiceResponse, DeleteMatchServiceResponse, GetMatchesServiceResponse } from "../entities";
 
 export class MatchService {
     constructor(
@@ -15,7 +16,7 @@ export class MatchService {
       @InjectModel('Bet', 'BetBot') private betModel: Model<BetDocument>,
     ) {}
 
-    async createMatch(createMatchDto: CreateMatchDto): Promise<MatchDocument> {
+    async createMatch(createMatchDto: CreateMatchDto): Promise<CreateMatchServiceResponse> {
         const preExistingMatch = await this.matchModel.findOne({
           eventTitle: createMatchDto.eventTitle,
           matchTitle: createMatchDto.matchTitle,
@@ -31,7 +32,7 @@ export class MatchService {
         }
       }
 
-    async completeMatch(completeMatchDto: CompleteMatchDto): Promise<BetDocument['_id'][]> {
+    async completeMatch(completeMatchDto: CompleteMatchDto): Promise<CompleteMatchServiceResponse> {
         const match = await this.matchModel.findOne({
             eventTitle: completeMatchDto.eventTitle,
             matchTitle: completeMatchDto.matchTitle,
@@ -108,12 +109,12 @@ export class MatchService {
         return betsOnMatch.map((bet) => bet._id);   // List of completed betIds
     }
 
-    async getMatch(query: GetMatchDto): Promise<MatchDocument[]> {
+    async getMatch(query: GetMatchDto): Promise<GetMatchesServiceResponse> {
         const matches = await this.matchModel.find(query);
         return matches
     }
 
-    async deleteMatch(deleteMatchDto: DeleteMatchDto | DeleteMatchByIdDto): Promise<DeleteResult> {
+    async deleteMatch(deleteMatchDto: DeleteMatchDto | DeleteMatchByIdDto): Promise<DeleteMatchServiceResponse> {
         let deletedDoc: DeleteResult;
 
         if ('id' in deleteMatchDto) {

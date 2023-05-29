@@ -3,9 +3,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { isArray } from "class-validator";
 import { User, UserDocument } from "../../../../schemas";
 
-export type FindUserServiceResponse = UserDocument[];
+export type GetUsersServiceResponse = UserDocument[];
 
-export class FindUserControllerResponse {
+export class GetUsersControllerResponse {
     @ApiProperty({
         example: 'CREATED'
     })
@@ -15,5 +15,5 @@ export class FindUserControllerResponse {
         type: UserDto,
         isArray: true,
     })
-    data: FindUserServiceResponse;
+    data: GetUsersServiceResponse;
 }

@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto, GetUserBetsParamDto, GetUserBetsQueryDto, GetUserDto } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
 import { SecurityHeader } from './api-descriptions/headers.api';
-import { CalcStatsControllerResponse, CreateUserControllerResponse, CreateUserServiceResponse, FindUserControllerResponse, FindUserServiceResponse, GetBetsControllerResponse, GetBetsServiceResponse } from '../entities';
+import { CalcStatsControllerResponse, CreateUserControllerResponse, CreateUserServiceResponse, GetUsersControllerResponse, GetUsersServiceResponse, GetBetsControllerResponse, GetBetsServiceResponse } from '../entities';
 import { CalcStats, CreateUser, FindUser } from './api-descriptions/user.api';
 import { UserService } from '../services/user.service';
 import { BetService } from '../services/bets.service';
@@ -37,10 +37,10 @@ export class UserController {
   @Get('user')
   @SecurityHeader()
   @FindUser()
-  async findUser(@Query() getUserDto: GetUserDto): Promise<FindUserControllerResponse> {
+  async getUsers(@Query() getUserDto: GetUserDto): Promise<GetUsersControllerResponse> {
     if (!Object.keys(getUserDto).length) return;
 
-    const users: FindUserServiceResponse = await this.userService.findUser(getUserDto);
+    const users: GetUsersServiceResponse = await this.userService.getUsers(getUserDto);
     return { message: 'FOUND', data: users };
   }
 
