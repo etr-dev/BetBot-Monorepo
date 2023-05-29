@@ -18,7 +18,6 @@ export async function createUser(input: ITaskData): Promise<ITaskData> {
     });
   }
   const { walletId } = walletRes;
-  console.log(walletId.toString());
   const usersWallet = await getWallet({ walletId: walletId.toString() });
 
   // Pass to next task with the userWallet
