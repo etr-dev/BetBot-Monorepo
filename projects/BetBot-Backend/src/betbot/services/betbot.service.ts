@@ -23,8 +23,8 @@ import {
   GetWalletDto,
   PlaceBetDto,
 } from '../dto';
+import { CalcStatsResponse, CreateUserResponse, FindUserResponse, GetBetsResponse, PlaceBetResponse } from '../entities';
 import { BetSelection } from '../entities/enums/betSelection.enum';
-import { PlaceBetResponse } from '../entities';
 @Injectable()
 export class BetbotService {
   constructor(
@@ -45,7 +45,7 @@ export class BetbotService {
   //-----------------------------------------------------
   //                CREATE USER
   //-----------------------------------------------------
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto): Promise<CreateUserResponse> {
     const preExistingUser = await this.userModel.findOne({
       userId: createUserDto.userId,
     });
@@ -119,15 +119,15 @@ export class BetbotService {
   //-----------------------------------------------------
   //                FIND USER
   //-----------------------------------------------------
-  async findUser(getUserDto: GetUserDto) {
+  async findUser(getUserDto: GetUserDto): Promise<FindUserResponse> {
     const data = await this.userModel.find(getUserDto).sort(getUserDto.sort);
-    return { message: 'COMPLETE', data };
+    return { message: 'FOUND', data };
   }
 
   //-----------------------------------------------------
   //                CALC USER STATS
   //-----------------------------------------------------
-  async calcStats(getUserDto: GetUserDto) {
+  async calcStats(getUserDto: GetUserDto): Promise<CalcStatsResponse> {
     const user = await this.userModel.findOne(getUserDto);
     const wallet = await this.walletModel.findById(user.walletId);
     if (!user) console.log('ERROR');
@@ -354,7 +354,7 @@ export class BetbotService {
     return { message: 'COMPLETE', betId: betsOnMatch.map((bet) => bet._id) };
   }
 
-  async getUsersBets(getUsersBetsDto: GetUsersBetsDto) {
+  async getUsersBets(getUsersBetsDto: GetUsersBetsDto): Promise<GetBetsResponse> {
     const { userId, betSelection, attachMatchInfo } = getUsersBetsDto;
 
     const user = await this.userModel.findOne({ userId });
@@ -404,7 +404,7 @@ export class BetbotService {
       data = bets;
     }
 
-    return { message: 'COMPLETE', data: data };
+    return { message: 'COMPLETE', data };
   }
 
   async getAllIncompleteMatchLinks() {

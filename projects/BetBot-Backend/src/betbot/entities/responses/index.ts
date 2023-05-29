@@ -1,2 +1,3 @@
-export * from './placeBet.response';
 export * from './match';
+export * from './user';
+export * from './placeBet.response';
