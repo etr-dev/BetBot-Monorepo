@@ -8,41 +8,55 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { BetbotService } from '../services/betbot.service';
-import { CreateUserDto, GetUserDto, GetUsersBetsDto } from '../dto';
+import { CreateUserDto, GetUserBetsParamDto, GetUserBetsQueryDto, GetUserDto } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
 import { SecurityHeader } from './api-descriptions/headers.api';
-import { CalcStatsResponse, CreateUserResponse, FindUserResponse, GetBetsResponse } from '../entities';
+import { CalcStatsControllerResponse, CreateUserControllerResponse, CreateUserServiceResponse, FindUserControllerResponse, FindUserServiceResponse, GetBetsControllerResponse, GetBetsServiceResponse } from '../entities';
+import { CalcStats, CreateUser, FindUser } from './api-descriptions/user.api';
+import { UserService } from '../services/user.service';
+import { BetService } from '../services/bets.service';
+import { GetBets } from './api-descriptions/bet.api';
 
 @Controller('betbot')
 @ApiTags('BetBot', 'User')
 @UseGuards(AuthGuard('api-key'))
 export class UserController {
-  constructor(private readonly betbotService: BetbotService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly betService: BetService,
+    ) {}
 
   @Post('user')
   @SecurityHeader()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<CreateUserResponse> {
-    return this.betbotService.createUser(createUserDto);
+  @CreateUser()
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<CreateUserControllerResponse> {
+    const user: CreateUserServiceResponse = await this.userService.createUser(createUserDto);
+    return { message: 'CREATED', data: user } // TODO: should have a way to tell if found/created
   }
 
   @Get('user')
   @SecurityHeader()
-  async findUser(@Query() getUserDto: GetUserDto): Promise<FindUserResponse> {
+  @FindUser()
+  async findUser(@Query() getUserDto: GetUserDto): Promise<FindUserControllerResponse> {
     if (!Object.keys(getUserDto).length) return;
 
-    return this.betbotService.findUser(getUserDto);
+    const users: FindUserServiceResponse = await this.userService.findUser(getUserDto);
+    return { message: 'FOUND', data: users };
   }
 
-  @Get('user/:id/bet')
+  @Get('user/:id/bets')
+  @GetBets()
   @SecurityHeader()
-  async getActiveBets(@Query() getUsersBetsDto: GetUsersBetsDto): Promise<GetBetsResponse> {
-    return this.betbotService.getUsersBets(getUsersBetsDto);
+  async GetUserBets(@Param() param: GetUserBetsParamDto, @Query() getUsersBetsQueryDto: GetUserBetsQueryDto): Promise<GetBetsControllerResponse> {
+    const bets: GetBetsServiceResponse = await this.betService.getUsersBets({...param, ...getUsersBetsQueryDto});
+    return { message: 'COMPLETE', bets: bets }
   }
 
   @Post('user/:id/stats')
   @SecurityHeader()
-  async calcStats(@Param('id') discordId: string): Promise<CalcStatsResponse> {
-    return this.betbotService.calcStats({ userId: discordId });
+  @CalcStats()
+  async calcStats(@Param('id') discordId: string): Promise<CalcStatsControllerResponse> {
+    const user = await this.userService.calcStats({ userId: discordId });
+    return { message: 'COMPLETE', data: user };
   }
 }

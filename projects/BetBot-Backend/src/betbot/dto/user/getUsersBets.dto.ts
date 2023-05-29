@@ -21,3 +21,7 @@ export class GetUsersBetsDto extends PickType(UserDto, ['userId'] as const) {
   })
   attachMatchInfo: boolean = false;
 }
+
+export class GetUserBetsQueryDto extends PickType(GetUsersBetsDto, ['attachMatchInfo', 'betSelection'] as const) {};
+export class GetUserBetsParamDto extends PickType(GetUsersBetsDto, ['userId'] as const) {};
+

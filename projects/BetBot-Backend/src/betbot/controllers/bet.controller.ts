@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { logServer } from 'src/utils/log';
-import { PlaceBetDto, GetUsersBetsDto } from '../dto';
+import { PlaceBetDto, GetUserBetsQueryDto, GetUserBetsParamDto } from '../dto';
 import { ApiTags } from '@nestjs/swagger';
 import { GetBets, PlaceBet } from './api-descriptions/bet.api';
 import { PlaceBetControllerResponse, PlaceBetsServiceResponse, GetBetsControllerResponse, GetBetsServiceResponse  } from '../entities';
@@ -30,11 +30,11 @@ export class BetController {
     return { message: 'COMPLETE', betId: bet.id };
   }
 
-  @Get('bet/user')
+  @Get('bet/user/:userId')
   @SecurityHeader()
   @GetBets()
-  async getUserBets(@Query() getUsersBetsDto: GetUsersBetsDto ): Promise<GetBetsControllerResponse> {
-    const bets: GetBetsServiceResponse = await this.betService.getUsersBets(getUsersBetsDto);
+  async GetUserBets(@Param() param: GetUserBetsParamDto, @Query() getUsersBetsQueryDto: GetUserBetsQueryDto ): Promise<GetBetsControllerResponse> {
+    const bets: GetBetsServiceResponse = await this.betService.getUsersBets({...param, ...getUsersBetsQueryDto});
     return { message: 'COMPLETE', bets: bets }
   }
 }

@@ -9,6 +9,7 @@ import {
 import { BetController, MatchController, UserController, WalletController } from './controllers';
 import { BetbotService } from './services/betbot.service';
 import { BetService } from './services/bets.service';
+import { UserService } from './services/user.service';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { BetService } from './services/bets.service';
     ),
   ],
   controllers: [BetController, MatchController, UserController, WalletController],
-  providers: [BetbotService, BetService],
+  providers: [BetbotService, BetService, UserService],
 })
 export class BetbotModule {}
