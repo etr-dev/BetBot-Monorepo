@@ -11,13 +11,14 @@ import {
 } from '@nestjs/common';
 import { UfcService } from './ufc.service';
 import { logServer } from 'src/utils/log';
-import {
-  GetUfcEventResponse,
-  GetUfcEventsResponse,
-  GetUfcLinksResponse,
-} from './models/responses/eventResponse.response';
 import { EventByLinkDto } from './dto/eventByLink.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { NextEventControllerResponse } from './models/responses/nextEvent.response';
+import { SecurityHeader } from './api-descriptions/headers.api';
+import { EventByUrlControllerResponse } from './models/responses/eventByUrl.response';
+import { AllEventsControllerResponse } from './models/responses/allEvents.response';
+import { AllLinksControllerResponse } from './models/responses/allLinks.response';
+import { ApiTags } from '@nestjs/swagger';
 
 const URL = createParamDecorator((data, req) => {
   const result = new EventByLinkDto();
@@ -26,37 +27,46 @@ const URL = createParamDecorator((data, req) => {
 });
 
 @Controller('ufc')
+@ApiTags('UFC')
 @UseGuards(AuthGuard('api-key'))
 @UseInterceptors(CacheInterceptor)
 export class UfcController {
   constructor(private readonly ufcService: UfcService) {}
   @CacheKey('nextEvent')
   @CacheTTL(600)
+  @SecurityHeader()
   @Get('nextEvent')
-  nextEvent(): Promise<GetUfcEventResponse> {
+  async nextEvent(): Promise<NextEventControllerResponse> {
     logServer('Next Event endpoint hit');
-    return this.ufcService.nextEvent();
+    const event = await this.ufcService.nextEvent();
+    return { message: 'COMPLETE',  data:event};
   }
 
+  @SecurityHeader()
   @Get('eventByUrl')
-  eventByUrl(@Query() query: EventByLinkDto): Promise<GetUfcEventResponse> {
+  async eventByUrl(@Query() query: EventByLinkDto): Promise<EventByUrlControllerResponse> {
     logServer('Event by URL endpoint hit');
-    return this.ufcService.eventByUrl(query.url);
+    const event = await this.ufcService.eventByUrl(query.url);
+    return { message: 'COMPLETE', data: event };
   }
 
   @CacheKey('allEvents')
   @CacheTTL(3600)
+  @SecurityHeader()
   @Get('allEvents')
-  allEvents(): Promise<GetUfcEventsResponse> {
+  async allEvents(): Promise<AllEventsControllerResponse> {
     logServer('allEvents endpoint hit');
-    return this.ufcService.allEvents();
+    const events = await this.ufcService.allEvents();
+    return { message: 'COMPLETE', data: events }
   }
 
   @CacheKey('allEventLinks')
   @CacheTTL(10)
+  @SecurityHeader()
   @Get('allEventLinks')
-  allEventLinks(): Promise<GetUfcLinksResponse> {
+  async allEventLinks(): Promise<AllLinksControllerResponse> {
     logServer('allEvents endpoint hit');
-    return this.ufcService.allEventLinks();
+    const links = await this.ufcService.allEventLinks();
+    return { message: 'COMPLETE', data: links };
   }
 }

@@ -6,6 +6,7 @@ import { UfcMatchDetails } from 'src/ufc/models/interfaces/matchDetails.interfac
 import { UfcMatchInfo } from 'src/ufc/models/interfaces/matchInfo.interface';
 import { logServer } from 'src/utils/log';
 import * as puppeteer from 'puppeteer';
+import { UfcEventDto } from './dto';
 
 let browser, page;
 
@@ -44,7 +45,7 @@ async function scrapeUfcPage(url: string) {
   const startTime = current.getSeconds();
   await page.goto(url);
 
-  let ufcEvent: UfcEvent = await page.evaluate(async (): Promise<UfcEvent> => {
+  let ufcEvent: UfcEventDto = await page.evaluate(async (): Promise<UfcEvent> => {
     console.log('START');
     function getSingleElementByClassName(
       htmlElement: Element,
