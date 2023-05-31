@@ -1,11 +1,11 @@
 import {
   CornerDetailsDto,
   CreateMatchDto,
+  UfcEventDto,
 } from '@betbot-monorepo/betbot-backend';
-import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
 
 export class CreateMatchRequest implements CreateMatchDto {
-  constructor(ufcEvent: UfcEventResponse, selectedMatch: string) {
+  constructor(ufcEvent: UfcEventDto, selectedMatch: string) {
     this.eventTitle = ufcEvent.eventTitle;
     this.matchTitle = selectedMatch;
     this.link = ufcEvent.url;

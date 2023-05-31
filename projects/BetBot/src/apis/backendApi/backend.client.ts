@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { logger } from '@utils/log';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { config } from 'dotenv';
 
@@ -14,6 +15,8 @@ const url =
     ? process.env.BETBOT_BACKEND_URL_LOCAL
     : process.env.BETBOT_BACKEND_URL_PROD;
 
+logger.debug(`BaseURL: ${url}`);
+
 export const backendClient: AxiosInstance = axios.create({
   baseURL: url,
   timeout: 5000, // Set a timeout of 5 seconds
@@ -25,9 +28,10 @@ export async function backendRequest<T>(
 ): Promise<T> {
   try {
     const response = await backendClient.request<T>(options);
+    logger.debug(options.url, response.data);
     return response.data;
   } catch (err) {
-    console.log(err.response?.data);
+    logger.error(options.url, err.response?.data);
     return undefined;
   }
 }

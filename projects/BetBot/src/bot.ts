@@ -11,7 +11,7 @@ import { checkMatches } from '@actions';
 import * as findConfig from 'find-config';
 import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
-import { logServer } from './utils';
+import { logger, logServer } from './utils';
 import { BetSaga } from './sagas/bet/bet.saga';
 import { WalletSaga } from './sagas/wallet/wallet.saga';
 import { HistorySaga } from './sagas/history/history.saga';

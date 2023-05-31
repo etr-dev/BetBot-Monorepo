@@ -7,13 +7,14 @@ import {
   getIncompleteMatchLinks,
   getMatch,
 } from '@apis';
-import { logError } from '@utils/log';
+import { logError, logger } from '@utils/log';
 
 export async function checkMatches(): Promise<void> {
   const incompleteLinks = await getIncompleteMatchLinks(); // Get links to all incomplete events
 
   try {
     for (const link of incompleteLinks) {
+      logger.debug(`Checking for completion: ${link}`);
       const ufcEventRes = await getEventByUrl(link); // Get the current UFC Api Response for the event
       const matches = await getMatch({ link, isComplete: false }); // Get all incomplete matches for that event
       for (const match of matches) {
