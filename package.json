@@ -16,10 +16,6 @@
     "start:backend": "cd projects/BetBot-Backend & yarn start:dev",
     "start:bot": "cd projects/BetBot & yarn start:dev",
     "start:all": "concurrently \"yarn start:backend\" \"yarn start:bot\"",
-
-    "start:backend:prod": "cd projects/BetBot-Backend & yarn start:prod",
-    "start:bot:prod": "cd projects/BetBot & yarn start:prod",
-    "start:all:prod": "concurrently \"yarn start:backend:prod\" \"yarn start:bot:prod\"",
     
     "build:backend": "yarn workspace @betbot-monorepo/betbot-backend build",
     "build:bot": "yarn workspace @betbot-monorepo/betbot build",

@@ -39,8 +39,11 @@ export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
     amountToWin: wagerClass.amountToWin,
     amountToPayout: wagerClass.amountToPayout,
   };
-  const betRes = await placeBet(placeBetRequest);
-  if (!betRes) {
+
+  try {
+    const betRes = await placeBet(placeBetRequest);
+    if (!betRes) throw new Error('Empty Bet Response.');
+  } catch (err) {
     throw new TaskError('The bet failed to place.', {
       interaction: input.interaction,
       message: 'The bet failed to place. Try again.',

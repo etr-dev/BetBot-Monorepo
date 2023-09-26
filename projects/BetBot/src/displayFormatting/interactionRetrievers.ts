@@ -68,7 +68,7 @@ export async function getSelectOptionInteraction(
   const filter = (i: MessageComponentInteraction): boolean => {
     const res =
       i.user.id === originalUserId &&
-      i.isSelectMenu() &&
+      i.isStringSelectMenu() &&
       (uuid ? i.customId.includes(uuid) : true); // If UUID is provided check that the customId includes it
 
     if (res && deferUpdate) i.deferUpdate();
