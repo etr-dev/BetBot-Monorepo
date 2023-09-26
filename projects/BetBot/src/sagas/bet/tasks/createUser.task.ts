@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getUserWalletId, getWallet, GetWalletResponse } from '@apis';
+import { createUser as createUserApi, getWallet } from '@apis';
 import { CreateUserRequest } from 'src/apis/backendApi/requests';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
@@ -8,7 +8,7 @@ import { logServer } from '@utils/log';
 export async function createUser(input: ITaskData): Promise<ITaskData> {
   // Create a new user (or get existing)
   const createUserRequest = new CreateUserRequest(input.interaction);
-  const walletRes = await getUserWalletId(createUserRequest);
+  const walletRes = await createUserApi(createUserRequest);
 
   // If the user's wallet does not exist fail with error message.
   if (!walletRes) {
@@ -18,7 +18,7 @@ export async function createUser(input: ITaskData): Promise<ITaskData> {
     });
   }
   const { walletId } = walletRes;
-  const usersWallet = await getWallet(walletId);
+  const usersWallet = await getWallet({ walletId: walletId.toString() });
 
   // Pass to next task with the userWallet
   return { interaction: input.interaction, walletId, usersWallet, ...input };

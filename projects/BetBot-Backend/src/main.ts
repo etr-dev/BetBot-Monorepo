@@ -22,6 +22,7 @@ async function bootstrap() {
     .setTitle('BetBot')
     .setDescription('The backend for BetBot')
     .setVersion('1.0')
+    .addServer('{{URL}}', 'Server with custom variable')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

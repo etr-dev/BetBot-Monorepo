@@ -1,4 +1,6 @@
-export class PlaceBetRequest {
+import { PlaceBetDto } from '@betbot-monorepo/betbot-backend';
+
+export class PlaceBetRequest implements PlaceBetDto {
   matchId: string;
 
   userId: string;

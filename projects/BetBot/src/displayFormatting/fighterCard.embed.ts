@@ -1,6 +1,5 @@
+import { BetDto, MatchDto } from '@betbot-monorepo/betbot-backend';
 import { Colors, EmbedBuilder } from 'discord.js';
-import { IBet } from 'src/apis/backendApi/interfaces/bet.interface';
-import { IMatch } from 'src/apis/backendApi/interfaces/match.interface';
 import { CreateMatchRequest } from 'src/apis/backendApi/requests/createMatch.request';
 import { PlaceBetRequest } from 'src/apis/backendApi/requests/placeBet.request';
 
@@ -40,7 +39,7 @@ export function embedSelectedFighter(
   return embed;
 }
 
-export function embedPlacedBet(match: IMatch, bet: IBet): EmbedBuilder {
+export function embedPlacedBet(match: MatchDto, bet: BetDto): EmbedBuilder {
   let color = null;
   let payoutField = bet.amountToPayout;
   switch (bet.outcome) {

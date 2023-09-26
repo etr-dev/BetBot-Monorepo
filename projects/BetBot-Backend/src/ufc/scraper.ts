@@ -209,7 +209,7 @@ async function scrapeUfcPage(url: string) {
         }
 
         return imageUrl;
-      }
+      };
 
       fighterObject.name = getFighterName(fighter, side);
       fighterObject.outcome = getFighterOutcome(fighter, side);
@@ -242,7 +242,7 @@ async function scrapeUfcPage(url: string) {
       if (matchInfo.details.isComplete) {
         let result = '';
         if (matchInfo.Red.outcome === 'WIN') {
-          result = 'RED'
+          result = 'RED';
         } else if (matchInfo.Blue.outcome === 'WIN') {
           result = 'BLUE';
         } else {
@@ -274,9 +274,11 @@ async function scrapeUfcPage(url: string) {
       .join(' ')
       .replace('Ufc', 'UFC');
     ufcEvent.url = window.location.href;
-    ufcEvent.date = document.getElementsByClassName(
-      'c-event-fight-card-broadcaster__time tz-change-inner',
-    )[0].textContent.trim();
+    ufcEvent.date = document
+      .getElementsByClassName(
+        'c-event-fight-card-broadcaster__time tz-change-inner',
+      )[0]
+      .textContent.trim();
     try {
       const imageLink =
         document.getElementsByTagName('SOURCE')[0].attributes[0].value;

@@ -1,10 +1,10 @@
+import { UserDocument } from '@betbot-monorepo/betbot-backend/src/schemas';
 import { numberToEmoji } from '@utils/functions';
 import { EmbedBuilder, User } from 'discord.js';
-import { IUser } from 'src/apis/backendApi/interfaces';
 
 export function embedLeaderboard(
   discordUser: User,
-  stats: IUser['stats'],
+  stats: UserDocument['stats'],
   position: number,
 ): EmbedBuilder {
   const embed = new EmbedBuilder()

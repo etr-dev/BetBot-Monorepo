@@ -3,10 +3,8 @@ import { UfcService } from './ufc.service';
 import { UfcController } from './ufc.controller';
 
 @Module({
-  imports: [
-    CacheModule.register(),
-  ],
+  imports: [CacheModule.register()],
   controllers: [UfcController],
-  providers: [UfcService]
+  providers: [UfcService],
 })
 export class UfcModule {}
