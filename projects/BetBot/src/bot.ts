@@ -64,29 +64,33 @@ async function setSlashCommands(): Promise<void> {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  const commandInteraction: ChatInputCommandInteraction = interaction;
-  // eslint-disable-next-line default-case
-  switch (commandInteraction.commandName) {
-    case 'bet':
-      const betSaga = new BetSaga();
-      betSaga.setInitialInput({ interaction: commandInteraction });
-      betSaga.startSaga();
-      break;
-    case 'history':
-      const historySaga = new HistorySaga();
-      historySaga.setInitialInput({ interaction: commandInteraction });
-      historySaga.startSaga();
-      break;
-    case 'wallet':
-      const walletSaga = new WalletSaga();
-      walletSaga.setInitialInput({ interaction: commandInteraction });
-      walletSaga.startSaga();
-      break;
-    case 'leaderboard':
-      const leaderboardSaga = new LeaderboardSaga();
-      leaderboardSaga.setInitialInput({ interaction: commandInteraction });
-      leaderboardSaga.startSaga();
-      break;
+  try {
+    const commandInteraction: ChatInputCommandInteraction = interaction;
+    // eslint-disable-next-line default-case
+    switch (commandInteraction.commandName) {
+      case 'bet':
+        const betSaga = new BetSaga();
+        betSaga.setInitialInput({ interaction: commandInteraction });
+        betSaga.startSaga();
+        break;
+      case 'history':
+        const historySaga = new HistorySaga();
+        historySaga.setInitialInput({ interaction: commandInteraction });
+        historySaga.startSaga();
+        break;
+      case 'wallet':
+        const walletSaga = new WalletSaga();
+        walletSaga.setInitialInput({ interaction: commandInteraction });
+        walletSaga.startSaga();
+        break;
+      case 'leaderboard':
+        const leaderboardSaga = new LeaderboardSaga();
+        leaderboardSaga.setInitialInput({ interaction: commandInteraction });
+        leaderboardSaga.startSaga();
+        break;
+    }
+  } catch (err) {
+    logger.error('Fatal error that could crash the app!!', { error: err });
   }
 });
 

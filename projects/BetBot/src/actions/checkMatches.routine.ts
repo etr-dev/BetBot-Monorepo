@@ -10,9 +10,8 @@ import {
 import { logger } from '@utils/log';
 
 export async function checkMatches(): Promise<void> {
-  const incompleteLinks = await getIncompleteMatchLinks(); // Get links to all incomplete events
-
   try {
+    const incompleteLinks = await getIncompleteMatchLinks(); // Get links to all incomplete events
     for (const link of incompleteLinks) {
       logger.debug(`Checking for completion: ${link}`);
       const ufcEventRes = await getEventByUrl(link); // Get the current UFC Api Response for the event
