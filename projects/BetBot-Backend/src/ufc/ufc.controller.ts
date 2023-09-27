@@ -39,7 +39,7 @@ export class UfcController {
   async nextEvent(): Promise<NextEventControllerResponse> {
     logServer('Next Event endpoint hit');
     const event = await this.ufcService.nextEvent();
-    return { message: 'COMPLETE',  data:event};
+    return { data: event };
   }
 
   @SecurityHeader()
@@ -47,7 +47,7 @@ export class UfcController {
   async eventByUrl(@Query() query: EventByLinkDto): Promise<EventByUrlControllerResponse> {
     logServer('Event by URL endpoint hit');
     const event = await this.ufcService.eventByUrl(query.url);
-    return { message: 'COMPLETE', data: event };
+    return { data: event };
   }
 
   @CacheKey('allEvents')
@@ -57,7 +57,7 @@ export class UfcController {
   async allEvents(): Promise<AllEventsControllerResponse> {
     logServer('allEvents endpoint hit');
     const events = await this.ufcService.allEvents();
-    return { message: 'COMPLETE', data: events }
+    return { data: events }
   }
 
   @CacheKey('allEventLinks')
@@ -67,6 +67,6 @@ export class UfcController {
   async allEventLinks(): Promise<AllLinksControllerResponse> {
     logServer('allEvents endpoint hit');
     const links = await this.ufcService.allEventLinks();
-    return { message: 'COMPLETE', data: links };
+    return { data: links };
   }
 }

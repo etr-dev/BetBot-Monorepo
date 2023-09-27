@@ -19,7 +19,6 @@ logger.debug(`BaseURL: ${url}`);
 
 export const backendClient: AxiosInstance = axios.create({
   baseURL: url,
-  timeout: 5000, // Set a timeout of 5 seconds
   headers,
 });
 

@@ -7,7 +7,7 @@ import {
   getIncompleteMatchLinks,
   getMatch,
 } from '@apis';
-import { logError, logger } from '@utils/log';
+import { logger } from '@utils/log';
 
 export async function checkMatches(): Promise<void> {
   const incompleteLinks = await getIncompleteMatchLinks(); // Get links to all incomplete events
@@ -21,6 +21,7 @@ export async function checkMatches(): Promise<void> {
         // if ufcEventRes.fights[match.matchTitle] is undefined then the match was probably deleted and should be deleted in DB
         if (ufcEventRes.fights[match.matchTitle].details.isComplete) {
           // If they have been complete then update the database
+          logger.debug(`Setting match to complete: ${match.matchTitle}`);
           await completeMatch(
             new CompleteMatchRequest(ufcEventRes, match.matchTitle),
           );
@@ -28,7 +29,6 @@ export async function checkMatches(): Promise<void> {
       }
     }
   } catch (error) {
-    logError(error);
-    logError('Match completion issue! Could be cancelled match');
+    logger.error('Match completion issue!', { error });
   }
 }

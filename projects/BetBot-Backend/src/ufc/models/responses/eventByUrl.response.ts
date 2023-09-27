@@ -4,9 +4,6 @@ import { UfcEventDto } from "../../dto";
 export type EventByUrlServiceResponse = UfcEventDto;
 
 export class EventByUrlControllerResponse {
-    @ApiProperty()
-    message: 'COMPLETE';
-
     @ApiProperty({
         type: UfcEventDto
     })

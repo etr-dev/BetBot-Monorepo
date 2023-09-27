@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as emoji from 'node-emoji';
 import * as colors from 'colors/safe';
+import { config } from 'dotenv';
+import * as findConfig from 'find-config';
 
 colors.enable();
+config({ path: findConfig('.env') });
 
 export function logServer(message: string, logEmoji = '🤖'): void {
   // eslint-disable-next-line no-param-reassign
@@ -44,6 +47,7 @@ export function logWarning(message: string | object, logEmoji = '⚠️'): void 
     }:\t${colors.yellow(`${message}`)}`,
   );
 }
+
 enum LogLevels {
   ERROR = 0,
   WARN = 1,
@@ -51,6 +55,8 @@ enum LogLevels {
   DEBUG = 3,
   SILLY = 4,
 }
+
+const allowedLogLevels = Object.keys(LogLevels);
 
 class Logger {
   logLevel: LogLevels;
@@ -62,8 +68,9 @@ class Logger {
   constructor(service = 'BOT') {
     if (this.#logger) return this.#logger;
 
-    const level = process.env.LOG_LEVEL;
-    this.logLevel = level ? LogLevels[process.env.LOG_LEVEL] : LogLevels.INFO;
+    this.logLevel = allowedLogLevels.includes(process.env.LOG_LEVEL)
+      ? LogLevels[process.env.LOG_LEVEL]
+      : LogLevels.INFO;
     this.service = service;
     this.#logger = this;
   }
