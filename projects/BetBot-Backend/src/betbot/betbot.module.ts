@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { config } from 'dotenv';
 import {
   betFeature,
   matchFeature,
@@ -12,6 +13,8 @@ import { BetService } from './services/bets.service';
 import { MatchService } from './services/match.service';
 import { UserService } from './services/user.service';
 import { WalletService } from './services/wallet.service';
+
+config({ path: require('find-config')('.env') });
 
 @Module({
   imports: [

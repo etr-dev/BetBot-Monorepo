@@ -11,5 +11,5 @@ export class CreateMatchControllerResponse {
     @ApiProperty({
         example: '640a00fafd9f0f55c90003f1'
     })
-    data: CreateMatchServiceResponse['id']
+    matchId: CreateMatchServiceResponse['_id']
 }

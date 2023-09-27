@@ -9,12 +9,12 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
-import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
 import {
   embedFighterChoice,
   embedFights,
   listToSelectOptions,
 } from '@displayFormatting/index';
+import { UfcEventDto } from '@betbot-monorepo/betbot-backend';
 
 export const wagerModal = (): ModalBuilder => {
   // Create the modal
@@ -39,7 +39,7 @@ export const wagerModal = (): ModalBuilder => {
   return modal;
 };
 
-export const matchSelectMenu = (ufcEventResponse: UfcEventResponse): any => {
+export const matchSelectMenu = (ufcEventResponse: UfcEventDto): any => {
   const matchupList: string[] = Object.keys(ufcEventResponse.fights);
   const embedList: EmbedBuilder[] = embedFights(ufcEventResponse);
   const matchSelector = new ActionRowBuilder().addComponents(
@@ -58,7 +58,7 @@ export const matchSelectMenu = (ufcEventResponse: UfcEventResponse): any => {
 };
 
 export const choiceMessage = (
-  ufcEventResponse: UfcEventResponse,
+  ufcEventResponse: UfcEventDto,
   selectedMatch,
 ): InteractionReplyOptions => {
   const { Red, Blue } = ufcEventResponse.fights[selectedMatch];

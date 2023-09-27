@@ -1,8 +1,8 @@
+import { UfcEventDto } from '@betbot-monorepo/betbot-backend';
 import { Colors, EmbedBuilder, EmbedData } from 'discord.js';
-import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
 
 function pagifyFightEmbeds(
-  apiResponse: UfcEventResponse,
+  apiResponse: UfcEventDto,
   matchupList: string[],
   embedTemplate,
 ): EmbedBuilder[] {
@@ -49,7 +49,7 @@ function pagifyFightEmbeds(
   return embedReturnList;
 }
 
-export function embedFights(apiResponse: UfcEventResponse): EmbedBuilder[] {
+export function embedFights(apiResponse: UfcEventDto): EmbedBuilder[] {
   const matchupList: string[] = Object.keys(apiResponse.fights);
   const embedTemplate: EmbedData = {
     title: apiResponse.eventTitle,
@@ -70,7 +70,7 @@ export function embedFights(apiResponse: UfcEventResponse): EmbedBuilder[] {
 }
 
 export function embedFighterChoice(
-  apiResponse: UfcEventResponse,
+  apiResponse: UfcEventDto,
   chosenMatch,
 ): EmbedBuilder {
   const matchUpData = apiResponse.fights[chosenMatch];

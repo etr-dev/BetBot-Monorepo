@@ -7,6 +7,7 @@ import {
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 import { embedSelectedFighter } from '@displayFormatting/fighterCard.embed';
+import { MessagePayload } from 'discord.js';
 
 export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
   const createMatchRequest = new CreateMatchRequest(
@@ -18,6 +19,7 @@ export async function placeBetTask(input: ITaskData): Promise<ITaskData> {
     throw new TaskError('Match failed to POST', {
       interaction: input.interaction,
       message: 'The match failed to post, report this error.',
+      action: 'EDIT',
     });
   }
 

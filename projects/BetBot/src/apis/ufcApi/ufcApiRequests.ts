@@ -1,60 +1,34 @@
-import axios from 'axios';
-import { config as dotenvConfig } from 'dotenv';
-import * as findConfig from 'find-config';
-import { UfcEventResponse } from './responses/ufcEvent.response';
+import {
+  EventByUrlControllerResponse,
+  NextEventControllerResponse,
+  UfcEventDto,
+} from '@betbot-monorepo/betbot-backend';
+import { backendRequest } from '../backendApi/backend.client';
 
-dotenvConfig({ path: findConfig('.env') });
-const headers = {
-  'X-API-KEY': process.env.BACKEND_API_KEY,
-  'Content-Type': 'application/json',
-};
-
-const url =
-  process.env.NODE_ENV === 'local'
-    ? process.env.BETBOT_BACKEND_URL_LOCAL
-    : process.env.BETBOT_BACKEND_URL_PROD;
-
-export async function ufcApiHealth() {
-  const config = {
+export async function ufcApiHealth(): Promise<string> {
+  const health = await backendRequest<string>({
     method: 'get',
-    url: `${url}`,
-    headers,
-  };
+    url: ``,
+  });
 
-  return axios(config)
-    .then((response) => response.data)
-    .catch((error) => null);
+  return health;
 }
 
-export async function getUpcomingFights(): Promise<UfcEventResponse> {
-  const config = {
+export async function getUpcomingFights(): Promise<UfcEventDto> {
+  const event = await backendRequest<NextEventControllerResponse>({
     method: 'get',
-    url: `${url}/ufc/nextEvent`,
-    headers,
-  };
+    url: `/ufc/nextEvent`,
+  });
 
-  return axios(config)
-    .then((response) => response.data.data)
-    .catch((error) => {
-      console.log(error);
-      return null;
-    });
+  return event.data;
 }
 
-export async function getEventByUrl(
-  eventUrl: string,
-): Promise<UfcEventResponse> {
-  const config = {
+export async function getEventByUrl(eventUrl: string): Promise<UfcEventDto> {
+  const event = await backendRequest<EventByUrlControllerResponse>({
     method: 'get',
-    url: `${url}/ufc/eventByUrl`,
+    url: `/ufc/eventByUrl`,
     params: { url: eventUrl },
-    headers,
-  };
+  });
 
-  return axios(config)
-    .then((response) => response.data.data)
-    .catch((error) => {
-      console.log(error);
-      return null;
-    });
+  return event.data;
 }

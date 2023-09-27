@@ -91,7 +91,7 @@ export async function createMatch(
     url: `/betbot/match`,
     data,
   });
-  const matchId = response.data;
+  const { matchId } = response;
 
   return matchId;
 }

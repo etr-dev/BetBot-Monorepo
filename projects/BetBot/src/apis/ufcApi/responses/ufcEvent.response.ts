@@ -1,5 +1,4 @@
 export interface UfcApiResponse {
-  message: string;
   data: UfcEventResponse;
 }
 

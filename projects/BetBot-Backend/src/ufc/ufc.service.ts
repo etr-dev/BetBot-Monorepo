@@ -1,20 +1,16 @@
 import {
-  CacheKey,
-  CacheTTL,
   CACHE_MANAGER,
   Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { SUCCESS_MESSAGE } from 'src/utils/constants';
-import { logError } from 'src/utils/log';
-import { UfcEvent } from './models/entities/event.entity';
-import {
-  GetUfcEventResponse,
-  GetUfcEventsResponse,
-  GetUfcLinksResponse,
-} from './models/responses/eventResponse.response';
+import { logError } from '../utils/log';
+import { UfcEventDto } from './dto';
+import { AllEventsServiceResponse } from './models/responses/allEvents.response';
+import { AllLinksServiceResponse } from './models/responses/allLinks.response';
+import { EventByUrlServiceResponse } from './models/responses/eventByUrl.response';
+import { NextEventServiceResponse } from './models/responses/nextEvent.response';
 import { getAllEventLinks, scrapeUfcPage } from './scraper';
 
 @Injectable()
@@ -34,9 +30,9 @@ export class UfcService {
     return (await this.cacheManager.get(key)) ? true : false;
   }
 
-  async nextEvent(): Promise<GetUfcEventResponse> {
+  async nextEvent(): Promise<NextEventServiceResponse> {
     let eventLinks: string[];
-    let scraped: UfcEvent;
+    let scraped: UfcEventDto;
     try {
       eventLinks = await getAllEventLinks('https://www.ufc.com/events');
       if (!eventLinks.length) throw 'empty event links';
@@ -56,12 +52,12 @@ export class UfcService {
       );
     }
 
-    return { message: SUCCESS_MESSAGE, data: scraped };
+    return scraped as unknown as UfcEventDto;
   }
 
-  async eventByUrl(url: string): Promise<GetUfcEventResponse> {
-    const cachedEvent: UfcEvent = await this.getFromCache(url);
-    let event: UfcEvent;
+  async eventByUrl(url: string): Promise<EventByUrlServiceResponse> {
+    const cachedEvent: UfcEventDto = await this.getFromCache(url);
+    let event: UfcEventDto;
 
     if (cachedEvent) {
       event = cachedEvent;
@@ -70,24 +66,24 @@ export class UfcService {
       await this.addToCache(url, event);
     }
 
-    return { message: SUCCESS_MESSAGE, data: event };
+    return event;
   }
 
-  async allEvents(): Promise<GetUfcEventsResponse> {
-    let allEvents: UfcEvent[] = [];
+  async allEvents(): Promise<AllEventsServiceResponse> {
+    let allEvents: UfcEventDto[] = [];
 
     const eventLinks = await getAllEventLinks('https://www.ufc.com/tickets');
     for (let event of eventLinks) {
       allEvents.push(await scrapeUfcPage(event));
     }
 
-    return { message: SUCCESS_MESSAGE, data: allEvents };
+    return allEvents;
   }
 
-  async allEventLinks(): Promise<GetUfcLinksResponse> {
+  async allEventLinks(): Promise<AllLinksServiceResponse> {
     let eventLinks: string[] = await getAllEventLinks(
       'https://www.ufc.com/tickets',
     );
-    return { message: SUCCESS_MESSAGE, data: eventLinks };
+    return eventLinks;
   }
 }

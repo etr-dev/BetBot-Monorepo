@@ -1,8 +1,8 @@
 import { getEventByUrl } from '@apis';
+import { UfcEventDto } from '@betbot-monorepo/betbot-backend';
 import { embedValidationMessage } from '@displayFormatting/pleaseWait.embed';
 import { logError, logServer } from '@utils/log';
 import { MessagePayload } from 'discord.js';
-import { UfcEventResponse } from 'src/apis/ufcApi/responses/ufcEvent.response';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 
@@ -14,7 +14,7 @@ export async function betValidation(input: ITaskData): Promise<ITaskData> {
     ephemeral: true,
   } as unknown as MessagePayload);
 
-  const validateUfcBetApiResponse: UfcEventResponse = await getEventByUrl(
+  const validateUfcBetApiResponse: UfcEventDto = await getEventByUrl(
     input.ufcEventResponse.url,
   );
   if (!validateUfcBetApiResponse) {
