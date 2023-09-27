@@ -11,7 +11,7 @@ import { checkMatches } from '@actions';
 import * as findConfig from 'find-config';
 import { sleep } from '@utils/functions';
 import { healthCheck } from './apis/healthCheck.api';
-import { logger, logServer } from './utils';
+import { logger } from './utils';
 import { BetSaga } from './sagas/bet/bet.saga';
 import { WalletSaga } from './sagas/wallet/wallet.saga';
 import { HistorySaga } from './sagas/history/history.saga';
@@ -49,15 +49,15 @@ async function setSlashCommands(): Promise<void> {
     },
   ];
   try {
-    console.log('Started refreshing application (/) commands.');
+    logger.debug('Started refreshing application (/) commands.');
 
     await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), {
       body: commands,
     });
 
-    console.log('Successfully reloaded application (/) commands.');
+    logger.debug('Successfully reloaded application (/) commands.');
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -103,8 +103,8 @@ client.on('ready', async () => {
   await sleep(1000 * 2);
   await checkMatches();
   setInterval(checkMatches, 1000 * 60 * 1); // 1000 * 60 seconds * 15 minutes
-  logServer(`Logged in as ${client.user.tag}`);
-  logServer(`NODE_ENV: ${process.env.NODE_ENV}`);
+  logger.info(`Logged in as ${client.user.tag}`);
+  logger.info(`NODE_ENV: ${process.env.NODE_ENV}`);
 });
 
 client.login(discordToken);
