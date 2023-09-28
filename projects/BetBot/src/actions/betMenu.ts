@@ -5,7 +5,7 @@ import {
   EmbedBuilder,
   InteractionReplyOptions,
   ModalBuilder,
-  SelectMenuBuilder,
+  StringSelectMenuBuilder,
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js';
@@ -43,7 +43,7 @@ export const matchSelectMenu = (ufcEventResponse: UfcEventDto): any => {
   const matchupList: string[] = Object.keys(ufcEventResponse.fights);
   const embedList: EmbedBuilder[] = embedFights(ufcEventResponse);
   const matchSelector = new ActionRowBuilder().addComponents(
-    new SelectMenuBuilder()
+    new StringSelectMenuBuilder()
       .setCustomId('select')
       .setPlaceholder('Nothing selected')
       .addOptions(listToSelectOptions(matchupList)),

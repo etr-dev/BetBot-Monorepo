@@ -1,4 +1,4 @@
-import { logError, logServer } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 import { databaseHealth } from './backendApi/betbot.api';
 import { ufcApiHealth } from './ufcApi';
 
@@ -7,13 +7,13 @@ export async function healthCheck(): Promise<boolean> {
   const ufcApiResponse = await ufcApiHealth();
 
   if (databaseResponse && ufcApiResponse) {
-    logServer('Database is reachable!');
+    logger.info('Database is reachable!');
     return true;
   }
   if (!databaseResponse) {
-    logError('Database is unreachable');
+    logger.error('Database is unreachable');
   } else if (!ufcApiResponse) {
-    logError('UFC API is unreachable');
+    logger.error('UFC API is unreachable');
   }
 
   return false;

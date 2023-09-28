@@ -1,5 +1,5 @@
 {
-  "name": "@betbot-monorepo",
+  "name": "betbot-monorepo",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/erobin27/BetBot-Monorepo.git",

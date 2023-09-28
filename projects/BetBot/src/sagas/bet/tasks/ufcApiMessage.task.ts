@@ -1,6 +1,6 @@
 import { getUpcomingFights } from '@apis';
 import { embedWaitMessage } from '@displayFormatting/pleaseWait.embed';
-import { logError } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
 
@@ -12,7 +12,7 @@ export async function UfcApiMessage(input: ITaskData): Promise<ITaskData> {
   });
   const ufcEventResponse = await getUpcomingFights();
   if (!ufcEventResponse) {
-    logError('NO API RESPONSE, is server running?');
+    logger.error('NO API RESPONSE, is server running?');
 
     // TODO: this should be an EDIT reply message
     throw new TaskError('API ERROR', {

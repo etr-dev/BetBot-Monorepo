@@ -7,7 +7,7 @@ import {
   getIncompleteMatchLinks,
   getMatch,
 } from '@apis';
-import { logger } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 
 export async function checkMatches(): Promise<void> {
   try {

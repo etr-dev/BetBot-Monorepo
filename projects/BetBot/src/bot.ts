@@ -57,7 +57,7 @@ async function setSlashCommands(): Promise<void> {
 
     logger.debug('Successfully reloaded application (/) commands.');
   } catch (error) {
-    logger.error(error);
+    logger.error('Error refreshing (/) commands', error);
   }
 }
 

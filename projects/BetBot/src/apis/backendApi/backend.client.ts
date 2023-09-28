@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { logger } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { config } from 'dotenv';
 

@@ -10,7 +10,6 @@ import { messageBuilder } from '@displayFormatting/messageBuilder';
 import {
   ActionRowBuilder,
   ButtonInteraction,
-  CacheType,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   User,
@@ -115,14 +114,14 @@ export async function showLeaderboardTask(
   }
 
   let sort = {};
-  if (response instanceof StringSelectMenuInteraction<CacheType>) {
+  if (response instanceof StringSelectMenuInteraction) {
     sort[`sort[stats.${response.values[0]}]`] = 'desc';
   } else {
     sort = input.sort;
   }
 
   const selectedPage =
-    response instanceof ButtonInteraction<CacheType>
+    response instanceof ButtonInteraction
       ? Number(response.customId.split('|')[0])
       : input.selectedPage;
 

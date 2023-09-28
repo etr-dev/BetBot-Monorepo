@@ -1,7 +1,7 @@
 import { getEventByUrl } from '@apis';
 import { UfcEventDto } from '@betbot-monorepo/betbot-backend';
 import { embedValidationMessage } from '@displayFormatting/pleaseWait.embed';
-import { logError, logServer } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 import { MessagePayload } from 'discord.js';
 import { TaskError } from 'src/sagas/framework/error';
 import { ITaskData } from 'src/sagas/framework/task';
@@ -18,7 +18,7 @@ export async function betValidation(input: ITaskData): Promise<ITaskData> {
     input.ufcEventResponse.url,
   );
   if (!validateUfcBetApiResponse) {
-    logError('NO VALIDATION API RESPONSE, is server running?');
+    logger.error('NO VALIDATION API RESPONSE, is server running?');
     throw new TaskError('', {
       interaction: input.interaction,
       message: 'Error validating UFC Event, try again.',
@@ -41,6 +41,6 @@ export async function betValidation(input: ITaskData): Promise<ITaskData> {
     });
   }
 
-  logServer('BET VALIDATED.');
+  logger.info('BET VALIDATED.');
   return { validateUfcBetApiResponse };
 }

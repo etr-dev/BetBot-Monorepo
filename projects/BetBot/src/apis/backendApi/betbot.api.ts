@@ -18,7 +18,7 @@ import {
   PlaceBetControllerResponse,
   PlaceBetDto,
 } from '@betbot-monorepo/betbot-backend';
-import { logServer } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 import { backendRequest } from './backend.client';
 
 export async function databaseHealth(): Promise<string> {
@@ -99,7 +99,7 @@ export async function createMatch(
 export async function completeMatch(
   completeMatchDto: CompleteMatchDto,
 ): Promise<BetDto['_id'][]> {
-  logServer(`Completing: ${completeMatchDto.matchTitle}`);
+  logger.info(`Completing: ${completeMatchDto.matchTitle}`);
   const data = JSON.stringify(completeMatchDto);
 
   const response = await backendRequest<CompleteMatchControllerResponse>({

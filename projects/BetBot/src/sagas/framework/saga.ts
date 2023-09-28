@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { logError, logServer } from '@utils/log';
 import { v4 as uuidv4 } from 'uuid';
 import { TaskError } from './error';
 import { ITaskData, Task } from './task';
+import { logger } from '@utils/baseLogger';
 
 /* eslint-disable @typescript-eslint/ban-types */
 interface ITaskMap {
@@ -59,8 +59,7 @@ export class Saga {
       if (err instanceof TaskError) {
         task.setOutput(err.getTaskInfo());
       } else {
-        logError('UNKNOWN ERROR');
-        console.log(err);
+        logger.error('UNKNOWN ERROR IN TASK', err);
       }
       this.status = 'fail';
       task.completeTask('fail');
@@ -98,6 +97,6 @@ export class Saga {
         break;
     }
 
-    logServer(`@${this.username} SAGA: ${this.name} - ${this.sagaId}`, emoji);
+    logger.info(`@${this.username} SAGA: ${this.name} - ${this.sagaId}`, emoji);
   }
 }

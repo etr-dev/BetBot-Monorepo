@@ -1,4 +1,4 @@
-import { logServer } from '@utils/log';
+import { logger } from '@utils/baseLogger';
 import {
   ChatInputCommandInteraction,
   CommandInteraction,
@@ -112,7 +112,7 @@ export class Task {
   logTask(): void {
     let emoji = this.status === 'pass' ? '✅' : '⛔';
     if (!this.status) emoji = undefined;
-    logServer(
+    logger.info(
       `@${this.username} TASK: ${this.name} - ${this.taskInfo.input.sagaId}`,
       emoji,
     );
