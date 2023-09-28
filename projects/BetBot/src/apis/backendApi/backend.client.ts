@@ -27,7 +27,7 @@ export async function backendRequest<T>(
 ): Promise<T> {
   try {
     const response = await backendClient.request<T>(options);
-    logger.debug(options.url, response.data);
+    logger.http(options.url, response.data);
     return response.data;
   } catch (err) {
     logger.error(options.url, err.response?.data);

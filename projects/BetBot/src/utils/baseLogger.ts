@@ -11,7 +11,8 @@ enum LogLevel {
   warn = 1,
   info = 2,
   debug = 3,
-  silly = 4,
+  http = 4,
+  silly = 5,
 }
 
 interface LogTheme {
@@ -176,6 +177,20 @@ export class BaseLogger {
       data: meta,
     });
   }
+
+  http(message: string, meta?: any): void {
+    if (LogLevel[this.logLevel] < LogLevel.http) return;
+
+    const level = 'http';
+    const { logEmoji } = this.logTheme.http;
+    this.log({
+      logEmoji,
+      level,
+      message,
+      data: meta,
+    });
+  }
+
 
   silly(message: string, meta?: any): void {
     if (LogLevel[this.logLevel] < LogLevel.silly) return;
