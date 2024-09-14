@@ -27,7 +27,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/erobin27/BetBot">
-    <img src="projects/BetBot/imagesBetBotLogo.png" alt="Logo" width="120" height="120">
+    <img src="projects/BetBot/images/BetBotLogo.png" alt="Logo" width="120" height="120">
   </a>
 
   <h3 align="center">BetBot</h3>
@@ -225,7 +225,7 @@ Credits
 [license-url]: https://github.com/erobin27/BetBot/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/elijah-robinson98/
-[product-screenshot]: projects/BetBot/imagesslash.png
-[product-screenshot2]: projects/BetBot/imagesFightList.png
-[product-screenshot3]: projects/BetBot/imagesBet.png
-[product-screenshot4]: projects/BetBot/imagesHistory.png
+[product-screenshot]: projects/BetBot/images/slash.png
+[product-screenshot2]: projects/BetBot/images/FightList.png
+[product-screenshot3]: projects/BetBot/images/Bet.png
+[product-screenshot4]: projects/BetBot/images/History.png
